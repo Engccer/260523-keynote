@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>우리가 만드는 학습자료는 포용적인가 — 2026 교사 AI·데이터 활용 「AX시대, 누구나 개발자」 해커톤 기조강연</title>
+<title>우리가 만드는 학습자료는 포용적인가 · 2026 교사 AI·데이터 활용 「AX시대, 누구나 개발자」 해커톤 기조강연</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <style>
@@ -19,7 +19,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
   100% { opacity: 0; transform: translateY(-10vh) scale(1); }
 }
 
-.slide-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; }
+.slide-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; touch-action: pan-y; }
 .slide {
   position: absolute; top: 0; left: 0; width: 100%; height: 100%;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -28,8 +28,12 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
   transition: opacity 0.5s ease, transform 0.5s ease;
   pointer-events: none;
   background: radial-gradient(ellipse at 50% 30%, #161b22 0%, #0d1117 60%);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 .slide.active { opacity: 1; transform: scale(1); pointer-events: auto; }
+.slide:focus { outline: none; }
+.slide:focus-visible { outline: 2px solid rgba(167, 139, 250, 0.4); outline-offset: -8px; border-radius: 12px; }
 
 .progress-bar {
   position: fixed; top: 0; left: 0; height: 3px; z-index: 100;
@@ -537,8 +541,42 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
 
 @media (max-width: 700px) {
   .nav-bar { width: calc(100% - 24px); justify-content: space-between; gap: 0.4em; padding: 0.5em 0.8em; }
-  .nav-btn { font-size: 0.85rem; padding: 0.35em 0.45em; }
+  .nav-btn { font-size: 0.85rem; padding: 0.35em 0.45em; min-height: 44px; min-width: 44px; }
   #slideCounter { min-width: 3.2em; }
+  .audio-toggle { width: 2.8em; height: 2.8em; top: 1vh; right: 3vw; }
+}
+
+@media (max-width: 480px) {
+  .slide { padding: 8vh 5vw 12vh; justify-content: flex-start; padding-top: 10vh; }
+  .eyebrow { font-size: 0.72rem; margin-bottom: 1.8vh; letter-spacing: 0.14em; }
+  .tagline { font-size: 0.92rem; line-height: 1.65; }
+  .byline { font-size: 0.88rem; }
+  .hero-text { font-size: 2.2rem; line-height: 1.15; }
+  .huge-question { font-size: 1.9rem; line-height: 1.25; }
+  .deck-h1 { font-size: 1.5rem; }
+  .deck-h2 { font-size: 1.15rem; margin-bottom: 2.5vh; }
+  .three-era .era-word { font-size: 1.5rem; }
+  .dual-split .split-side .side-word { font-size: 1.6rem; }
+  .duo-words { gap: 3.5vh; }
+  .duo-words .duo-word { font-size: 2.4rem; }
+  .duo-coda { font-size: 0.92rem; margin-top: 3vh; }
+  .pillar .pillar-name { font-size: 1.2rem; }
+  .pillar .pillar-keys { font-size: 0.9rem; }
+  .sense .sense-icon { font-size: 2.2rem; }
+  .sense .sense-label { font-size: 0.92rem; }
+  .big-quote { font-size: 1.4rem; line-height: 1.45; }
+  .game-headline { font-size: 1.4rem; }
+  .game-keys .key-chip { font-size: 0.82rem; padding: 0.4em 0.85em; }
+  .game-link { min-height: 44px; padding: 0.7em 1.1em; }
+  .laugh-btn { min-width: 160px; min-height: 44px; padding: 1em 1.4em; }
+  .warn-box { padding: 3vh 6vw; }
+  .warn-box .warn-key { font-size: 1.4rem; }
+  .warn-box .warn-tail { font-size: 0.88rem; }
+  .info-card { padding: 2vh 4vw; }
+  .student-card { padding: 2vh 5vw; }
+  .student-card .student-quote { font-size: 0.95rem; }
+  .closing-stack .closing-links a { min-height: 44px; padding: 0.7em 1.1em; display: inline-flex; align-items: center; }
+  .closing-stack .closing-thanks { font-size: 1.6rem; }
 }
 </style>
 </head>
@@ -557,7 +595,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
 <!-- Slide 1: Title -->
 <section class="slide" id="slide-1" data-sfx="page-turn"
   data-keywords="포용적인 학습자료, 설계 단계부터, 김헌용"
-  aria-label="슬라이드 1: 표지 — 우리가 만드는 학습자료는 포용적인가">
+  aria-label="슬라이드 1: 표지 · 우리가 만드는 학습자료는 포용적인가">
   <span class="eyebrow">2026 「AX시대, 누구나 개발자」 해커톤 · 기조강연</span>
   <h1 class="hero-text">
     우리가 만드는 <span class="gold">학습자료</span>는<br>
@@ -574,7 +612,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
 <section class="slide" id="slide-2" data-sfx="page-turn"
   data-keywords="19세기 교실, 20세기 교사, 21세기 학생"
   aria-label="슬라이드 2: 19세기 교실, 20세기 교사, 21세기 학생">
-  <span class="eyebrow">오래 회자되어 온 격언</span>
+  <span class="eyebrow">교육계에 오래된 격언 하나</span>
   <div class="three-era">
     <div class="era-card">
       <div class="era-tag">19th</div>
@@ -614,11 +652,11 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
   </div>
 </section>
 
-<!-- Slide 4: 두 단어 -->
+<!-- Slide 4: 포용성과 몰입감 -->
 <section class="slide" id="slide-4" data-sfx="page-turn"
-  data-keywords="포용성, 몰입감, 두 단어"
-  aria-label="슬라이드 4: 두 가지 단어 — 포용성과 몰입감">
-  <span class="eyebrow">두 가지 단어를 제안합니다</span>
+  data-keywords="포용성, 몰입감, 학습자료의 두 축"
+  aria-label="슬라이드 4: 포용성과 몰입감">
+  <span class="eyebrow">학습자료가 갖춰야 할 두 축</span>
   <div class="duo-words">
     <div>
       <div class="duo-word cyan">포용성</div>
@@ -630,16 +668,16 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
     </div>
   </div>
   <p class="duo-coda">
-    <span class="strikethrough">재미만 있어도 안 됨</span> · <span class="strikethrough">참여만 시켜도 안 됨</span><br>
-    <strong style="color:#f5c842;">두 가지가 동시에</strong> 일어날 때 비로소 수업
+    <span class="strikethrough">재미만 있어도 부족함</span> · <span class="strikethrough">참여만 시켜도 부족함</span><br>
+    <strong style="color:#f5c842;">둘이 함께 일어날 때</strong> 비로소 수업이 됩니다
   </p>
 </section>
 
 <!-- Slide 5: 교사의 두 역할 -->
 <section class="slide" id="slide-5" data-sfx="page-turn"
   data-keywords="콘텐츠 기획자, 환경 설계자, 교사의 두 역할"
-  aria-label="슬라이드 5: 교사의 두 역할 — 콘텐츠 기획자와 환경 설계자">
-  <span class="eyebrow">두 단어를 위해 · 교사는 두 역할을 짊어진다</span>
+  aria-label="슬라이드 5: 교사의 두 역할 · 콘텐츠 기획자와 환경 설계자">
+  <span class="eyebrow">포용성과 몰입감을 위해 · 교사는 두 역할을 맡습니다</span>
   <div class="duo-words">
     <div>
       <div class="duo-word" style="font-size:clamp(1.8rem,4.5vw,3.5rem); color:#5de6c8;">콘텐츠<br>기획자</div>
@@ -651,7 +689,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
     </div>
   </div>
   <p class="duo-coda" style="margin-top:3vh;">
-    더 이상 정해진 지식을 읊는 전달자가 아닙니다
+    정해진 지식을 읊는 전달자에 머물지 않습니다
   </p>
 </section>
 
@@ -665,18 +703,18 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
     자연어 <span class="cyan">한 문장</span>으로
   </h2>
   <p class="tagline" style="max-width:900px; margin-top:4vh; line-height:1.7;">
-    학습용 게임을 빚고 · 원어민 음성을 입히고 · 시각 단서를 더한 멀티모달 자료를 만든다<br>
-    <span style="color:#f5c842;">교사의 상상력이 곧바로 교실의 실재가 되는 시대</span>
+    학습 게임을 만들고 · 원어민 음성을 입히고 · 시각 단서를 더한 멀티모달 자료를 짧은 시간에 완성<br>
+    <span style="color:#f5c842;">교사의 상상력이 그날 수업의 현실이 되는 시대</span>
   </p>
   <p class="byline" style="margin-top:5vh; font-size:clamp(0.9rem,1.5vw,1.05rem);">
-    저는 <strong>신명중학교 영어 교사 16년 차 · 시각장애 당사자</strong>입니다
+    저는 <strong>신명중학교 영어 교사 16년 차이자 시각장애 당사자</strong>입니다
   </p>
 </section>
 
 <!-- Slide 7: 첫 질문 -->
 <section class="slide" id="slide-7" data-sfx="page-turn"
   data-keywords="우리가 만드는 학습자료는 포용적인가, 첫 질문"
-  aria-label="슬라이드 7: 첫 질문 — 우리가 만드는 학습자료는 포용적인가">
+  aria-label="슬라이드 7: 첫 질문 · 우리가 만드는 학습자료는 포용적인가">
   <span class="eyebrow">오늘 던지고 싶은 질문</span>
   <p class="huge-question">
     우리가 만드는<br>
@@ -688,7 +726,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
 <!-- Slide 8: UDL 3원칙 -->
 <section class="slide" id="slide-8" data-sfx="page-turn"
   data-keywords="UDL 세 원칙, 표상 행동과 표현 참여, 차이를 끌어안다"
-  aria-label="슬라이드 8: UDL 세 원칙 — 표상, 행동과 표현, 참여">
+  aria-label="슬라이드 8: UDL 세 원칙 · 표상, 행동과 표현, 참여">
   <span class="eyebrow">보편적 학습 설계 · Universal Design for Learning</span>
   <h2 class="deck-h2" style="margin-bottom:2vh;">차이를 끌어안는 <span class="gold">세 가지 원칙</span></h2>
   <div class="pillar-row">
@@ -711,13 +749,13 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
       <div class="pillar-keys">도전 수준 · 보상 · 협력</div>
     </div>
   </div>
-  <p class="cast-caption">미국 CAST 연구센터 · 보편적 설계 운동을 교육으로 옮긴 개념</p>
+  <p class="cast-caption">미국 CAST 연구센터 · 보편적 설계 운동을 교육에 접목한 개념</p>
 </section>
 
 <!-- Slide 9: 멀티모달 -->
 <section class="slide" id="slide-9" data-sfx="page-turn"
   data-keywords="여러 감각, 여러 진입로, 멀티모달 설계"
-  aria-label="슬라이드 9: 멀티모달 설계 — 여러 감각, 여러 진입로">
+  aria-label="슬라이드 9: 멀티모달 설계 · 여러 감각, 여러 진입로">
   <span class="eyebrow">UDL의 실천 ①</span>
   <h2 class="deck-h2">여러 <span class="gold">감각</span>, 여러 <span class="cyan">진입로</span></h2>
   <div class="sense-row">
@@ -748,23 +786,23 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
     </div>
   </div>
   <p class="tagline" style="margin-top:4vh; max-width:900px;">
-    자막은 <span class="gold">청각장애인뿐 아니라</span> 도서관의 모두에게<br>
-    키보드 내비는 <span class="gold">시각장애인뿐 아니라</span> 마우스 못 쓰는 모두에게
+    자막은 청각장애인뿐 아니라 <span class="gold">도서관의 모두에게 유용</span><br>
+    키보드 내비는 시각장애인뿐 아니라 <span class="gold">마우스를 못 쓰는 모두에게 유용</span>
   </p>
 </section>
 
-<!-- Slide 10: 설계 단계부터 — 큰 인용 -->
+<!-- Slide 10: 설계 단계부터 큰 인용 -->
 <section class="slide" id="slide-10" data-sfx="page-turn"
   data-keywords="첫 프롬프트에 한 줄, 설계 단계부터, 접근성 내장"
-  aria-label="슬라이드 10: 설계 단계부터 — 첫 프롬프트의 한 줄">
+  aria-label="슬라이드 10: 설계 단계부터 · 첫 프롬프트의 한 줄">
   <span class="eyebrow">UDL의 실천 ②</span>
   <p class="big-quote">
     <span class="quote-mark">&ldquo;</span>모든 기능에 <span class="gold">접근성</span>을 고려해 줘<span class="quote-mark">&rdquo;</span>
     <span class="quote-source">바이브 코딩 시대 · 첫 프롬프트에 단 한 줄이면 시작됩니다</span>
   </p>
   <p class="tagline" style="margin-top:4vh; max-width:900px;">
-    다 만든 뒤에 부랴부랴 덧붙이는 것과는 <strong style="color:#f5c842;">하늘과 땅 차이</strong><br>
-    완성도 · 시간 · 비용 모두
+    다 만든 뒤에 덧붙이는 것과는 <strong style="color:#f5c842;">하늘과 땅 차이</strong><br>
+    완성도 · 시간 · 비용 모두 다릅니다
   </p>
 </section>
 
@@ -803,7 +841,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
         <span class="key-chip">콤보 배수</span>
         <span class="key-chip">무한 재도전</span>
       </div>
-      <p class="game-byline">학습지 위 밋밋한 활자 하나가 시각 · 청각 · 반응 시간의 여러 길로</p>
+      <p class="game-byline">학습지 위 밋밋한 활자 하나가 시각 · 청각 · 반응 시간을 아우르는 게임으로 변신</p>
       <a class="game-link" href="https://engccer.github.io/word-bomb-L1/" target="_blank" rel="noopener" aria-label="Word Bomb 새 창에서 열기">Word Bomb 라이브 &rarr;</a>
     </div>
   </div>
@@ -812,7 +850,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
 <!-- Slide 12: laugh 해프닝 -->
 <section class="slide" id="slide-12" data-sfx="page-turn"
   data-keywords="AI의 실수, 즐거운 교실, laugh 해프닝"
-  aria-label="슬라이드 12: laugh 해프닝 — AI의 빈틈조차 교실에서는 교육 장면">
+  aria-label="슬라이드 12: laugh 해프닝 · AI의 빈틈조차 교실에서는 교육 장면">
   <span class="eyebrow">개발 과정의 해프닝</span>
   <div class="laugh-stage">
     <h2 class="game-headline" style="text-align:center;">
@@ -833,7 +871,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
     <p class="laugh-reaction">
       &ldquo;선생님, AI도 실수를 하네요!&rdquo;<br>
       &ldquo;다음엔 꼭 실수 하나씩 넣어 주세요!&rdquo;
-      <span class="quote-by">— 학생들의 반응</span>
+      <span class="quote-by">· 학생들의 반응</span>
     </p>
   </div>
 </section>
@@ -870,7 +908,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
         <span class="key-chip">ElevenLabs 효과음</span>
         <span class="key-chip">Gemini 브리핑 이미지</span>
       </div>
-      <p class="game-byline">수동적 읽기에서 능동적 탐색으로 · 텍스트 안에 훨씬 더 오래</p>
+      <p class="game-byline">수동적 읽기에서 능동적 탐색으로 · 학생이 텍스트 안에 훨씬 더 오래 머무름</p>
       <a class="game-link" href="https://engccer.github.io/story-detective-L1/" target="_blank" rel="noopener" aria-label="Story Detective 새 창에서 열기">Story Detective 라이브 &rarr;</a>
     </div>
   </div>
@@ -915,7 +953,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
         <span class="key-chip">무한 재도전</span>
         <span class="key-chip">반복 학습</span>
       </div>
-      <p class="game-byline">수동적 암기에서 능동적 조작으로 · 문법은 끼워 맞추는 조립 블록</p>
+      <p class="game-byline">수동적 암기에서 능동적 조작으로 · 문법이 끼워 맞추는 조립 블록으로 바뀜</p>
       <a class="game-link" href="https://engccer.github.io/grammar-potion-L1/" target="_blank" rel="noopener" aria-label="Grammar Potion Lab 새 창에서 열기">Grammar Potion Lab 라이브 &rarr;</a>
     </div>
   </div>
@@ -924,7 +962,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
 <!-- Slide 15: AI의 한계 -->
 <section class="slide" id="slide-15" data-sfx="page-turn"
   data-keywords="엄밀함은 아직 사람의 몫, AI 데이터 검증 한계"
-  aria-label="슬라이드 15: AI의 한계 — 데이터 엄밀성은 아직 사람의 몫">
+  aria-label="슬라이드 15: AI의 한계 · 데이터 엄밀성은 아직 사람의 몫">
   <span class="eyebrow">Grammar Potion 개발에서 겪은 시행착오</span>
   <div class="warn-box">
     <div class="warn-title">교훈</div>
@@ -933,9 +971,9 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
       아직 <span class="gold">사람의 몫</span>입니다
     </div>
     <p class="warn-tail">
-      포션 레시피와 학습지가 <strong>글자·띄어쓰기·순서</strong>까지 정확히 일치해야 함<br>
-      AI에 세 번 검증을 지시 · 교묘하게 어긋난 오류를 끝내 잡아내지 못함<br>
-      <span style="color:#f5c842;">결국 학습지와 화면 사이를 수십 번 오가며 직접 검증</span>
+      포션 레시피와 학습지가 <strong>글자·띄어쓰기·순서</strong>까지 일치해야 하는 상황<br>
+      AI에 세 번 검증을 시켰지만 교묘하게 어긋난 오류는 끝내 잡지 못함<br>
+      <span style="color:#f5c842;">결국 학습지와 화면 사이를 수십 번 오가며 사람이 직접 대조</span>
     </p>
   </div>
 </section>
@@ -943,7 +981,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
 <!-- Slide 16: Pick Me -->
 <section class="slide" id="slide-16" data-sfx="page-turn"
   data-keywords="Pick Me, 한 줄 프롬프트의 힘, 화려함과 접근성을 동시에"
-  aria-label="슬라이드 16: 사례 4 Pick Me — 접근성을 완벽하게 갖춰 줘 한 줄">
+  aria-label="슬라이드 16: 사례 4 Pick Me · 접근성을 완벽하게 갖춰 줘 한 줄">
   <span class="eyebrow">사례 ④ · 한 줄 프롬프트의 힘</span>
   <p class="big-quote" style="font-size:clamp(1.4rem,3.2vw,2.5rem);">
     <span class="quote-mark">&ldquo;</span>시각적으로 <span class="gold">화려</span>하면서도<br>
@@ -959,7 +997,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
     <span class="key-chip">Web Audio API 합성</span>
   </div>
   <p class="tagline" style="margin-top:3vh; max-width:900px;">
-    접근성은 어려운 것이 아니라 · <span style="color:#f5c842;">늘 우선순위에서 뒤로 밀려 있었을 뿐</span>
+    접근성은 어려운 일이 아니라 · <span style="color:#f5c842;">늘 우선순위에서 뒤로 밀려 있었을 뿐</span>
   </p>
   <a class="game-link" href="https://aro-deeply.github.io/pickme/" target="_blank" rel="noopener" style="margin-top:2.5vh;" aria-label="Pick Me 새 창에서 열기">Pick Me 라이브 &rarr;</a>
 </section>
@@ -967,9 +1005,9 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
 <!-- Slide 17: 학생 평가 ① 평균 점수 -->
 <section class="slide" id="slide-17" data-sfx="page-turn"
   data-keywords="평균 점수, 긍정 85 81 72 퍼센트, 신명중 1학년 130명"
-  aria-label="슬라이드 17: 학생들의 평가 ① — 평균 점수">
+  aria-label="슬라이드 17: 학생들의 평가 ① · 평균 점수">
   <span class="eyebrow">학생들의 평가 ① · 신명중 1학년 130명 익명 설문</span>
-  <h2 class="deck-h2" style="margin-bottom:2vh;">도구를 만든 자평이 아니라 · <span class="gold">수요자의 응답</span>으로</h2>
+  <h2 class="deck-h2" style="margin-bottom:2vh;">만든 사람의 자평이 아니라 · <span class="gold">학생들의 응답</span>으로</h2>
   <div class="info-card" style="max-width:1100px; width:100%;">
     <div class="info-title">5점 만점 평균 (괄호 = 긍정 응답 4~5점 비율)</div>
     <svg class="info-svg" viewBox="0 0 800 220" role="img" aria-label="만족도 4.35, 집중도 4.17, 학습 도움 3.94 가로 막대 그래프">
@@ -1009,12 +1047,12 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
 <!-- Slide 18: 학생 평가 ② 활용 희망 + 도움 영역 -->
 <section class="slide" id="slide-18" data-sfx="page-turn"
   data-keywords="줄였으면 0명, 재미 1위, 활용 희망 94.6 퍼센트"
-  aria-label="슬라이드 18: 학생들의 평가 ② — 활용 희망과 도움 영역">
+  aria-label="슬라이드 18: 학생들의 평가 ② · 활용 희망과 도움 영역">
   <span class="eyebrow">학생들의 평가 ② · 활용 희망 + 도움 받은 영역</span>
   <div class="infographic-row" style="max-width:1100px; width:100%;">
     <div class="info-card">
       <div class="info-title">앞으로도 미니게임을 활용했으면? (130명)</div>
-      <svg class="info-svg" viewBox="0 0 420 230" role="img" aria-label="활용 희망 분포 — 줄였으면 0퍼센트">
+      <svg class="info-svg" viewBox="0 0 420 230" role="img" aria-label="활용 희망 분포 · 줄였으면 0퍼센트">
         <title>활용 희망 분포</title>
         <desc>더 자주 57.7%, 지금 정도 36.9%, 잘 모르겠어요 5.4%, 줄였으면 0%</desc>
         <circle cx="110" cy="115" r="90" fill="none" stroke="#21262d" stroke-width="32"/>
@@ -1079,7 +1117,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
     </div>
   </div>
   <p class="tagline" style="margin-top:2vh; max-width:900px;">
-    흥미와 학습 효과가 분리되지 않고 <span style="color:#f5c842;">함께 상승</span>
+    흥미와 학습 효과가 따로 가지 않고 <span style="color:#f5c842;">함께 올라감</span>
   </p>
 </section>
 
@@ -1088,19 +1126,19 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
   data-keywords="학생 자유 의견, 마물 맑은물, 오기가 생긴다"
   aria-label="슬라이드 19: 학생들이 직접 들려준 이야기">
   <span class="eyebrow">자유 의견 83건 중에서</span>
-  <h2 class="deck-h2">두 단어가 펄떡이며 살아 숨 쉬고 있었습니다</h2>
+  <h2 class="deck-h2">포용성과 몰입감이 학생의 언어로 살아 숨 쉬었습니다</h2>
   <div class="quote-stack">
     <div class="student-card">
       <p class="student-quote">
         틀리면 <span class="gold">오기</span>가 생겨서 여러 번 하게 되는데, 그러면서 영영풀이나 단어 스펠링, 발음 같은 걸 더 빨리 재밌게 외우게 된다.
       </p>
-      <p class="student-meaning">몰입감이 학습 효과를 끌어올린다는 증언</p>
+      <p class="student-meaning">몰입감이 학습 효과로 이어진다는 증언</p>
     </div>
     <div class="student-card" style="border-left-color:#f5c842;">
       <p class="student-quote">
         영어 시간에 영어만 막 하는 게 아니라 게임을 하니 뜨거워진 머리를 <span class="gold">마물(맑은물)</span>로 착 싰기는 늑김이 들어요.
       </p>
-      <p class="student-meaning">정서적 효과까지 학생의 언어로</p>
+      <p class="student-meaning">정서적 효과까지 학생의 언어로 표현됨</p>
     </div>
   </div>
 </section>
@@ -1108,7 +1146,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
 <!-- Slide 20: 클로징 -->
 <section class="slide" id="slide-20" data-sfx="page-turn"
   data-keywords="다시 질문, 낡은 격언 한 축 무너지다, 감사합니다"
-  aria-label="슬라이드 20: 클로징 — 다시 질문, 감사합니다">
+  aria-label="슬라이드 20: 클로징 · 다시 질문과 감사 인사">
   <div class="closing-stack">
     <p class="huge-question" style="font-size:clamp(1.8rem,4.8vw,3.8rem);">
       우리가 만드는<br>
@@ -1116,7 +1154,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
     </p>
     <p class="closing-sub">
       낡은 격언의 한 축이 <span style="color:#f5c842;">드디어 무너졌습니다</span><br>
-      교실은 19세기여도 · <span style="color:#5de6c8;">학습자료만큼은 21세기의 호흡</span>으로
+      교실은 19세기여도 · <span style="color:#5de6c8;">학습자료만큼은 21세기의 호흡으로 만들 수 있습니다</span>
     </p>
     <div class="closing-links">
       <a href="https://engccer.github.io/word-bomb-L1/" target="_blank" rel="noopener">Word Bomb</a>
@@ -1222,11 +1260,12 @@ function goToSlide(n) {
   prevBtn.disabled = (n === 0);
   nextBtn.disabled = (n === TOTAL_SLIDES - 1);
 
-  var h = newSlide.querySelector('h1, h2, .hero-text, .huge-question');
-  if (h) {
-    h.setAttribute('tabindex', '-1');
-    try { h.focus({ preventScroll: true }); } catch(e) {}
-  }
+  newSlide.scrollTop = 0;
+
+  var focusTarget = newSlide.querySelector('h1, h2, h3, .hero-text, .huge-question, .big-quote, .game-headline, .warn-key, .deck-h2, .deck-h1');
+  if (!focusTarget) focusTarget = newSlide;
+  focusTarget.setAttribute('tabindex', '-1');
+  try { focusTarget.focus({ preventScroll: true }); } catch(e) {}
 }
 
 prevBtn.addEventListener('click', function() { goToSlide(currentSlide - 1); });
@@ -1251,6 +1290,38 @@ document.addEventListener('keydown', function(e) {
       e.preventDefault(); goToSlide(currentSlide - 1); break;
   }
 });
+
+(function() {
+  var slideContainer = document.querySelector('.slide-container');
+  var touchStartX = 0;
+  var touchStartY = 0;
+  var touchStartTime = 0;
+  var SWIPE_THRESHOLD = 60;
+  var SWIPE_MAX_TIME = 800;
+  var SWIPE_MAX_OFF_AXIS = 80;
+
+  slideContainer.addEventListener('touchstart', function(e) {
+    if (e.touches.length !== 1) return;
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+    touchStartTime = Date.now();
+  }, { passive: true });
+
+  slideContainer.addEventListener('touchend', function(e) {
+    if (e.changedTouches.length !== 1) return;
+    var t = e.changedTouches[0];
+    var dx = t.clientX - touchStartX;
+    var dy = t.clientY - touchStartY;
+    var dt = Date.now() - touchStartTime;
+    if (dt > SWIPE_MAX_TIME) return;
+    if (Math.abs(dx) < SWIPE_THRESHOLD) return;
+    if (Math.abs(dy) > SWIPE_MAX_OFF_AXIS) return;
+    var tag = (e.target && e.target.tagName) || '';
+    if (tag === 'A' || tag === 'BUTTON') return;
+    if (dx < 0) goToSlide(currentSlide + 1);
+    else goToSlide(currentSlide - 1);
+  }, { passive: true });
+})();
 
 document.getElementById('audioToggle').addEventListener('click', function() {
   audioEnabled = !audioEnabled;
