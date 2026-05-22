@@ -41,6 +41,72 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
   transition: width 0.5s ease;
 }
 
+/* ===== Fragment (단계별 등장) ===== */
+.fragment {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+.fragment.frag-visible {
+  opacity: 1;
+  transform: none;
+}
+/* 카드류는 살짝 scale 추가 */
+.pillar.fragment, .closing-card.fragment, .student-card.fragment, .info-card.fragment {
+  transform: translateY(12px) scale(0.96);
+}
+.pillar.frag-visible, .closing-card.frag-visible, .student-card.frag-visible, .info-card.frag-visible {
+  transform: none;
+}
+/* key-chip 그룹: 컨테이너가 fragment, 칩은 내부 stagger */
+.game-keys.fragment .key-chip {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.game-keys.frag-visible .key-chip { opacity: 1; transform: none; }
+.game-keys.frag-visible .key-chip:nth-child(1) { transition-delay: 0.00s; }
+.game-keys.frag-visible .key-chip:nth-child(2) { transition-delay: 0.06s; }
+.game-keys.frag-visible .key-chip:nth-child(3) { transition-delay: 0.12s; }
+.game-keys.frag-visible .key-chip:nth-child(4) { transition-delay: 0.18s; }
+.game-keys.frag-visible .key-chip:nth-child(5) { transition-delay: 0.24s; }
+.game-keys.frag-visible .key-chip:nth-child(6) { transition-delay: 0.30s; }
+
+/* ===== 강조·포컬 효과 ===== */
+@keyframes frag-glow-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(245, 200, 66, 0); }
+  35% { box-shadow: 0 0 22px 2px rgba(245, 200, 66, 0.55); }
+}
+.closing-card.highlight.frag-visible {
+  animation: frag-glow-pulse 1.6s ease-in-out 1;
+}
+@keyframes kw-pop {
+  0% { text-shadow: 0 0 0 rgba(245,200,66,0); }
+  40% { text-shadow: 0 0 14px rgba(245,200,66,0.6); }
+  100% { text-shadow: 0 0 0 rgba(245,200,66,0); }
+}
+.frag-visible .gold, .pillar.frag-visible .pillar-name {
+  animation: kw-pop 1.2s ease-out 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .frag-visible .gold, .pillar.frag-visible .pillar-name { animation: none !important; }
+}
+
+/* ===== prefers-reduced-motion: 모든 모션 제거, 최종 상태 즉시 ===== */
+@media (prefers-reduced-motion: reduce) {
+  .fragment, .fragment.frag-visible,
+  .pillar.fragment, .pillar.frag-visible,
+  .closing-card.fragment, .closing-card.frag-visible,
+  .student-card.fragment, .student-card.frag-visible,
+  .info-card.fragment, .info-card.frag-visible,
+  .game-keys.fragment .key-chip, .game-keys.frag-visible .key-chip {
+    transition: none !important;
+    transform: none !important;
+  }
+  .game-keys.frag-visible .key-chip { transition-delay: 0s !important; }
+  .closing-card.highlight.frag-visible { animation: none !important; }
+}
+
 .gold { color: #f5c842; }
 .cyan { color: #5de6c8; }
 .purple { color: #a78bfa; }
@@ -643,7 +709,8 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
   </h1>
   <p class="tagline">설계 단계부터 접근성을 내장한 영어 학습용 멀티모달 게임 사례</p>
   <p class="byline">
-    <strong>김헌용</strong> · 신명중학교 영어 교사 · 함께하는장애인교원노동조합 위원장
+    <strong>김헌용</strong> · 신명중학교 영어 교사 · 함께하는장애인교원노동조합 위원장<br>
+    <strong>이미화</strong> · 신명중학교 수업 보조
     <span class="event-meta">2026. 5. 23. (토) · 서울특별시교육청</span>
   </p>
 </section>
@@ -764,26 +831,26 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
   <span class="eyebrow">보편적 학습 설계 · Universal Design for Learning</span>
   <h2 class="deck-h2" style="margin-bottom:2vh;">차이를 끌어안는 <span class="gold">세 가지 원칙</span></h2>
   <div class="pillar-row">
-    <div class="pillar cyan">
+    <div class="pillar cyan fragment">
       <div class="pillar-num">원칙 ①</div>
       <div class="pillar-name">표상</div>
       <div class="pillar-en">Representation</div>
       <div class="pillar-keys">텍스트 · 음성 · 이미지 · 다이어그램</div>
     </div>
-    <div class="pillar gold">
+    <div class="pillar gold fragment">
       <div class="pillar-num">원칙 ②</div>
       <div class="pillar-name">행동과 표현</div>
       <div class="pillar-en">Action &amp; Expression</div>
       <div class="pillar-keys">키보드 · 터치 · 음성 · 그림</div>
     </div>
-    <div class="pillar purple">
+    <div class="pillar purple fragment">
       <div class="pillar-num">원칙 ③</div>
       <div class="pillar-name">참여</div>
       <div class="pillar-en">Engagement</div>
       <div class="pillar-keys">도전 수준 · 보상 · 협력</div>
     </div>
   </div>
-  <p class="cast-caption">미국 CAST 연구센터 · 보편적 설계 운동을 교육에 접목한 개념</p>
+  <p class="cast-caption fragment">미국 CAST 연구센터 · 보편적 설계 운동을 교육에 접목한 개념</p>
 </section>
 
 <!-- Slide 9: 멀티모달 -->
@@ -792,33 +859,33 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
   <span class="eyebrow">UDL의 실천 ①</span>
   <h2 class="deck-h2">여러 <span class="gold">감각</span>, 여러 <span class="cyan">진입로</span></h2>
   <div class="sense-row">
-    <div class="sense">
+    <div class="sense fragment">
       <span class="sense-icon" aria-hidden="true">&#x1F50A;</span>
       <div class="sense-label">소리</div>
       <div class="sense-sub">TTS · 효과음</div>
     </div>
-    <div class="sense">
+    <div class="sense fragment">
       <span class="sense-icon" aria-hidden="true">&#x1F441;</span>
       <div class="sense-label">시각</div>
       <div class="sense-sub">색상 · 이미지</div>
     </div>
-    <div class="sense">
+    <div class="sense fragment">
       <span class="sense-icon" aria-hidden="true">&#x2328;</span>
       <div class="sense-label">키보드</div>
       <div class="sense-sub">탭 · 화살표</div>
     </div>
-    <div class="sense">
+    <div class="sense fragment">
       <span class="sense-icon" aria-hidden="true">&#x1F446;</span>
       <div class="sense-label">터치</div>
       <div class="sense-sub">드래그 · 클릭</div>
     </div>
-    <div class="sense">
+    <div class="sense fragment">
       <span class="sense-icon" aria-hidden="true">&#x26A1;</span>
       <div class="sense-label">피드백</div>
       <div class="sense-sub">즉각 · 단계별</div>
     </div>
   </div>
-  <p class="tagline" style="margin-top:4vh; max-width:900px;">
+  <p class="tagline fragment" style="margin-top:4vh; max-width:900px;">
     자막은 청각장애인뿐 아니라 <span class="gold">도서관의 모두에게 유용</span><br>
     키보드 내비는 시각장애인뿐 아니라 <span class="gold">마우스를 못 쓰는 모두에게 유용</span>
   </p>
@@ -865,7 +932,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
     </div>
     <div class="game-text">
       <h2 class="game-headline"><span class="gold">Word Bomb</span><br>영영풀이를 <span class="cyan">박진감</span>으로</h2>
-      <div class="game-keys">
+      <div class="game-keys fragment">
         <span class="key-chip accent">30분 만에 완성</span>
         <span class="key-chip">시각 카드</span>
         <span class="key-chip">Gemini TTS</span>
@@ -873,8 +940,8 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
         <span class="key-chip">콤보 배수</span>
         <span class="key-chip">무한 재도전</span>
       </div>
-      <p class="game-byline">학습지 위 밋밋한 활자 하나가 시각 · 청각 · 반응 시간을 아우르는 게임으로 변신</p>
-      <a class="game-link" href="https://engccer.github.io/word-bomb-L1/" target="_blank" rel="noopener">Word Bomb 라이브 &rarr;</a>
+      <p class="game-byline fragment">학습지 위 밋밋한 활자 하나가 시각 · 청각 · 반응 시간을 아우르는 게임으로 변신</p>
+      <a class="game-link fragment" href="https://engccer.github.io/word-bomb-L1/" target="_blank" rel="noopener">Word Bomb 라이브 &rarr;</a>
     </div>
   </div>
 </section>
@@ -899,7 +966,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
         <span class="laugh-cap">정상 단어 음성</span>
       </button>
     </div>
-    <p class="laugh-reaction">
+    <p class="laugh-reaction fragment">
       &ldquo;선생님, AI도 실수를 하네요!&rdquo;<br>
       &ldquo;다음엔 꼭 실수 하나씩 넣어 주세요!&rdquo;
       <span class="quote-by">· 학생들의 반응</span>
@@ -931,15 +998,15 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
     </div>
     <div class="game-text">
       <h2 class="game-headline"><span class="gold">Story Detective</span><br>교과서 본문을 <span class="cyan">추리 서사</span>로</h2>
-      <div class="game-keys">
+      <div class="game-keys fragment">
         <span class="key-chip accent">본문 토씨 그대로</span>
         <span class="key-chip">단서 카드</span>
         <span class="key-chip accent-cyan">탐정 서사</span>
         <span class="key-chip">ElevenLabs 효과음</span>
         <span class="key-chip">Gemini 브리핑 이미지</span>
       </div>
-      <p class="game-byline">수동적 읽기에서 능동적 탐색으로 · 학생이 텍스트 안에 훨씬 더 오래 머무름</p>
-      <a class="game-link" href="https://engccer.github.io/story-detective-L1/" target="_blank" rel="noopener">Story Detective 라이브 &rarr;</a>
+      <p class="game-byline fragment">수동적 읽기에서 능동적 탐색으로 · 학생이 텍스트 안에 훨씬 더 오래 머무름</p>
+      <a class="game-link fragment" href="https://engccer.github.io/story-detective-L1/" target="_blank" rel="noopener">Story Detective 라이브 &rarr;</a>
     </div>
   </div>
 </section>
@@ -975,15 +1042,15 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
     </div>
     <div class="game-text">
       <h2 class="game-headline"><span class="gold">Grammar Potion Lab</span><br>문법을 <span class="cyan">마법의 물약</span>으로</h2>
-      <div class="game-keys">
+      <div class="game-keys fragment">
         <span class="key-chip accent">마법사 견습생</span>
         <span class="key-chip">재료 조합</span>
         <span class="key-chip accent-cyan">실패 허용</span>
         <span class="key-chip">무한 재도전</span>
         <span class="key-chip">반복 학습</span>
       </div>
-      <p class="game-byline">수동적 암기에서 능동적 조작으로 · 문법이 끼워 맞추는 조립 블록으로 바뀜</p>
-      <a class="game-link" href="https://engccer.github.io/grammar-potion-L1/" target="_blank" rel="noopener">Grammar Potion Lab 라이브 &rarr;</a>
+      <p class="game-byline fragment">수동적 암기에서 능동적 조작으로 · 문법이 끼워 맞추는 조립 블록으로 바뀜</p>
+      <a class="game-link fragment" href="https://engccer.github.io/grammar-potion-L1/" target="_blank" rel="noopener">Grammar Potion Lab 라이브 &rarr;</a>
     </div>
   </div>
 </section>
@@ -1017,7 +1084,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
     <span class="cyan">접근성</span>을 완벽하게 갖춰 줘<span class="quote-mark">&rdquo;</span>
     <span class="quote-source">Pick Me · 학생 추첨 도구 · 3일 만에 초기 버전</span>
   </p>
-  <div class="game-keys" style="justify-content:center; margin-top:3vh;">
+  <div class="game-keys fragment" style="justify-content:center; margin-top:3vh;">
     <span class="key-chip accent">Three.js 3D</span>
     <span class="key-chip">룰렛 · 로또 · 낚시</span>
     <span class="key-chip accent-cyan">ARIA 레이블</span>
@@ -1025,10 +1092,10 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
     <span class="key-chip accent-cyan">고대비 색상</span>
     <span class="key-chip">Web Audio API 합성</span>
   </div>
-  <p class="tagline" style="margin-top:3vh; max-width:900px;">
+  <p class="tagline fragment" style="margin-top:3vh; max-width:900px;">
     접근성은 어려운 일이 아니라 · <span style="color:#f5c842;">늘 우선순위에서 뒤로 밀려 있었을 뿐</span>
   </p>
-  <a class="game-link" href="https://aro-deeply.github.io/pickme/" target="_blank" rel="noopener" style="margin-top:2.5vh;">Pick Me 라이브 &rarr;</a>
+  <a class="game-link fragment" href="https://aro-deeply.github.io/pickme/" target="_blank" rel="noopener" style="margin-top:2.5vh;">Pick Me 라이브 &rarr;</a>
 </section>
 
 <!-- Slide 17: 학생 평가 ① 평균 점수 -->
@@ -1038,9 +1105,9 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
   <h2 class="sr-only">학생들의 평가 평균 점수</h2>
   <div class="info-card" style="max-width:1100px; width:100%;">
     <div class="info-title">5점 만점 평균 (괄호 = 긍정 응답 4~5점 비율)</div>
-    <svg class="info-svg" viewBox="0 0 800 220" role="img" aria-label="만족도 4.35, 집중도 4.17, 학습 도움 3.94 가로 막대 그래프">
+    <svg class="info-svg" id="chart-scores" viewBox="0 0 800 220" role="img" aria-label="">
       <title>5점 만점 평균 점수</title>
-      <desc>전체 만족도 4.35점 긍정 85.4퍼센트, 집중도 4.17점 긍정 80.8퍼센트, 학습 도움 3.94점 긍정 72.3퍼센트</desc>
+      <desc id="chart-scores-desc"></desc>
       <line x1="180" y1="22" x2="780" y2="22" stroke="#30363d" stroke-width="1"/>
       <text x="180" y="15" fill="#8b949e" font-size="11" font-family="Noto Sans KR,sans-serif">0</text>
       <text x="300" y="15" fill="#8b949e" font-size="11" font-family="Noto Sans KR,sans-serif">1</text>
@@ -1048,26 +1115,8 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
       <text x="540" y="15" fill="#8b949e" font-size="11" font-family="Noto Sans KR,sans-serif">3</text>
       <text x="660" y="15" fill="#8b949e" font-size="11" font-family="Noto Sans KR,sans-serif">4</text>
       <text x="773" y="15" fill="#8b949e" font-size="11" font-family="Noto Sans KR,sans-serif">5</text>
-
-      <text x="0" y="62" fill="#e6edf3" font-size="18" font-family="Noto Sans KR,sans-serif" font-weight="500">전체 만족도</text>
-      <rect x="180" y="42" width="600" height="28" fill="#21262d" rx="5"/>
-      <rect x="180" y="42" width="522" height="28" fill="#f5c842" rx="5"/>
-      <text x="710" y="62" fill="#f5c842" font-size="18" font-family="Noto Sans KR,sans-serif" font-weight="900">4.35</text>
-      <text x="755" y="62" fill="#5de6c8" font-size="13" font-family="Noto Sans KR,sans-serif">(85.4%)</text>
-
-      <text x="0" y="118" fill="#e6edf3" font-size="18" font-family="Noto Sans KR,sans-serif" font-weight="500">집중도</text>
-      <rect x="180" y="98" width="600" height="28" fill="#21262d" rx="5"/>
-      <rect x="180" y="98" width="500" height="28" fill="#f5c842" rx="5"/>
-      <text x="688" y="118" fill="#f5c842" font-size="18" font-family="Noto Sans KR,sans-serif" font-weight="900">4.17</text>
-      <text x="733" y="118" fill="#5de6c8" font-size="13" font-family="Noto Sans KR,sans-serif">(80.8%)</text>
-
-      <text x="0" y="174" fill="#e6edf3" font-size="18" font-family="Noto Sans KR,sans-serif" font-weight="500">학습 도움</text>
-      <rect x="180" y="154" width="600" height="28" fill="#21262d" rx="5"/>
-      <rect x="180" y="154" width="473" height="28" fill="#f5c842" rx="5"/>
-      <text x="661" y="174" fill="#f5c842" font-size="18" font-family="Noto Sans KR,sans-serif" font-weight="900">3.94</text>
-      <text x="706" y="174" fill="#5de6c8" font-size="13" font-family="Noto Sans KR,sans-serif">(72.3%)</text>
-
-      <text x="400" y="210" text-anchor="middle" fill="#8b949e" font-size="12" font-family="Noto Sans KR,sans-serif">신명중학교 1학년 130명 · 2026년 5월</text>
+      <g id="chart-scores-bars"></g>
+      <text x="400" y="210" text-anchor="middle" fill="#8b949e" font-size="12" font-family="Noto Sans KR,sans-serif" id="chart-scores-foot"></text>
     </svg>
   </div>
 </section>
@@ -1078,73 +1127,30 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
   <h2 class="sr-only">학생들의 평가 · 활용 희망과 도움 받은 영역</h2>
   <span class="eyebrow">학생들의 평가 ② · 활용 희망 + 도움 받은 영역</span>
   <div class="infographic-row" style="max-width:1100px; width:100%;">
-    <div class="info-card">
+    <div class="info-card fragment">
       <div class="info-title">앞으로도 미니게임을 활용했으면? (130명)</div>
-      <svg class="info-svg" viewBox="0 0 420 230" role="img" aria-label="활용 희망 분포 · 줄였으면 0퍼센트">
+      <svg class="info-svg" id="chart-usage" viewBox="0 0 420 230" role="img" aria-label="">
         <title>활용 희망 분포</title>
-        <desc>더 자주 57.7%, 지금 정도 36.9%, 잘 모르겠어요 5.4%, 줄였으면 0%</desc>
+        <desc id="chart-usage-desc"></desc>
         <circle cx="110" cy="115" r="90" fill="none" stroke="#21262d" stroke-width="32"/>
-        <g transform="rotate(-90 110 115)">
-          <circle cx="110" cy="115" r="90" fill="none" stroke="#f5c842" stroke-width="32"
-            stroke-dasharray="326.286 565.487" stroke-dashoffset="0"/>
-          <circle cx="110" cy="115" r="90" fill="none" stroke="#5de6c8" stroke-width="32"
-            stroke-dasharray="208.665 565.487" stroke-dashoffset="-326.286"/>
-          <circle cx="110" cy="115" r="90" fill="none" stroke="#8b949e" stroke-width="32"
-            stroke-dasharray="30.536 565.487" stroke-dashoffset="-534.951"/>
-        </g>
-        <text x="110" y="108" text-anchor="middle" fill="#5de6c8" font-size="28" font-weight="900" font-family="Noto Sans KR,sans-serif">94.6%</text>
+        <g id="chart-usage-arcs" transform="rotate(-90 110 115)"></g>
+        <text id="chart-usage-center" x="110" y="108" text-anchor="middle" fill="#5de6c8" font-size="28" font-weight="900" font-family="Noto Sans KR,sans-serif"></text>
         <text x="110" y="130" text-anchor="middle" fill="#8b949e" font-size="11" font-family="Noto Sans KR,sans-serif">유지 또는 확대</text>
-
-        <g font-family="Noto Sans KR,sans-serif" font-size="12">
-          <rect x="225" y="40" width="14" height="14" fill="#f5c842" rx="2"/>
-          <text x="245" y="52" fill="#e6edf3">더 자주 <tspan fill="#f5c842" font-weight="700">57.7%</tspan></text>
-          <rect x="225" y="64" width="14" height="14" fill="#5de6c8" rx="2"/>
-          <text x="245" y="76" fill="#e6edf3">지금 정도 <tspan fill="#5de6c8" font-weight="700">36.9%</tspan></text>
-          <rect x="225" y="88" width="14" height="14" fill="#8b949e" rx="2"/>
-          <text x="245" y="100" fill="#e6edf3">잘 모르겠음 <tspan fill="#8b949e" font-weight="700">5.4%</tspan></text>
-        </g>
-        <g>
-          <rect x="225" y="125" width="180" height="60" rx="8" fill="rgba(255,107,138,0.12)" stroke="#ff6b8a" stroke-width="1.5"/>
-          <text x="315" y="148" text-anchor="middle" fill="#ff6b8a" font-size="13" font-weight="700" font-family="Noto Sans KR,sans-serif">줄였으면 좋겠어요</text>
-          <text x="315" y="170" text-anchor="middle" fill="#ff6b8a" font-size="22" font-weight="900" font-family="Noto Sans KR,sans-serif">0명</text>
-        </g>
+        <g id="chart-usage-legend" font-family="Noto Sans KR,sans-serif" font-size="12"></g>
+        <g id="chart-usage-zero"></g>
       </svg>
     </div>
 
-    <div class="info-card">
+    <div class="info-card fragment">
       <div class="info-title">가장 도움 받은 영역 (복수 응답)</div>
-      <svg class="info-svg" viewBox="0 0 420 230" role="img" aria-label="도움 받은 영역 가로 막대 그래프">
+      <svg class="info-svg" id="chart-helped" viewBox="0 0 420 230" role="img" aria-label="">
         <title>가장 도움 받은 영역</title>
-        <desc>재미 53.8%, 단어 50.8%, 본문 독해 47.7%, 문법 37.7%, 발음 31.5%</desc>
-
-        <text x="0" y="28" fill="#e6edf3" font-size="13" font-family="Noto Sans KR,sans-serif">수업이 재미있어지는 데</text>
-        <rect x="0" y="36" width="290" height="16" fill="#21262d" rx="3"/>
-        <rect x="0" y="36" width="156" height="16" fill="#f5c842" rx="3"/>
-        <text x="296" y="48" fill="#f5c842" font-size="13" font-weight="700" font-family="Noto Sans KR,sans-serif">53.8%</text>
-
-        <text x="0" y="76" fill="#e6edf3" font-size="13" font-family="Noto Sans KR,sans-serif">단어 외우기</text>
-        <rect x="0" y="84" width="290" height="16" fill="#21262d" rx="3"/>
-        <rect x="0" y="84" width="147" height="16" fill="#5de6c8" rx="3"/>
-        <text x="296" y="96" fill="#5de6c8" font-size="13" font-weight="700" font-family="Noto Sans KR,sans-serif">50.8%</text>
-
-        <text x="0" y="124" fill="#e6edf3" font-size="13" font-family="Noto Sans KR,sans-serif">본문 독해</text>
-        <rect x="0" y="132" width="290" height="16" fill="#21262d" rx="3"/>
-        <rect x="0" y="132" width="138" height="16" fill="#5de6c8" rx="3"/>
-        <text x="296" y="144" fill="#5de6c8" font-size="13" font-weight="700" font-family="Noto Sans KR,sans-serif">47.7%</text>
-
-        <text x="0" y="172" fill="#e6edf3" font-size="13" font-family="Noto Sans KR,sans-serif">문법 이해</text>
-        <rect x="0" y="180" width="290" height="16" fill="#21262d" rx="3"/>
-        <rect x="0" y="180" width="109" height="16" fill="#a78bfa" rx="3"/>
-        <text x="296" y="192" fill="#a78bfa" font-size="13" font-weight="700" font-family="Noto Sans KR,sans-serif">37.7%</text>
-
-        <text x="0" y="220" fill="#e6edf3" font-size="13" font-family="Noto Sans KR,sans-serif">발음 듣기·익히기</text>
-        <rect x="180" y="208" width="110" height="16" fill="#21262d" rx="3"/>
-        <rect x="180" y="208" width="91" height="16" fill="#a78bfa" rx="3"/>
-        <text x="296" y="220" fill="#a78bfa" font-size="13" font-weight="700" font-family="Noto Sans KR,sans-serif">31.5%</text>
+        <desc id="chart-helped-desc"></desc>
+        <g id="chart-helped-bars"></g>
       </svg>
     </div>
   </div>
-  <p class="tagline" style="margin-top:2vh; max-width:900px;">
+  <p class="tagline fragment" style="margin-top:2vh; max-width:900px;">
     흥미와 학습 효과가 따로 가지 않고 <span style="color:#f5c842;">함께 올라감</span>
   </p>
 </section>
@@ -1155,13 +1161,13 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
   <span class="eyebrow">자유 의견 83건 중에서</span>
   <h2 class="deck-h2">포용성과 몰입감이 학생의 언어로 살아 숨 쉬었습니다</h2>
   <div class="quote-stack">
-    <div class="student-card">
+    <div class="student-card fragment">
       <p class="student-quote">
         틀리면 <span class="gold">오기</span>가 생겨서 여러 번 하게 되는데, 그러면서 영영풀이나 단어 스펠링, 발음 같은 걸 더 빨리 재밌게 외우게 된다.
       </p>
       <p class="student-meaning">몰입감이 학습 효과로 이어진다는 증언</p>
     </div>
-    <div class="student-card" style="border-left-color:#f5c842;">
+    <div class="student-card fragment" style="border-left-color:#f5c842;">
       <p class="student-quote">
         영어 시간에 영어만 막 하는 게 아니라 게임을 하니 뜨거워진 머리를 <span class="gold">마물(맑은물)</span>로 착 싰기는 늑김이 들어요.
       </p>
@@ -1176,30 +1182,30 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
   <div class="closing-stack">
     <h2 class="deck-h2" style="margin-bottom:1vh;">학습용 앱 개발의 <span class="gold">핵심 가치</span></h2>
     <div class="closing-grid">
-      <div class="closing-card">
+      <div class="closing-card fragment">
         <span class="closing-num" aria-hidden="true">①</span>
         <p>같은 교과서 내용도 <strong>학생에게 다가가는 방식은 하나가 아님</strong></p>
       </div>
-      <div class="closing-card">
+      <div class="closing-card fragment">
         <span class="closing-num" aria-hidden="true">②</span>
         <p>게임의 재미보다 먼저 볼 것은 <strong>설계 방식</strong></p>
       </div>
-      <div class="closing-card highlight">
+      <div class="closing-card highlight fragment">
         <span class="closing-num" aria-hidden="true">③</span>
         <p>접근성과 포용성을 <strong>앱 개발 설계 단계부터 최우선 과제로</strong></p>
       </div>
-      <div class="closing-card">
+      <div class="closing-card fragment">
         <span class="closing-num" aria-hidden="true">④</span>
         <p>교과서와 학습지를 몰입할 수 있는 활동형 자료로 바꾸는 과정에서 <strong>접근성과 포용성은 선택이 아닌 필수 조건</strong></p>
       </div>
     </div>
-    <div class="closing-links">
+    <div class="closing-links fragment">
       <a href="https://engccer.github.io/word-bomb-L1/" target="_blank" rel="noopener">Word Bomb</a>
       <a href="https://engccer.github.io/story-detective-L1/" target="_blank" rel="noopener">Story Detective</a>
       <a href="https://engccer.github.io/grammar-potion-L1/" target="_blank" rel="noopener">Grammar Potion Lab</a>
       <a href="https://aro-deeply.github.io/pickme/" target="_blank" rel="noopener">Pick Me</a>
     </div>
-    <p class="closing-thanks">감사합니다</p>
+    <p class="closing-thanks fragment">감사합니다</p>
   </div>
 </section>
 
@@ -1234,6 +1240,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
 var allSlides = document.querySelectorAll('.slide');
 var TOTAL_SLIDES = allSlides.length;
 var currentSlide = -1;
+var fragIndex = 0; // 현재 슬라이드에서 드러난 fragment 개수
 var audioEnabled = true;
 var currentAudio = null;
 var currentNarration = null;
@@ -1249,6 +1256,189 @@ counter.textContent = '1 / ' + TOTAL_SLIDES;
 var SFX = {
   'page-turn': 'sfx/page-turn.mp3'
 };
+
+var SURVEY = {
+  scores: [
+    { label: '전체 만족도', avg: 4.35, positive: 85.4 },
+    { label: '집중도',     avg: 4.17, positive: 80.8 },
+    { label: '학습 도움',   avg: 3.94, positive: 72.3 }
+  ],
+  usage: [
+    { label: '더 자주',    pct: 57.7, color: '#f5c842' },
+    { label: '지금 정도',   pct: 36.9, color: '#5de6c8' },
+    { label: '잘 모르겠음', pct: 5.4,  color: '#8b949e' },
+    { label: '줄였으면',    pct: 0,    color: '#ff6b8a' }
+  ],
+  helped: [
+    { label: '수업이 재미있어지는 데', pct: 53.8, color: '#f5c842' },
+    { label: '단어 외우기',           pct: 50.8, color: '#5de6c8' },
+    { label: '본문 독해',             pct: 47.7, color: '#5de6c8' },
+    { label: '문법 이해',             pct: 37.7, color: '#a78bfa' },
+    { label: '발음 듣기·익히기',       pct: 31.5, color: '#a78bfa' }
+  ],
+  meta: { n: 130, school: '신명중학교 1학년', when: '2026년 5월' }
+};
+
+var SVGNS = 'http://www.w3.org/2000/svg';
+function scoreBarWidth(avg) { return avg / 5 * 600; }
+function helpedBarWidth(pct) { return pct / 100 * 290; }
+var DONUT_R = 90;
+var DONUT_C = 2 * Math.PI * DONUT_R;
+function donutSegments(segments) {
+  var out = [], cum = 0;
+  for (var i = 0; i < segments.length; i++) {
+    var dash = segments[i].pct / 100 * DONUT_C;
+    out.push({ color: segments[i].color, dash: dash, offset: -cum });
+    cum += dash;
+  }
+  return out;
+}
+
+function svgEl(tag, attrs, text) {
+  var el = document.createElementNS(SVGNS, tag);
+  for (var k in attrs) if (attrs.hasOwnProperty(k)) el.setAttribute(k, attrs[k]);
+  if (text != null) el.textContent = text;
+  return el;
+}
+var FONT = 'Noto Sans KR,sans-serif';
+
+function renderScores(animate) {
+  var g = document.getElementById('chart-scores-bars');
+  g.innerHTML = '';
+  var rows = [62, 118, 174];
+  var barY = [42, 98, 154];
+  SURVEY.scores.forEach(function(d, i) {
+    var w = scoreBarWidth(d.avg);
+    g.appendChild(svgEl('text', { x:0, y:rows[i], fill:'#e6edf3', 'font-size':18, 'font-family':FONT, 'font-weight':500 }, d.label));
+    g.appendChild(svgEl('rect', { x:180, y:barY[i], width:600, height:28, fill:'#21262d', rx:5 }));
+    var bar = svgEl('rect', { x:180, y:barY[i], width: animate ? 0 : w, height:28, fill:'#f5c842', rx:5 });
+    bar.setAttribute('data-w', w);
+    bar.setAttribute('class', 'chart-bar');
+    g.appendChild(bar);
+    var vx = 180 + w + 8;
+    var valText = svgEl('text', { x:vx, y:rows[i], fill:'#f5c842', 'font-size':18, 'font-family':FONT, 'font-weight':900 }, animate ? '0.00' : d.avg.toFixed(2));
+    valText.setAttribute('data-count', d.avg); valText.setAttribute('data-decimals', 2);
+    g.appendChild(valText);
+    g.appendChild(svgEl('text', { x:vx+45, y:rows[i], fill:'#5de6c8', 'font-size':13, 'font-family':FONT }, '('+d.positive.toFixed(1)+'%)'));
+  });
+  document.getElementById('chart-scores-foot').textContent = SURVEY.meta.school + ' ' + SURVEY.meta.n + '명 · ' + SURVEY.meta.when;
+  var desc = SURVEY.scores.map(function(d){ return d.label+' '+d.avg.toFixed(2)+'점 긍정 '+d.positive.toFixed(1)+'퍼센트'; }).join(', ');
+  document.getElementById('chart-scores-desc').textContent = desc;
+  document.getElementById('chart-scores').setAttribute('aria-label', desc);
+}
+
+function renderUsage(animate) {
+  var arcs = document.getElementById('chart-usage-arcs');
+  var legend = document.getElementById('chart-usage-legend');
+  var zero = document.getElementById('chart-usage-zero');
+  arcs.innerHTML = ''; legend.innerHTML = ''; zero.innerHTML = '';
+  var segs = donutSegments(SURVEY.usage);
+  SURVEY.usage.forEach(function(d, i) {
+    if (d.pct <= 0) return;
+    var c = svgEl('circle', { cx:110, cy:115, r:DONUT_R, fill:'none', stroke:d.color, 'stroke-width':32,
+      'stroke-dasharray': (animate ? 0 : segs[i].dash) + ' ' + DONUT_C, 'stroke-dashoffset': segs[i].offset });
+    c.setAttribute('data-dash', segs[i].dash);
+    arcs.appendChild(c);
+  });
+  var keep = SURVEY.usage[0].pct + SURVEY.usage[1].pct;
+  document.getElementById('chart-usage-center').textContent = keep.toFixed(1) + '%';
+  var ly = 52;
+  SURVEY.usage.forEach(function(d) {
+    if (d.pct <= 0) return;
+    legend.appendChild(svgEl('rect', { x:225, y:ly-12, width:14, height:14, fill:d.color, rx:2 }));
+    var t = svgEl('text', { x:245, y:ly, fill:'#e6edf3' }, d.label + ' ');
+    var ts = svgEl('tspan', { fill:d.color, 'font-weight':700 }, d.pct.toFixed(1) + '%');
+    t.appendChild(ts); legend.appendChild(t);
+    ly += 24;
+  });
+  var last = SURVEY.usage[SURVEY.usage.length - 1];
+  zero.appendChild(svgEl('rect', { x:225, y:125, width:180, height:60, rx:8, fill:'rgba(255,107,138,0.12)', stroke:'#ff6b8a', 'stroke-width':1.5 }));
+  zero.appendChild(svgEl('text', { x:315, y:148, 'text-anchor':'middle', fill:'#ff6b8a', 'font-size':13, 'font-weight':700, 'font-family':FONT }, last.label + ' 좋겠어요'));
+  zero.appendChild(svgEl('text', { x:315, y:170, 'text-anchor':'middle', fill:'#ff6b8a', 'font-size':22, 'font-weight':900, 'font-family':FONT }, '0명'));
+  var desc = SURVEY.usage.map(function(d){ return d.label+' '+d.pct.toFixed(1)+'%'; }).join(', ');
+  document.getElementById('chart-usage-desc').textContent = desc;
+  document.getElementById('chart-usage').setAttribute('aria-label', '활용 희망 분포 · ' + last.label + ' 0퍼센트');
+}
+
+function renderHelped(animate) {
+  var g = document.getElementById('chart-helped-bars');
+  g.innerHTML = '';
+  var startY = 24, rowH = 45;
+  SURVEY.helped.forEach(function(d, i) {
+    var y = startY + i * rowH;
+    var w = helpedBarWidth(d.pct);
+    g.appendChild(svgEl('text', { x:0, y:y, fill:'#e6edf3', 'font-size':13, 'font-family':FONT }, d.label));
+    g.appendChild(svgEl('rect', { x:0, y:y+8, width:290, height:16, fill:'#21262d', rx:3 }));
+    var bar = svgEl('rect', { x:0, y:y+8, width: animate ? 0 : w, height:16, fill:d.color, rx:3 });
+    bar.setAttribute('data-w', w); bar.setAttribute('class', 'chart-bar');
+    g.appendChild(bar);
+    g.appendChild(svgEl('text', { x:296, y:y+20, fill:d.color, 'font-size':13, 'font-weight':700, 'font-family':FONT }, d.pct.toFixed(1) + '%'));
+  });
+  var desc = SURVEY.helped.map(function(d){ return d.label+' '+d.pct.toFixed(1)+'%'; }).join(', ');
+  document.getElementById('chart-helped-desc').textContent = desc;
+  document.getElementById('chart-helped').setAttribute('aria-label', '도움 받은 영역 가로 막대 그래프');
+}
+
+function prefersReducedMotion() {
+  return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+function animateCountUp(textEl) {
+  var target = parseFloat(textEl.getAttribute('data-count'));
+  var decimals = parseInt(textEl.getAttribute('data-decimals') || '0', 10);
+  if (prefersReducedMotion()) { textEl.textContent = target.toFixed(decimals); return; }
+  var dur = 800, start = null;
+  function frame(ts) {
+    if (start === null) start = ts;
+    var p = Math.min((ts - start) / dur, 1);
+    textEl.textContent = (target * p).toFixed(decimals);
+    if (p < 1) requestAnimationFrame(frame);
+    else textEl.textContent = target.toFixed(decimals);
+  }
+  requestAnimationFrame(frame);
+}
+
+function animateBars(containerId) {
+  var bars = document.querySelectorAll('#' + containerId + ' .chart-bar');
+  for (var i = 0; i < bars.length; i++) {
+    (function(bar) {
+      var w = parseFloat(bar.getAttribute('data-w'));
+      if (prefersReducedMotion()) { bar.setAttribute('width', w); return; }
+      bar.style.transition = 'none';
+      bar.setAttribute('width', 0);
+      requestAnimationFrame(function() {
+        bar.style.transition = 'width 0.6s ease-out';
+        bar.setAttribute('width', w);
+      });
+    })(bars[i]);
+  }
+}
+
+function animateDonut(arcsId) {
+  var arcs = document.querySelectorAll('#' + arcsId + ' circle');
+  for (var i = 0; i < arcs.length; i++) {
+    (function(c) {
+      var dash = parseFloat(c.getAttribute('data-dash'));
+      if (prefersReducedMotion()) { c.setAttribute('stroke-dasharray', dash + ' ' + DONUT_C); return; }
+      c.style.transition = 'none';
+      c.setAttribute('stroke-dasharray', '0 ' + DONUT_C);
+      requestAnimationFrame(function() {
+        c.style.transition = 'stroke-dasharray 0.7s ease-out';
+        c.setAttribute('stroke-dasharray', dash + ' ' + DONUT_C);
+      });
+    })(arcs[i]);
+  }
+}
+
+function animateChartsIn(root) {
+  if (root.querySelector('#chart-scores-bars')) {
+    animateBars('chart-scores-bars');
+    var sv = root.querySelectorAll('#chart-scores-bars text[data-count]');
+    for (var i = 0; i < sv.length; i++) animateCountUp(sv[i]);
+  }
+  if (root.querySelector('#chart-usage-arcs')) animateDonut('chart-usage-arcs');
+  if (root.querySelector('#chart-helped-bars')) animateBars('chart-helped-bars');
+}
 
 var NARRATION_DELAY_MS = 450;
 
@@ -1299,8 +1489,21 @@ function playSfx(name) {
   } catch(e) {}
 }
 
-function goToSlide(n) {
+function slideFragments(slide) {
+  return slide.querySelectorAll('.fragment');
+}
+
+function setFragmentsVisible(slide, count) {
+  var frags = slideFragments(slide);
+  for (var i = 0; i < frags.length; i++) {
+    if (i < count) frags[i].classList.add('frag-visible');
+    else frags[i].classList.remove('frag-visible');
+  }
+}
+
+function goToSlide(n, opts) {
   if (n < 0 || n >= TOTAL_SLIDES || n === currentSlide) return;
+  opts = opts || {};
 
   if (currentSlide >= 0) {
     var oldSlide = allSlides[currentSlide];
@@ -1316,6 +1519,30 @@ function goToSlide(n) {
   newSlide.classList.add('active');
   newSlide.setAttribute('aria-hidden', 'false');
 
+  var fragCount = slideFragments(newSlide).length;
+  if (opts.revealAll) {
+    setFragmentsVisible(newSlide, fragCount);
+    fragIndex = fragCount;
+  } else {
+    setFragmentsVisible(newSlide, 0);
+    fragIndex = 0;
+  }
+
+  // S17: fragment가 없으니 진입 시 차트 애니메이트
+  if (newSlide.id === 'slide-17') animateChartsIn(newSlide);
+  // S18: 앞으로 진입 시 0폭으로 리셋(카드 등장 때 grow), 뒤로/reduced-motion 진입 시 최종 상태 보장
+  if (newSlide.id === 'slide-18') {
+    if (opts.revealAll || prefersReducedMotion()) {
+      renderUsage(false);
+      renderHelped(false);
+    } else {
+      var ub = newSlide.querySelectorAll('.chart-bar');
+      for (var bi = 0; bi < ub.length; bi++) ub[bi].setAttribute('width', 0);
+      var ua = newSlide.querySelectorAll('#chart-usage-arcs circle');
+      for (var ai = 0; ai < ua.length; ai++) ua[ai].setAttribute('stroke-dasharray', '0 ' + DONUT_C);
+    }
+  }
+
   counter.textContent = (n + 1) + ' / ' + TOTAL_SLIDES;
 
   var pct = ((n + 1) / TOTAL_SLIDES) * 100;
@@ -1325,8 +1552,7 @@ function goToSlide(n) {
   if (sfxName) playSfx(sfxName);
   playNarration(n);
 
-  prevBtn.disabled = (n === 0);
-  nextBtn.disabled = (n === TOTAL_SLIDES - 1);
+  updateNavDisabled();
 
   newSlide.scrollTop = 0;
 
@@ -1336,26 +1562,90 @@ function goToSlide(n) {
   try { focusTarget.focus({ preventScroll: true }); } catch(e) {}
 }
 
-prevBtn.addEventListener('click', function() { goToSlide(currentSlide - 1); });
-nextBtn.addEventListener('click', function() { goToSlide(currentSlide + 1); });
+function updateNavDisabled() {
+  var fragCount = slideFragments(allSlides[currentSlide]).length;
+  prevBtn.disabled = (currentSlide === 0 && fragIndex === 0);
+  nextBtn.disabled = (currentSlide === TOTAL_SLIDES - 1 && fragIndex >= fragCount);
+}
+
+var _audioCtx = null;
+function getAudioCtx() {
+  if (_audioCtx) return _audioCtx;
+  var AC = window.AudioContext || window.webkitAudioContext;
+  if (!AC) return null;
+  try { _audioCtx = new AC(); } catch (e) { _audioCtx = null; }
+  return _audioCtx;
+}
+function playTick() {
+  if (!audioEnabled) return; // 오디오 토글과 연동
+  var ctx = getAudioCtx();
+  if (!ctx) return;
+  if (ctx.state === 'suspended') { ctx.resume().catch(function(){}); }
+  try {
+    var osc = ctx.createOscillator();
+    var gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(880, ctx.currentTime); // page-turn·내레이션과 구별되는 짧고 높은 톤
+    gain.gain.setValueAtTime(0.0001, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.12, ctx.currentTime + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.12);
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.13);
+  } catch (e) {}
+}
+function onFragmentRevealed(el) {
+  if (!el) return;
+  if (el.querySelector && (el.querySelector('#chart-usage-arcs') || el.querySelector('#chart-helped-bars'))) {
+    animateChartsIn(el);
+  }
+  el.setAttribute('tabindex', '-1');
+  try { el.focus({ preventScroll: true }); } catch (e) {}
+}
+
+function advance() {
+  var slide = allSlides[currentSlide];
+  var fragCount = slideFragments(slide).length;
+  if (fragIndex < fragCount) {
+    var frag = slideFragments(slide)[fragIndex];
+    frag.classList.add('frag-visible');
+    fragIndex++;
+    playTick();
+    onFragmentRevealed(frag);
+    updateNavDisabled();
+  } else {
+    goToSlide(currentSlide + 1);
+  }
+}
+
+function retreat() {
+  if (fragIndex > 0) {
+    fragIndex--;
+    slideFragments(allSlides[currentSlide])[fragIndex].classList.remove('frag-visible');
+    updateNavDisabled();
+  } else {
+    goToSlide(currentSlide - 1, { revealAll: true });
+  }
+}
+
+prevBtn.addEventListener('click', function() { retreat(); });
+nextBtn.addEventListener('click', function() { advance(); });
 
 document.addEventListener('keydown', function(e) {
   if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
   if (e.target.tagName === 'BUTTON' && e.key === 'Enter') return;
   switch(e.key) {
     case 'ArrowRight':
-      e.preventDefault(); goToSlide(currentSlide + 1); break;
+    case 'PageDown':
+      e.preventDefault(); advance(); break;
     case 'ArrowLeft':
     case 'Backspace':
-      e.preventDefault(); goToSlide(currentSlide - 1); break;
+    case 'PageUp':
+      e.preventDefault(); retreat(); break;
     case 'Home':
       e.preventDefault(); goToSlide(0); break;
     case 'End':
-      e.preventDefault(); goToSlide(TOTAL_SLIDES - 1); break;
-    case 'PageDown':
-      e.preventDefault(); goToSlide(currentSlide + 1); break;
-    case 'PageUp':
-      e.preventDefault(); goToSlide(currentSlide - 1); break;
+      e.preventDefault(); goToSlide(TOTAL_SLIDES - 1, { revealAll: true }); break;
   }
 });
 
@@ -1386,8 +1676,8 @@ document.addEventListener('keydown', function(e) {
     if (Math.abs(dy) > SWIPE_MAX_OFF_AXIS) return;
     var tag = (e.target && e.target.tagName) || '';
     if (tag === 'A' || tag === 'BUTTON') return;
-    if (dx < 0) goToSlide(currentSlide + 1);
-    else goToSlide(currentSlide - 1);
+    if (dx < 0) advance();
+    else retreat();
   }, { passive: true });
 })();
 
@@ -1428,6 +1718,9 @@ document.getElementById('btn-laugh-correct').addEventListener('keydown', functio
 for (var i = 0; i < allSlides.length; i++) {
   allSlides[i].setAttribute('aria-hidden', 'true');
 }
+renderScores(false);
+renderUsage(false);
+renderHelped(false);
 goToSlide(0);
 </script>
 
