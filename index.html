@@ -1236,6 +1236,8 @@ var TOTAL_SLIDES = allSlides.length;
 var currentSlide = -1;
 var audioEnabled = true;
 var currentAudio = null;
+var currentNarration = null;
+var narrationDelayTimer = null;
 
 var counter = document.getElementById('slideCounter');
 var progressBarEl = document.getElementById('progressBar');
@@ -1248,12 +1250,44 @@ var SFX = {
   'page-turn': 'sfx/page-turn.mp3'
 };
 
+var NARRATION_DELAY_MS = 450;
+
+function pad2(n) { return (n < 10 ? '0' : '') + n; }
+
 function stopCurrentAudio() {
   if (currentAudio) {
     currentAudio.pause();
     currentAudio.currentTime = 0;
     currentAudio = null;
   }
+}
+
+function stopNarration() {
+  if (narrationDelayTimer) {
+    clearTimeout(narrationDelayTimer);
+    narrationDelayTimer = null;
+  }
+  if (currentNarration) {
+    currentNarration.pause();
+    currentNarration.currentTime = 0;
+    currentNarration = null;
+  }
+}
+
+function playNarration(slideIndex) {
+  if (!audioEnabled) return;
+  stopNarration();
+  var targetSlide = slideIndex;
+  narrationDelayTimer = setTimeout(function() {
+    narrationDelayTimer = null;
+    if (!audioEnabled || currentSlide !== targetSlide) return;
+    try {
+      var audio = new Audio('narration/slide-' + pad2(targetSlide + 1) + '.mp3');
+      audio.volume = 0.95;
+      audio.play().catch(function() {});
+      currentNarration = audio;
+    } catch(e) {}
+  }, NARRATION_DELAY_MS);
 }
 
 function playSfx(name) {
@@ -1275,6 +1309,7 @@ function goToSlide(n) {
   }
 
   stopCurrentAudio();
+  stopNarration();
 
   currentSlide = n;
   var newSlide = allSlides[n];
@@ -1288,6 +1323,7 @@ function goToSlide(n) {
 
   var sfxName = newSlide.getAttribute('data-sfx');
   if (sfxName) playSfx(sfxName);
+  playNarration(n);
 
   prevBtn.disabled = (n === 0);
   nextBtn.disabled = (n === TOTAL_SLIDES - 1);
@@ -1362,7 +1398,8 @@ document.getElementById('audioToggle').addEventListener('click', function() {
   if (icon) icon.innerHTML = audioEnabled ? '&#x1F50A;' : '&#x1F507;';
   if (label) label.textContent = audioEnabled ? '소리 켬' : '소리 끔';
   this.setAttribute('aria-pressed', String(audioEnabled));
-  if (!audioEnabled) stopCurrentAudio();
+  if (!audioEnabled) { stopCurrentAudio(); stopNarration(); }
+  else if (currentSlide >= 0) playNarration(currentSlide);
 });
 
 document.getElementById('audioToggle').addEventListener('keydown', function(e) {

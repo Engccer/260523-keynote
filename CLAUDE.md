@@ -36,7 +36,7 @@
 - 본문 윤문 톤: 명사형 종결을 유지하되 명료하고 가독성 있게. 추상적 명사화 대신 동사형 명사화로 풀어쓰기 (예: "함께 상승" → "함께 올라감", "여러 길로" → "여러 갈래의 게임으로 변신")
 
 ### 핵심 키워드 묶음 (오디오 큐용)
-각 슬라이드 `<section>` 태그에 `data-keywords` 속성으로 보존. 화면에는 표시하지 않음. 추후 TTS 생성 시 `document.querySelectorAll('.slide')`로 일괄 추출 가능.
+각 슬라이드 `<section>` 태그에 `data-keywords` 속성으로 보존. 화면에는 표시하지 않음. 실제 내레이션 텍스트는 `_generate_narration.py`의 `NARRATIONS` dict가 정본 (data-keywords는 시각 큐, narration 텍스트는 음성 큐로 어휘가 약간 다름).
 
 ## 슬라이드 구성 (총 20장 · 평균 60초)
 
@@ -67,13 +67,17 @@
 
 ```
 260523-keynote/
-├── CLAUDE.md           ← 이 파일
+├── CLAUDE.md                 ← 이 파일
 ├── .gitignore
-├── index.html          ← 슬라이드덱 본체 (단일 파일)
-└── sfx/
-    ├── page-turn.mp3   ← 슬라이드 전환 효과음 (story-detective-L1/sfx에서 복사)
-    ├── laugh-correct.wav ← S12 laugh 해프닝 · 수정된 발음
-    └── laugh-wrong.wav  ← S12 laugh 해프닝 · AI가 잘못 생성한 웃음소리
+├── index.html                ← 슬라이드덱 본체 (단일 파일)
+├── _generate_narration.py    ← 슬라이드별 핵심 키워드 내레이션 MP3 생성 스크립트 (Gemini TTS · Kore · ko-KR)
+├── sfx/
+│   ├── page-turn.mp3         ← 슬라이드 전환 효과음 (story-detective-L1/sfx에서 복사)
+│   ├── laugh-correct.wav     ← S12 laugh 해프닝 · 수정된 발음
+│   └── laugh-wrong.wav       ← S12 laugh 해프닝 · AI가 잘못 생성한 웃음소리
+└── narration/
+    └── slide-01.mp3 ~ slide-20.mp3
+                              ← 슬라이드별 핵심 키워드 내레이션 (4~8초/파일, 총 ~1.4MB)
 ```
 
 ## 기술 스택
@@ -84,10 +88,11 @@
 - **모바일 반응형**: 480px·700px·800px 3단 미디어 쿼리. 작은 화면에서 nav-btn·game-link·laugh-btn·closing-links에 min-height 44px 적용 (Apple HIG·WCAG 권장 터치 타깃)
 - **접근성 라벨 최소주의** (2026-05-22 3차): 모든 section·nav·progressbar의 aria-label과 announcer(aria-live) 제거. 짧은 슬라이드에서는 region 라벨이 본문으로 오인되거나 헤딩과 중복 읽힘. 헤딩이 없는 슬라이드(S2/S3/S4/S5/S10/S15/S18)에는 시각적으로 안 보이는 `<h2 class="sr-only">`로 헤딩 위계만 보장. S7/S17은 의미 있는 가시 헤딩(huge-question h2 / sr-only h2). 결과: 스크린리더는 헤딩 + 버튼 + 차트 alt만 읽음
 - **스크린리더 포커스 자동 이동**: 슬라이드 전환 시 `h1, h2, h3, .hero-text, .huge-question, .big-quote, .game-headline, .warn-key, .deck-h2, .deck-h1` 중 첫 매칭 요소에 포커스. 매칭 없으면 슬라이드 section 자체에 fallback. focus-visible 시 보라색 outline
-- **오디오 토글**: pill 버튼 (아이콘 + 라벨). 현재 상태를 "소리 켬/소리 끔"으로 표시(토글 동작이 아니라 상태 표시 패턴). aria-pressed로 상태 알림. 모바일 36px min-height
+- **오디오 토글**: pill 버튼 (아이콘 + 라벨). 현재 상태를 "소리 켬/소리 끔"으로 표시(토글 동작이 아니라 상태 표시 패턴). aria-pressed로 상태 알림. 모바일 36px min-height. SFX + 핵심 키워드 내레이션을 함께 제어 (off 시 즉시 정지, on 복원 시 현재 슬라이드 내레이션 재생)
+- **핵심 키워드 내레이션** (2026-05-22 4차): 슬라이드 진입 시 `narration/slide-NN.mp3` 자동 재생 (page-turn SFX 후 ~450ms 딜레이). 슬라이드 전환·오디오 off 시 즉시 정지. 시각장애 발표자가 현재 슬라이드 위치를 청각으로 확인하는 용도. 데스크 스피커 출력이라 청중에게도 들림 — 슬라이드 표제처럼 작동. Gemini TTS Kore 음성 (ko-KR), 4~8초/슬라이드
 - SVG 인포그래픽 (학생 평가 차트) + SVG 분위기 일러스트 (게임 사례)
 - 다크 테마: #0d1117 배경, #f5c842 gold / #5de6c8 cyan / #a78bfa purple / #ff6b8a coral
-- 효과음: `<audio>` Web Audio (page-turn 0.35 볼륨, laugh는 버튼 클릭 시)
+- 효과음: `<audio>` Web Audio (page-turn 0.35 볼륨, laugh는 버튼 클릭 시, 내레이션 0.95 볼륨)
 
 ## 로컬 확인
 
@@ -115,15 +120,14 @@ python -m http.server 8765
 ## 향후 작업 (다음 세션 예정)
 
 - 슬라이드덱 추가 수정 (사용자 검토 후)
-- 슬라이드별 핵심 키워드 오디오 큐 생성 (data-keywords 속성 기반 TTS)
-  - 사용자가 발표 중 키워드 묶음을 음성으로 받는 용도
-  - 별도 폴더(예: `narration/`)에 슬라이드 번호별 mp3 저장 검토
-- 강연 시간 측정 리허설
-- 발표장 환경 점검
+- 강연 시간 측정 리허설 (내레이션 자동 재생 포함)
+- 발표장 환경 점검 (오디오 출력·음량·자동재생 차단 여부)
+- 내레이션 텍스트 수정이 필요하면 `_generate_narration.py`의 `NARRATIONS` dict 편집 후 해당 mp3 삭제 → 재실행 (skip 로직이 미존재 파일만 재생성)
 
 ## 작업 메모
 
-- **음성 내레이션은 명시적 지시 전까지 생성 금지** (2026-05-22 사용자 명시: "아직 음성 내레이션은 생성하지 말자")
+- **핵심 키워드 음성 내레이션 생성 완료** (2026-05-22 4차 사용자 명시 지시): `narration/slide-01.mp3 ~ slide-20.mp3`. Gemini TTS Kore 음성 (ko-KR), 4~8초/슬라이드, 총 ~1.4MB. 슬라이드 진입 시 자동 재생, 오디오 토글로 on/off
+- **Gemini TTS rate limit** (2026-05-22 4차 함정): 무료 티어 한도 10 req/min. 20개 일괄 생성 시 throttle 필수 (`_generate_narration.py`에 `THROTTLE_SECONDS = 7` 설정으로 우회)
 - **슬라이드덱 톤 ≠ 블로그 톤**: 블로그 글은 풀어쓰기 형식이므로 슬라이드는 시각 큐만 추출. 블로그 문장을 그대로 옮기지 말 것.
 - **Pick Me 3일 만에 구축은 사실** · 그 부분은 절대 수정하지 말 것 (이전 세션 사용자 명시)
 - **em dash(—) 금지 · 화살표(→) 금지 · "본 글" 자기 지시 금지 · "두 단어"/"두 가지 단어" 메타 표현 금지** (블로그·슬라이드 공통)
