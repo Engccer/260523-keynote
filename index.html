@@ -1106,7 +1106,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
   data-keywords="평균 점수, 긍정 85 81 72 퍼센트, 신명중 1학년 130명">
   <span class="eyebrow">학생들의 평가 ① · 신명중 1학년 130명 익명 설문</span>
   <h2 class="sr-only">학생들의 평가 평균 점수</h2>
-  <div class="info-card" style="max-width:1100px; width:100%;">
+  <div class="info-card fragment" style="max-width:1100px; width:100%;">
     <div class="info-title">5점 만점 평균 (괄호 = 긍정 응답 4~5점 비율)</div>
     <svg class="info-svg" id="chart-scores" viewBox="0 0 800 220" role="img" aria-label="">
       <title>5점 만점 평균 점수</title>
@@ -1531,8 +1531,17 @@ function goToSlide(n, opts) {
     fragIndex = 0;
   }
 
-  // S17: fragment가 없으니 진입 시 차트 애니메이트
-  if (newSlide.id === 'slide-17') animateChartsIn(newSlide);
+  // S17: 막대 차트가 fragment로 등장 — 앞으로 진입 시 0폭 리셋(클릭 때 grow), 뒤로/reduced-motion 진입 시 최종 상태 보장
+  if (newSlide.id === 'slide-17') {
+    if (opts.revealAll || prefersReducedMotion()) {
+      renderScores(false);
+    } else {
+      var sb = newSlide.querySelectorAll('.chart-bar');
+      for (var si = 0; si < sb.length; si++) sb[si].setAttribute('width', 0);
+      var sc = newSlide.querySelectorAll('#chart-scores-bars text[data-count]');
+      for (var ci = 0; ci < sc.length; ci++) sc[ci].textContent = '0.00';
+    }
+  }
   // S18: 앞으로 진입 시 0폭으로 리셋(카드 등장 때 grow), 뒤로/reduced-motion 진입 시 최종 상태 보장
   if (newSlide.id === 'slide-18') {
     if (opts.revealAll || prefersReducedMotion()) {
@@ -1607,7 +1616,7 @@ function isFocusableElement(el) {
 }
 function onFragmentRevealed(el) {
   if (!el) return;
-  if (el.querySelector && (el.querySelector('#chart-usage-arcs') || el.querySelector('#chart-helped-bars'))) {
+  if (el.querySelector && (el.querySelector('#chart-scores-bars') || el.querySelector('#chart-usage-arcs') || el.querySelector('#chart-helped-bars'))) {
     animateChartsIn(el);
   }
   if (!isFocusableElement(el)) {
