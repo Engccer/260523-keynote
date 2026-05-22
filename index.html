@@ -5,1745 +5,2198 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>우리가 만드는 학습자료는 포용적인가 · 2026 교사 AI·데이터 활용 「AX시대, 누구나 개발자」 해커톤 기조강연</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;900&family=Noto+Serif+KR:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto Sans KR', sans-serif; background: #0d1117; color: #e6edf3; }
+/* ====================================================================
+ * Bright Inclusive Studio · 20-slide full presentation
+ * 워밍 페이퍼 + 워크숍 카드 + 부드러운 픽토그램
+ * 컬러 : #F7F4ED / #172033 / #5E8CFF / #36B37E / #FF7A6B / #D9C7A3
+ * 타이포 : Noto Sans KR · DM Sans · Noto Serif KR (인용·강조)
+ * ==================================================================== */
 
-.particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
-.particle { position: absolute; border-radius: 50%; opacity: 0; animation: drift var(--dur) ease-in-out infinite; animation-delay: var(--delay); }
-@keyframes drift {
-  0% { opacity: 0; transform: translateY(100vh) scale(0); }
-  15% { opacity: 0.4; }
-  85% { opacity: 0.2; }
-  100% { opacity: 0; transform: translateY(-10vh) scale(1); }
-}
+:root{
+  --paper:     #F7F4ED;
+  --paper-2:   #FFFEFA;
+  --paper-3:   #EFEADC;
+  --paper-4:   #E6DECB;
+  --ink:       #172033;
+  --ink-soft:  #495369;
+  --ink-mute:  #7E879A;
+  --ink-dim:   #A3ABBC;
+  --blue:      #5E8CFF;
+  --blue-soft: #E5EBFF;
+  --green:     #36B37E;
+  --green-soft:#E2F4EB;
+  --coral:     #FF7A6B;
+  --coral-soft:#FFE6E2;
+  --sand:      #D9C7A3;
+  --sand-soft: #F0E6D0;
+  --rule:        rgba(23,32,51,0.10);
+  --rule-strong: rgba(23,32,51,0.22);
+  --focus:     #FF7A6B;
 
-.slide-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; touch-action: pan-y; }
-.slide {
-  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  padding: 5vh 6vw;
-  opacity: 0; transform: scale(0.97);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-  pointer-events: none;
-  background: radial-gradient(ellipse at 50% 30%, #161b22 0%, #0d1117 60%);
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-}
-.slide.active { opacity: 1; transform: scale(1); pointer-events: auto; }
-.slide:focus { outline: none; }
-.slide:focus-visible { outline: 2px solid rgba(167, 139, 250, 0.4); outline-offset: -8px; border-radius: 12px; }
+  --sans:    'Noto Sans KR', sans-serif;
+  --latin:   'DM Sans', 'Noto Sans KR', sans-serif;
+  --serif:   'Noto Serif KR', serif;
 
-.progress-bar {
-  position: fixed; top: 0; left: 0; height: 3px; z-index: 100;
-  background: linear-gradient(90deg, #a78bfa, #5de6c8, #f5c842);
-  transition: width 0.5s ease;
-}
-
-/* ===== Fragment (단계별 등장) ===== */
-.fragment {
-  opacity: 0;
-  transform: translateY(12px);
-  visibility: hidden;
-  transition: opacity 0.45s ease, transform 0.45s ease, visibility 0s linear 0.45s;
-}
-.fragment.frag-visible {
-  opacity: 1;
-  transform: none;
-  visibility: visible;
-  transition: opacity 0.45s ease, transform 0.45s ease, visibility 0s linear 0s;
-}
-/* 카드류는 살짝 scale 추가 */
-.pillar.fragment, .closing-card.fragment, .student-card.fragment, .info-card.fragment {
-  transform: translateY(12px) scale(0.96);
-}
-.pillar.frag-visible, .closing-card.frag-visible, .student-card.frag-visible, .info-card.frag-visible {
-  transform: none;
-}
-/* key-chip 그룹: 컨테이너가 fragment, 칩은 내부 stagger */
-.game-keys.fragment .key-chip {
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 0.4s ease, transform 0.4s ease;
-}
-.game-keys.frag-visible .key-chip { opacity: 1; transform: none; }
-.game-keys.frag-visible .key-chip:nth-child(1) { transition-delay: 0.00s; }
-.game-keys.frag-visible .key-chip:nth-child(2) { transition-delay: 0.06s; }
-.game-keys.frag-visible .key-chip:nth-child(3) { transition-delay: 0.12s; }
-.game-keys.frag-visible .key-chip:nth-child(4) { transition-delay: 0.18s; }
-.game-keys.frag-visible .key-chip:nth-child(5) { transition-delay: 0.24s; }
-.game-keys.frag-visible .key-chip:nth-child(6) { transition-delay: 0.30s; }
-
-/* ===== 강조·포컬 효과 ===== */
-@keyframes frag-glow-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(245, 200, 66, 0); }
-  35% { box-shadow: 0 0 22px 2px rgba(245, 200, 66, 0.55); }
-}
-.closing-card.highlight.frag-visible {
-  animation: frag-glow-pulse 1.6s ease-in-out 1;
-}
-@keyframes kw-pop {
-  0% { text-shadow: 0 0 0 rgba(245,200,66,0); }
-  40% { text-shadow: 0 0 14px rgba(245,200,66,0.6); }
-  100% { text-shadow: 0 0 0 rgba(245,200,66,0); }
-}
-.frag-visible .gold, .pillar.frag-visible .pillar-name {
-  animation: kw-pop 1.2s ease-out 1;
-}
-@media (prefers-reduced-motion: reduce) {
-  .frag-visible .gold, .pillar.frag-visible .pillar-name { animation: none !important; }
+  --ease:       cubic-bezier(0.2, 0.65, 0.25, 1);
+  --ease-soft:  cubic-bezier(0.4, 0, 0.2, 1);
+  --shadow-card:0 24px 50px rgba(23,32,51,0.08), 0 4px 14px rgba(23,32,51,0.04);
+  --shadow-soft:0 12px 30px rgba(23,32,51,0.06);
+  --shadow-lift:0 32px 60px rgba(23,32,51,0.10), 0 6px 18px rgba(23,32,51,0.05);
 }
 
-/* ===== prefers-reduced-motion: 모든 모션 제거, 최종 상태 즉시 ===== */
-@media (prefers-reduced-motion: reduce) {
-  .fragment, .fragment.frag-visible,
-  .pillar.fragment, .pillar.frag-visible,
-  .closing-card.fragment, .closing-card.frag-visible,
-  .student-card.fragment, .student-card.frag-visible,
-  .info-card.fragment, .info-card.frag-visible,
-  .game-keys.fragment .key-chip, .game-keys.frag-visible .key-chip {
-    transition: none !important;
-    transform: none !important;
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{
+  width:100%;height:100%;overflow:hidden;
+  background:var(--paper);color:var(--ink);
+  font-family:var(--sans);font-weight:400;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+
+/* Paper grain + warm washes */
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='280' height='280'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.09  0 0 0 0 0.13  0 0 0 0 0.2  0 0 0 0.5 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/></svg>");
+  background-size:280px 280px;opacity:.42;mix-blend-mode:multiply;
+}
+body::after{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(45% 38% at 12% 8%,  rgba(255,122,107,0.07) 0%, transparent 65%),
+    radial-gradient(40% 35% at 88% 90%, rgba(94,140,255,0.08)  0%, transparent 65%),
+    radial-gradient(50% 40% at 90% 12%, rgba(54,179,126,0.05)  0%, transparent 60%);
+}
+
+/* ---- Chrome -------------------------------------------------- */
+.progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--coral),var(--blue));z-index:101;transition:width .55s var(--ease);border-radius:0 999px 999px 0}
+@media (prefers-reduced-motion: reduce){.progress{transition:none}}
+
+.audio-toggle{
+  position:fixed;top:2vh;right:2vw;z-index:102;
+  background:var(--paper-2);border:1px solid var(--rule);
+  color:var(--ink);font-family:var(--sans);font-weight:500;font-size:.88rem;
+  border-radius:999px;padding:.55em 1.1em;cursor:pointer;
+  display:inline-flex;align-items:center;gap:.55em;min-height:38px;
+  box-shadow:var(--shadow-soft);
+  transition:background .25s var(--ease), border-color .25s var(--ease);
+}
+.audio-toggle .audio-icon{font-size:1em;line-height:1}
+.audio-toggle:hover,.audio-toggle:focus{background:var(--coral-soft);border-color:var(--coral)}
+.audio-toggle:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+@media (prefers-reduced-motion: reduce){.audio-toggle{transition:none}}
+
+.nav-bar{
+  position:fixed;bottom:2.4vh;left:50%;transform:translateX(-50%);z-index:102;
+  display:flex;align-items:center;gap:.5em;
+  background:var(--paper-2);border:1px solid var(--rule);
+  padding:.45em .55em;border-radius:999px;box-shadow:var(--shadow-soft);
+}
+.nav-btn{
+  background:transparent;border:none;color:var(--ink);
+  font-family:var(--sans);font-weight:500;font-size:.92rem;
+  padding:.55em 1.1em;border-radius:999px;cursor:pointer;letter-spacing:-0.005em;
+  transition:background .2s var(--ease), color .2s var(--ease);
+}
+.nav-btn:hover,.nav-btn:focus{background:var(--ink);color:var(--paper);outline:none}
+.nav-btn:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+.nav-btn:disabled{opacity:.3;cursor:not-allowed}
+.nav-btn:disabled:hover{background:transparent;color:var(--ink)}
+#slideCounter{
+  font-family:var(--latin);font-variant-numeric:tabular-nums;font-weight:500;
+  font-size:.9rem;color:var(--ink-mute);min-width:5em;text-align:center;letter-spacing:.04em;
+}
+#slideCounter .cur{color:var(--ink)}
+#slideCounter .total{color:var(--ink-dim)}
+
+/* ---- Slide system ---- */
+.slide-container{position:fixed;inset:0;z-index:10;touch-action:pan-y}
+.slide{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:9vh 7vw 12vh;
+  opacity:0;pointer-events:none;
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
+}
+.slide.active{opacity:1;pointer-events:auto;animation:slide-in .65s var(--ease-soft)}
+@keyframes slide-in{
+  from{opacity:0;transform:translateY(14px)}
+  to  {opacity:1;transform:none}
+}
+.slide:focus{outline:none}
+.slide:focus-visible{outline:3px solid var(--focus);outline-offset:-12px;border-radius:18px}
+@media (prefers-reduced-motion: reduce){.slide.active{animation:none}}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* ============================================================
+ *  COMMON TYPE SCALE
+ * ============================================================ */
+.eyebrow{
+  display:inline-flex;align-items:center;gap:.6em;
+  font-family:var(--latin);font-weight:500;font-size:clamp(.8rem,1.18vw,.95rem);
+  letter-spacing:.08em;color:var(--ink-mute);
+  text-transform:uppercase;
+  margin-bottom:3vh;
+}
+.eyebrow::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--coral)}
+.eyebrow.is-green::before{background:var(--green)}
+.eyebrow.is-blue::before{background:var(--blue)}
+.eyebrow.is-sand::before{background:var(--sand)}
+
+.hero{
+  font-family:var(--sans);font-weight:900;
+  letter-spacing:-0.032em;line-height:1.04;
+  text-align:center;color:var(--ink);
+  text-wrap:balance;
+}
+.hero-xl{font-size:clamp(2.6rem,7.5vw,6.4rem)}
+.hero-lg{font-size:clamp(2.4rem,6vw,5rem)}
+.hero-md{font-size:clamp(1.9rem,4.2vw,3.4rem)}
+
+.deck-h2{
+  font-family:var(--sans);font-weight:800;
+  font-size:clamp(1.9rem,4vw,3rem);
+  letter-spacing:-0.022em;line-height:1.15;
+  color:var(--ink);text-align:center;text-wrap:balance;
+  max-width:1100px;
+}
+.deck-h2 em{
+  font-style:normal;
+  background:linear-gradient(180deg, transparent 60%, rgba(94,140,255,0.30) 60%);
+  padding:0 .12em;
+}
+.deck-h2.is-coral em{background:linear-gradient(180deg, transparent 60%, rgba(255,122,107,0.32) 60%)}
+.deck-h2.is-green em{background:linear-gradient(180deg, transparent 60%, rgba(54,179,126,0.32) 60%)}
+
+.tagline{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(1rem,1.7vw,1.32rem);
+  color:var(--ink-soft);text-align:center;line-height:1.65;
+  margin-top:2.5vh;max-width:920px;letter-spacing:-0.005em;text-wrap:pretty;
+}
+.tagline strong{color:var(--ink);font-weight:600;font-style:normal}
+.tagline em{font-style:normal;font-weight:600}
+.tagline em.coral{color:var(--coral)}
+.tagline em.green{color:var(--green)}
+.tagline em.blue{color:var(--blue)}
+
+.huge-q{
+  font-family:var(--sans);font-weight:900;
+  font-size:clamp(2.3rem,6.6vw,5.4rem);
+  letter-spacing:-0.032em;line-height:1.06;
+  text-align:center;color:var(--ink);text-wrap:balance;
+}
+.huge-q .coral{color:var(--coral)}
+.huge-q .green{color:var(--green)}
+
+/* ============================================================
+ * S1 · Title — workshop board cover
+ * ============================================================ */
+.s1{padding-top:13vh}
+.s1-tape{
+  display:inline-flex;align-items:center;gap:.65em;
+  background:var(--sand-soft);color:var(--ink);
+  font-family:var(--sans);font-weight:500;font-size:clamp(.82rem,1.18vw,.95rem);
+  padding:.6em 1.3em;border-radius:999px;
+  box-shadow:var(--shadow-soft);
+}
+.s1-tape::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--coral)}
+.s1-hero{
+  margin-top:3vh;font-family:var(--sans);font-weight:900;
+  font-size:clamp(2.6rem,7.5vw,6.4rem);
+  letter-spacing:-0.035em;line-height:1.02;
+  color:var(--ink);text-wrap:balance;max-width:1200px;text-align:center;
+}
+.s1-hero .hl-coral{position:relative;display:inline-block}
+.s1-hero .hl-coral::after{
+  content:"";position:absolute;left:-2%;right:-2%;bottom:.12em;height:.32em;
+  background:rgba(255,122,107,0.5);z-index:-1;border-radius:4px;
+}
+.s1-hero .hl-green{color:var(--green)}
+.s1-sub{
+  margin-top:4vh;font-family:var(--serif);font-weight:400;
+  font-size:clamp(1.05rem,1.8vw,1.4rem);
+  color:var(--ink-soft);text-align:center;line-height:1.6;
+  max-width:880px;letter-spacing:-0.005em;text-wrap:pretty;
+}
+.s1-byline-row{
+  margin-top:6.5vh;display:flex;flex-wrap:wrap;gap:1em 2em;
+  align-items:stretch;justify-content:center;
+}
+.s1-byline{
+  background:var(--paper-2);border:1px solid var(--rule);
+  border-radius:18px;padding:1.8vh 2vw;box-shadow:var(--shadow-card);
+  display:flex;align-items:flex-start;gap:1em;
+  max-width:480px;
+}
+.s1-byline .b-mark{width:12px;height:12px;border-radius:50%;flex-shrink:0;margin-top:.55em}
+.s1-byline.kim .b-mark{background:var(--coral)}
+.s1-byline.lee .b-mark{background:var(--green)}
+.s1-byline .b-name{font-weight:700;color:var(--ink);font-size:clamp(.98rem,1.4vw,1.1rem)}
+.s1-byline .b-role{display:block;color:var(--ink-mute);font-size:clamp(.82rem,1.2vw,.94rem);margin-top:.3em;line-height:1.6}
+.s1-byline.solo{flex-direction:column;gap:1.4vh;max-width:560px;align-items:stretch;padding:2.4vh 2.4vw}
+.s1-byline.solo .person{display:flex;align-items:flex-start;gap:1em}
+.s1-byline.solo .person .dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;margin-top:.55em}
+.s1-byline.solo .person.kim .dot{background:var(--coral)}
+.s1-byline.solo .person.kim .b-name{font-weight:700;color:var(--ink)}
+/* 이미화는 자료를 함께 만든 분 — 김헌용보다 한 단계 낮은 위계 */
+.s1-byline.solo .person.lee{
+  padding-top:1.5vh;margin-top:.4vh;
+  border-top:1px dashed var(--rule);
+  align-items:center;gap:.7em;
+}
+.s1-byline.solo .person.lee .dot{width:7px;height:7px;background:var(--ink-dim);margin-top:0}
+.s1-byline.solo .person.lee > div{display:inline-flex;align-items:baseline;gap:.55em;flex-wrap:wrap}
+.s1-byline.solo .person.lee .b-name{
+  font-size:clamp(.86rem,1.18vw,.98rem);
+  font-weight:500;color:var(--ink-soft);
+}
+.s1-byline.solo .person.lee .b-role{
+  display:inline;margin-top:0;
+  font-size:clamp(.78rem,1.05vw,.88rem);
+  color:var(--ink-mute);font-weight:400;
+}
+.s1-byline.solo .person.lee .b-role::before{content:"· "}
+.s1-date{
+  margin-top:4vh;display:inline-flex;align-items:center;gap:.7em;
+  font-family:var(--latin);font-weight:500;font-size:clamp(.85rem,1.25vw,1rem);
+  letter-spacing:.04em;color:var(--ink-mute);
+}
+.s1-date::before,.s1-date::after{content:"";width:32px;height:1px;background:var(--ink-dim)}
+
+/* ============================================================
+ * S2 · Three eras — paper cards row
+ * ============================================================ */
+.s2{padding-top:11vh}
+.three-era{
+  display:grid;grid-template-columns:1fr 1fr 1fr;
+  gap:2.4vw;width:100%;max-width:1200px;margin-top:5vh;align-items:stretch;
+}
+.era-card{
+  position:relative;
+  background:var(--paper-2);border:1px solid var(--rule);
+  border-radius:22px;padding:5vh 2vw 4vh;
+  box-shadow:var(--shadow-card);
+  display:flex;flex-direction:column;align-items:center;gap:2vh;
+  text-align:center;
+}
+.era-card.e1{background:linear-gradient(180deg, var(--coral-soft) 0%, var(--paper-2) 60%)}
+.era-card.e2{background:linear-gradient(180deg, var(--sand-soft)  0%, var(--paper-2) 60%);transform:translateY(-2vh)}
+.era-card.e3{background:linear-gradient(180deg, var(--blue-soft)  0%, var(--paper-2) 60%)}
+.era-num{
+  font-family:var(--serif);font-weight:700;font-size:clamp(1.6rem,3vw,2.2rem);
+  letter-spacing:.04em;line-height:1;
+}
+.e1 .era-num{color:var(--coral)}
+.e2 .era-num{color:var(--sand)}
+.e3 .era-num{color:var(--blue)}
+.era-tag{
+  font-family:var(--latin);font-weight:500;font-size:clamp(.78rem,1.15vw,.92rem);
+  letter-spacing:.16em;text-transform:uppercase;color:var(--ink-mute);
+}
+.era-word{
+  font-family:var(--sans);font-weight:900;
+  font-size:clamp(1.7rem,3.6vw,2.8rem);
+  letter-spacing:-0.022em;line-height:1.1;color:var(--ink);
+}
+.s2-coda{
+  margin-top:6.5vh;position:relative;
+  font-family:var(--serif);font-style:italic;font-weight:600;
+  font-size:clamp(1.3rem,2.45vw,1.95rem);
+  color:var(--ink);text-align:center;
+  letter-spacing:-0.008em;line-height:1.45;
+  max-width:820px;
+}
+.s2-coda::before,.s2-coda::after{
+  content:"";display:block;width:54px;height:2px;
+  background:var(--coral);border-radius:2px;
+  margin:0 auto;opacity:.85;
+}
+.s2-coda::before{margin-bottom:2.6vh}
+.s2-coda::after{margin-top:2.6vh;width:28px;opacity:.55}
+
+@media (max-width:800px){
+  .three-era{grid-template-columns:1fr;gap:2vh}
+  .era-card.e2{transform:none}
+}
+
+/* ============================================================
+ * S3 · Dual split — two faces
+ * ============================================================ */
+/* ============================================================
+ * S3 · Dual split — contrast layout (cool focus vs scattered)
+ * ============================================================ */
+.s3{padding-top:11vh}
+.dual-split{
+  display:grid;grid-template-columns:1fr auto 1fr;
+  gap:1.5vw;width:100%;max-width:1200px;margin-top:4vh;
+  align-items:stretch;
+}
+.split-side{
+  position:relative;background:var(--paper-2);border:1px solid var(--rule);
+  border-radius:24px;padding:5vh 2.6vw;box-shadow:var(--shadow-card);
+  display:flex;flex-direction:column;gap:1.8vh;
+  overflow:hidden;
+}
+.split-side.cool{background:linear-gradient(180deg, var(--green-soft) 0%, var(--paper-2) 100%)}
+.split-side.hot {background:linear-gradient(180deg, var(--coral-soft) 0%, var(--paper-2) 100%)}
+.split-side .side-no{
+  font-family:var(--latin);font-weight:600;font-size:.85rem;letter-spacing:.18em;
+  text-transform:uppercase;
+}
+.split-side.cool .side-no{color:var(--green)}
+.split-side.hot  .side-no{color:var(--coral)}
+.split-side .side-glyph{display:flex;align-items:center;height:64px;margin:.5vh 0}
+.split-side .side-tag{
+  font-family:var(--sans);font-weight:600;font-size:clamp(.95rem,1.4vw,1.1rem);
+  color:var(--ink);letter-spacing:-0.005em;
+}
+.split-side .side-word{
+  font-family:var(--sans);font-weight:900;
+  font-size:clamp(2rem,4.6vw,3.4rem);
+  letter-spacing:-0.025em;line-height:1.1;color:var(--ink);
+}
+.split-side.cool .side-word .accent{color:var(--green)}
+.split-side.hot  .side-word .accent{color:var(--coral)}
+.split-side .side-tail{
+  margin-top:1vh;font-family:var(--serif);font-weight:400;
+  font-size:clamp(.95rem,1.55vw,1.15rem);
+  color:var(--ink-soft);line-height:1.6;letter-spacing:-0.005em;text-wrap:pretty;
+}
+/* Texture per side */
+.split-side.cool::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(180deg, transparent 60%, rgba(54,179,126,.10) 100%),
+                   repeating-linear-gradient(180deg, transparent 0 22px, rgba(54,179,126,.06) 22px 23px);
+  mask-image:radial-gradient(120% 100% at 50% 100%, #000 50%, transparent 100%);
+  -webkit-mask-image:radial-gradient(120% 100% at 50% 100%, #000 50%, transparent 100%);
+}
+.split-side.hot::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:radial-gradient(circle at 30% 70%, rgba(255,122,107,.18) 1.6px, transparent 1.9px);
+  background-size:18px 18px;
+  mask-image:radial-gradient(120% 100% at 50% 100%, #000 40%, transparent 100%);
+  -webkit-mask-image:radial-gradient(120% 100% at 50% 100%, #000 40%, transparent 100%);
+}
+.split-side > *{position:relative}
+/* Center divider */
+.vs-divider{
+  position:relative;display:flex;align-items:center;justify-content:center;
+  font-family:var(--latin);font-weight:700;font-size:clamp(.9rem,1.35vw,1.08rem);
+  letter-spacing:.24em;text-transform:uppercase;color:var(--ink-mute);
+  padding:0 .8em;align-self:center;
+}
+.vs-divider::before,.vs-divider::after{
+  content:"";position:absolute;left:50%;transform:translateX(-50%);width:1px;
+  background:linear-gradient(180deg, transparent, var(--rule-strong), transparent);
+}
+.vs-divider::before{bottom:calc(100% + 1vh);height:14vh}
+.vs-divider::after{top:calc(100% + 1vh);height:14vh}
+/* Directional entrance */
+.s3 .split-side.cool.frag-visible{animation:s3-in-left .65s var(--ease-soft)}
+.s3 .split-side.hot.frag-visible{animation:s3-in-right .65s var(--ease-soft)}
+@keyframes s3-in-left{
+  from{opacity:0;transform:translateX(-40px) scale(.98)}
+  to  {opacity:1;transform:none}
+}
+@keyframes s3-in-right{
+  from{opacity:0;transform:translateX(40px) scale(.98)}
+  to  {opacity:1;transform:none}
+}
+@media (max-width:800px){
+  .dual-split{grid-template-columns:1fr;gap:1vh}
+  .vs-divider{padding:1.2vh 0}
+  .vs-divider::before,.vs-divider::after{display:none}
+}
+@media (prefers-reduced-motion: reduce){
+  .s3 .split-side.cool.frag-visible,.s3 .split-side.hot.frag-visible{animation:none}
+}
+
+/* ============================================================
+ * S4 / S5 · Duo words — two big paper tiles
+ * ============================================================ */
+.s4,.s5{padding-top:11vh}
+.duo-tiles{
+  display:grid;grid-template-columns:1fr 1fr;gap:3vw;
+  width:100%;max-width:1200px;margin-top:4vh;align-items:stretch;
+  justify-content:center;
+  position:relative;
+}
+.duo-tiles:has(.duo-fuse){grid-template-columns:1fr auto 1fr;gap:1.5vw}
+/* 두 타일을 연결하는 융합 글리프 — 쪽 2(몰입감) 등장 시 점화 */
+.duo-fuse{
+  align-self:center;display:flex;align-items:center;justify-content:center;
+  width:88px;height:88px;position:relative;
+  opacity:.18;transform:scale(.8);
+  transition:opacity .5s var(--ease-soft), transform .5s var(--ease-soft);
+}
+.duo-fuse svg{width:100%;height:100%;display:block}
+.duo-tiles:has(.duo-tile.coral.frag-visible) .duo-fuse{
+  opacity:1;transform:none;
+  animation:duo-fuse-ignite 1.2s var(--ease-soft);
+}
+.duo-tiles:has(.duo-tile.coral.frag-visible) .duo-fuse::after{
+  content:"";position:absolute;inset:-14px;border-radius:50%;
+  border:1.5px solid rgba(255,122,107,.4);
+  animation:duo-fuse-ring 1.6s var(--ease-soft) .25s both;
+  pointer-events:none;
+}
+@keyframes duo-fuse-ignite{
+  0%   {opacity:.18;transform:scale(.6) rotate(-30deg);filter:blur(2px)}
+  60%  {opacity:1;transform:scale(1.15) rotate(0);filter:none}
+  100% {opacity:1;transform:none}
+}
+@keyframes duo-fuse-ring{
+  0%   {transform:scale(.4);opacity:0}
+  40%  {transform:scale(1);opacity:.9}
+  100% {transform:scale(1.5);opacity:0}
+}
+@media (prefers-reduced-motion: reduce){
+  .duo-fuse{transition:none}
+  .duo-tiles:has(.duo-tile.coral.frag-visible) .duo-fuse,
+  .duo-tiles:has(.duo-tile.coral.frag-visible) .duo-fuse::after{animation:none}
+}
+@media (max-width:800px){
+  .duo-fuse{width:60px;height:60px;margin:1vh 0}
+}
+.duo-tile{
+  position:relative;background:var(--paper-2);border:1px solid var(--rule);
+  border-radius:28px;padding:7vh 2vw 5vh;box-shadow:var(--shadow-card);
+  text-align:center;
+  display:flex;flex-direction:column;align-items:center;gap:2vh;
+}
+.duo-tile.green{background:linear-gradient(160deg, var(--green-soft) 0%, var(--paper-2) 100%)}
+.duo-tile.coral{background:linear-gradient(160deg, var(--coral-soft) 0%, var(--paper-2) 100%)}
+.duo-tile.blue{background:linear-gradient(160deg, var(--blue-soft) 0%, var(--paper-2) 100%)}
+.duo-tile.sand{background:linear-gradient(160deg, var(--sand-soft) 0%, var(--paper-2) 100%)}
+.duo-tile .tile-pic{width:64px;height:64px;border-radius:18px;display:flex;align-items:center;justify-content:center}
+.duo-tile.green .tile-pic{background:var(--green-soft);color:var(--green)}
+.duo-tile.coral .tile-pic{background:var(--coral-soft);color:var(--coral)}
+.duo-tile.blue  .tile-pic{background:var(--blue-soft);color:var(--blue)}
+.duo-tile.sand  .tile-pic{background:var(--sand-soft);color:var(--ink-soft)}
+.duo-tile .tile-word{
+  font-family:var(--sans);font-weight:900;
+  font-size:clamp(2.1rem,5.4vw,4.2rem);
+  letter-spacing:-0.03em;line-height:1.05;color:var(--ink);
+}
+.duo-tile.s5 .tile-word{font-size:clamp(1.7rem,3.8vw,2.8rem);}
+.duo-tile .tile-cap{
+  font-family:var(--serif);font-weight:500;font-style:italic;
+  font-size:clamp(.95rem,1.5vw,1.12rem);
+  color:var(--ink-soft);letter-spacing:-0.005em;line-height:1.5;max-width:280px;
+}
+.duo-coda{
+  margin-top:5vh;text-align:center;max-width:920px;
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(.95rem,1.6vw,1.2rem);
+  color:var(--ink-soft);line-height:1.75;letter-spacing:-0.005em;text-wrap:pretty;
+}
+.duo-coda .strike{text-decoration:line-through;color:var(--ink-dim);text-decoration-color:rgba(126,135,154,.5)}
+.duo-coda strong{color:var(--ink);font-weight:700;font-family:var(--sans)}
+.duo-coda em{font-style:normal;color:var(--coral);font-weight:700}
+.duo-coda + .duo-coda{margin-top:1.4vh}
+/* 마지막 핵심 라인 — 둘이 함께 일어날 때 비로소 수업이 됩니다 */
+.duo-coda-final{
+  margin-top:3vh;
+  font-family:var(--sans);font-style:normal;font-weight:600;
+  font-size:clamp(1.2rem,2.4vw,1.7rem);
+  letter-spacing:-0.012em;line-height:1.5;color:var(--ink);
+}
+.duo-coda-final strong{
+  font-weight:800;color:var(--ink);
+  background:linear-gradient(180deg, transparent 62%, rgba(54,179,126,0.32) 62%);
+  padding:0 .12em;
+}
+.duo-coda-final em{
+  font-style:normal;font-weight:800;color:var(--coral);
+  background:linear-gradient(180deg, transparent 62%, rgba(255,122,107,0.30) 62%);
+  padding:0 .12em;
+}
+@media (max-width:800px){.duo-tiles{grid-template-columns:1fr;gap:2.4vh}}
+
+/* ============================================================
+ * S6 · Hero text variant
+ * ============================================================ */
+.s6{padding-top:11vh}
+.s6 .hero{margin-top:2vh}
+.s6 .hero .coral{color:var(--coral)}
+.s6 .hero .blue{color:var(--blue)}
+.s6-tagline{
+  margin-top:5vh;text-align:center;max-width:1050px;
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(1rem,1.65vw,1.22rem);
+  color:var(--ink-soft);line-height:1.8;letter-spacing:-0.005em;text-wrap:pretty;
+}
+.s6-tagline strong{color:var(--coral);font-weight:700;font-family:var(--sans)}
+.s6-tagline-2{margin-top:1vh;font-size:clamp(1.05rem,1.7vw,1.28rem)}
+.s6-divider{width:80px;height:3px;background:linear-gradient(90deg,var(--coral),var(--blue));border-radius:999px;margin:4vh auto 0}
+
+/* ============================================================
+ * S7 · Huge question
+ * ============================================================ */
+.s7{padding-top:11vh;position:relative}
+.s7::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(50% 40% at 50% 50%, rgba(255,122,107,0.08), transparent 65%);
+}
+.s7 .huge-q{margin-top:3vh}
+.s7-ornament{
+  margin-top:5vh;display:flex;align-items:center;gap:1em;
+  font-family:var(--latin);font-weight:600;font-size:.84rem;
+  letter-spacing:.24em;text-transform:uppercase;color:var(--ink-mute);
+}
+.s7-ornament::before,.s7-ornament::after{content:"";width:48px;height:1px;background:var(--ink-dim)}
+/* 포용 강조 */
+.s7 .huge-q .coral{position:relative;display:inline-block}
+.s7.active .huge-q .coral{animation:s7-pop 1.2s var(--ease-soft) .35s both}
+.s7.active .huge-q .coral::after{
+  content:"";position:absolute;left:-6%;right:-6%;bottom:.06em;height:.22em;
+  background:rgba(255,122,107,.45);border-radius:6px;z-index:-1;
+  transform-origin:left center;
+  animation:s7-underline .8s var(--ease) 1.05s both;
+}
+@keyframes s7-pop{
+  0%   {opacity:0;transform:translateY(18px) scale(.82);color:var(--ink)}
+  55%  {opacity:1;transform:translateY(0) scale(1.08);color:var(--coral)}
+  100% {opacity:1;transform:none;color:var(--coral)}
+}
+@keyframes s7-underline{
+  from{transform:scaleX(0)}
+  to  {transform:scaleX(1)}
+}
+@media (prefers-reduced-motion: reduce){
+  .s7.active .huge-q .coral,.s7.active .huge-q .coral::after{animation:none}
+}
+
+/* ============================================================
+ * S8 · UDL — workshop notes
+ * ============================================================ */
+.s8{padding-top:12vh}
+.s8 .deck-h2{margin:2.5vh 0 0}
+.notes{
+  margin-top:7vh;display:grid;grid-template-columns:repeat(3,1fr);
+  gap:2.2vw;width:100%;max-width:1200px;
+}
+.note{
+  background:var(--paper-2);border:1px solid var(--rule);
+  border-radius:18px;padding:3vh 2vw;
+  box-shadow:var(--shadow-card);
+  display:flex;flex-direction:column;gap:2vh;position:relative;
+}
+.note.n1{transform:rotate(-1.5deg)}
+.note.n2{transform:rotate(0.6deg);margin-top:2vh}
+.note.n3{transform:rotate(-0.4deg)}
+.note-head{
+  display:flex;align-items:center;justify-content:space-between;gap:1em;
+  padding-bottom:1.6vh;border-bottom:1px dashed var(--rule);
+}
+.note-num{
+  font-family:var(--latin);font-weight:700;font-size:1rem;letter-spacing:.04em;
+  color:var(--ink-mute);
+}
+.note-num .n-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:.5em;vertical-align:middle}
+.note.n1 .n-dot{background:var(--coral)}
+.note.n2 .n-dot{background:var(--green)}
+.note.n3 .n-dot{background:var(--blue)}
+.note-icon{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center}
+.note.n1 .note-icon{background:var(--coral-soft)}
+.note.n2 .note-icon{background:var(--green-soft)}
+.note.n3 .note-icon{background:var(--blue-soft)}
+.note-name{font-family:var(--sans);font-weight:800;font-size:clamp(1.4rem,2.5vw,1.95rem);color:var(--ink);letter-spacing:-0.012em;line-height:1.2}
+.note-en{font-family:var(--latin);font-weight:500;font-size:clamp(.85rem,1.2vw,.96rem);color:var(--ink-mute);letter-spacing:.02em;margin-top:.5vh}
+.note-keys{margin-top:.5vh;font-family:var(--sans);font-weight:400;font-size:clamp(.92rem,1.4vw,1.05rem);line-height:1.7;color:var(--ink-soft)}
+.s8-source{
+  margin-top:6vh;font-family:var(--latin);font-weight:500;
+  font-size:clamp(.85rem,1.18vw,.95rem);
+  color:var(--ink-mute);text-align:center;letter-spacing:.02em;
+}
+.s8-source::before{content:"※ ";color:var(--coral)}
+@media (max-width:900px){
+  .notes{grid-template-columns:1fr;gap:3vh}
+  .note{transform:none !important;margin-top:0 !important}
+}
+
+/* ============================================================
+ * S9 · Senses — 5 paper pictograms
+ * ============================================================ */
+.s9{padding-top:11vh}
+.s9 .deck-h2{margin:2.5vh 0 0}
+.sense-row{
+  margin-top:6vh;display:grid;grid-template-columns:repeat(5,1fr);
+  gap:1.6vw;width:100%;max-width:1200px;
+}
+.sense{
+  position:relative;background:var(--paper-2);border:1px solid var(--rule);
+  border-radius:20px;padding:4vh 1vw 3vh;
+  box-shadow:var(--shadow-card);
+  display:flex;flex-direction:column;align-items:center;gap:1.5vh;text-align:center;
+}
+.sense .s-pic{width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.sense.c-coral .s-pic{background:var(--coral-soft);color:var(--coral)}
+.sense.c-green .s-pic{background:var(--green-soft);color:var(--green)}
+.sense.c-blue  .s-pic{background:var(--blue-soft);color:var(--blue)}
+.sense.c-sand  .s-pic{background:var(--sand-soft);color:var(--ink-soft)}
+.sense.c-coral2 .s-pic{background:var(--coral-soft);color:var(--coral)}
+.sense .s-label{font-family:var(--sans);font-weight:700;font-size:clamp(1rem,1.6vw,1.2rem);color:var(--ink);letter-spacing:-0.005em}
+.sense .s-sub{font-family:var(--latin);font-weight:500;font-size:clamp(.76rem,1.05vw,.86rem);color:var(--ink-mute);letter-spacing:.02em}
+.s9-tag{
+  margin-top:5vh;text-align:center;max-width:980px;
+  font-family:var(--serif);font-weight:400;font-size:clamp(1rem,1.5vw,1.15rem);
+  color:var(--ink-soft);line-height:1.7;letter-spacing:-0.005em;
+}
+.s9-tag em{font-style:normal;font-weight:700;color:var(--coral)}
+.s9-tag em.g{color:var(--green)}
+@media (max-width:800px){.sense-row{grid-template-columns:repeat(2,1fr);gap:2vh}}
+
+/* ============================================================
+ * S10 / S16 · Big editorial quotes
+ * ============================================================ */
+.s10,.s16{padding-top:11vh}
+.big-quote{
+  font-family:var(--serif);font-weight:600;
+  font-size:clamp(1.7rem,3.8vw,3rem);
+  line-height:1.42;text-align:center;color:var(--ink);
+  max-width:1150px;letter-spacing:-0.012em;text-wrap:balance;position:relative;
+}
+.big-quote .qm{color:var(--coral);font-weight:700;font-size:1.2em;line-height:0;opacity:.85}
+.big-quote em{
+  font-style:normal;
+  background:linear-gradient(180deg, transparent 60%, rgba(255,122,107,0.36) 60%);
+  padding:0 .15em;
+}
+.big-quote em.g{background:linear-gradient(180deg, transparent 60%, rgba(54,179,126,0.36) 60%)}
+.big-quote em.b{background:linear-gradient(180deg, transparent 60%, rgba(94,140,255,0.36) 60%)}
+.big-quote .quote-source{
+  display:block;font-family:var(--latin);font-weight:500;
+  font-size:clamp(.85rem,1.25vw,1rem);
+  color:var(--ink-mute);margin-top:3.5vh;letter-spacing:.04em;font-style:normal;
+}
+.s10-tail,.s16-tail{
+  margin-top:4vh;font-family:var(--serif);font-weight:400;
+  font-size:clamp(1rem,1.55vw,1.18rem);
+  color:var(--ink-soft);text-align:center;line-height:1.75;max-width:920px;letter-spacing:-0.005em;text-wrap:pretty;
+}
+.s10-tail strong,.s16-tail strong{color:var(--coral);font-weight:700;font-family:var(--sans)}
+.s16-chips{margin-top:4vh;display:flex;flex-wrap:wrap;gap:.6em;justify-content:center;max-width:900px}
+.s16-link{margin-top:3vh}
+
+/* Shared chip style */
+.chip{
+  font-family:var(--sans);font-weight:500;font-size:clamp(.85rem,1.25vw,.96rem);
+  padding:.55em 1.1em;border-radius:999px;
+  background:var(--paper-3);color:var(--ink-soft);letter-spacing:-0.005em;
+}
+.chip.lead{background:var(--coral);color:#fff;font-weight:600}
+.chip.cool{background:var(--green-soft);color:var(--green);font-weight:600}
+.chip.alt{background:var(--blue-soft);color:var(--blue);font-weight:600}
+.chip.sand{background:var(--sand-soft);color:var(--ink);font-weight:600}
+
+/* Shared link button */
+.cta-link{
+  display:inline-flex;align-items:center;gap:.6em;
+  background:var(--ink);color:var(--paper);
+  font-family:var(--sans);font-weight:600;font-size:clamp(.95rem,1.4vw,1.08rem);
+  padding:.85em 1.6em;border-radius:999px;text-decoration:none;letter-spacing:-0.005em;
+  box-shadow:var(--shadow-card);
+  transition:transform .25s var(--ease-soft), background .25s var(--ease-soft);
+}
+.cta-link:hover,.cta-link:focus{background:var(--coral);transform:translateY(-2px)}
+.cta-link:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+@media (prefers-reduced-motion: reduce){.cta-link{transition:none}}
+
+/* ============================================================
+ * S11 / S13 / S14 · Game cases
+ * ============================================================ */
+.s11,.s13,.s14{padding-top:11vh}
+.case-grid{
+  display:grid;grid-template-columns: 0.9fr 1.1fr;
+  gap:5vw;align-items:center;width:100%;max-width:1200px;margin-top:3vh;
+}
+.case-figure{
+  background:var(--paper-2);border:1px solid var(--rule);
+  border-radius:28px;padding:5vh 2vw;box-shadow:var(--shadow-card);
+  display:flex;flex-direction:column;align-items:center;gap:2.6vh;position:relative;
+}
+.case-figure::before{content:"";position:absolute;top:14px;left:14px;width:8px;height:8px;border-radius:50%;background:var(--coral)}
+.case-figure.fg-green::before{background:var(--green)}
+.case-figure.fg-blue::before {background:var(--blue)}
+.case-figure.fg-sand::before {background:var(--sand)}
+.case-illust{width:180px;height:180px}
+.case-tag{
+  font-family:var(--latin);font-weight:600;font-size:clamp(.78rem,1.15vw,.9rem);
+  letter-spacing:.18em;text-transform:uppercase;color:var(--ink-mute);
+}
+.case-name{font-family:var(--sans);font-weight:900;font-size:clamp(1.5rem,2.6vw,2rem);color:var(--ink);letter-spacing:-0.014em}
+.case-meta{font-family:var(--sans);font-size:clamp(.85rem,1.2vw,.95rem);color:var(--ink-mute);text-align:center;line-height:1.6}
+.case-text{display:flex;flex-direction:column;gap:3vh}
+.case-title{
+  font-family:var(--sans);font-weight:900;
+  font-size:clamp(1.9rem,4.2vw,3.2rem);
+  letter-spacing:-0.025em;line-height:1.1;color:var(--ink);text-wrap:balance;
+}
+.case-title em{font-style:normal;color:var(--coral)}
+.case-title .h-g{position:relative;display:inline-block}
+.case-title .h-g::after{content:"";position:absolute;left:0;right:0;bottom:.12em;height:.3em;background:rgba(54,179,126,0.32);z-index:-1;border-radius:4px}
+.case-title .h-b{position:relative;display:inline-block}
+.case-title .h-b::after{content:"";position:absolute;left:0;right:0;bottom:.12em;height:.3em;background:rgba(94,140,255,0.32);z-index:-1;border-radius:4px}
+.case-chips{display:flex;flex-wrap:wrap;gap:.6em}
+.case-byline{
+  font-family:var(--serif);font-weight:400;font-size:clamp(1rem,1.5vw,1.15rem);
+  color:var(--ink-soft);line-height:1.7;letter-spacing:-0.005em;text-wrap:pretty;
+}
+.case-link{align-self:flex-start;margin-top:1vh}
+@media (max-width:800px){.case-grid{grid-template-columns:1fr;gap:4vh}.case-illust{width:140px;height:140px}}
+
+/* ============================================================
+ * S12 · Laugh stage
+ * ============================================================ */
+.s12{padding-top:11vh}
+.laugh-stage{display:flex;flex-direction:column;align-items:center;gap:4vh;max-width:920px;width:100%;margin-top:3vh}
+.laugh-headline{
+  font-family:var(--sans);font-weight:900;font-size:clamp(1.7rem,3.4vw,2.6rem);
+  text-align:center;letter-spacing:-0.018em;line-height:1.22;color:var(--ink);text-wrap:balance;
+}
+.laugh-headline em{font-style:normal;color:var(--coral);background:linear-gradient(180deg, transparent 60%, rgba(255,122,107,0.36) 60%);padding:0 .15em}
+.laugh-buttons{display:flex;gap:2vw;flex-wrap:wrap;justify-content:center}
+.laugh-btn{
+  padding:2vh 2vw;border-radius:20px;
+  font-family:var(--sans);font-weight:700;font-size:clamp(1rem,1.55vw,1.2rem);
+  cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:.8vh;
+  min-width:240px;background:var(--paper-2);
+  border:2px solid transparent;
+  box-shadow:var(--shadow-card);
+  letter-spacing:-0.005em;
+  transition:transform .25s var(--ease), background .25s var(--ease), border-color .25s var(--ease);
+}
+.laugh-btn .laugh-pic{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center}
+.laugh-btn .laugh-cap{font-family:var(--latin);font-weight:500;font-size:.78em;opacity:.78;letter-spacing:.04em}
+.laugh-btn.wrong{border-color:var(--coral-soft);color:var(--coral)}
+.laugh-btn.wrong .laugh-pic{background:var(--coral-soft);color:var(--coral)}
+.laugh-btn.right{border-color:var(--green-soft);color:var(--green)}
+.laugh-btn.right .laugh-pic{background:var(--green-soft);color:var(--green)}
+.laugh-btn.wrong:hover,.laugh-btn.wrong:focus{background:var(--coral);border-color:var(--coral);color:#fff;transform:translateY(-2px)}
+.laugh-btn.wrong:hover .laugh-pic,.laugh-btn.wrong:focus .laugh-pic{background:rgba(255,255,255,.22);color:#fff}
+.laugh-btn.right:hover,.laugh-btn.right:focus{background:var(--green);border-color:var(--green);color:#fff;transform:translateY(-2px)}
+.laugh-btn.right:hover .laugh-pic,.laugh-btn.right:focus .laugh-pic{background:rgba(255,255,255,.22);color:#fff}
+.laugh-btn:focus-visible{outline:3px solid var(--focus);outline-offset:4px}
+@media (prefers-reduced-motion: reduce){.laugh-btn{transition:none}.laugh-btn:hover,.laugh-btn:focus{transform:none}}
+.laugh-reaction{
+  font-family:var(--serif);font-style:italic;font-weight:500;
+  font-size:clamp(1.05rem,2vw,1.4rem);
+  color:var(--ink-soft);text-align:center;line-height:1.6;text-wrap:balance;
+}
+.laugh-reaction .quote-by{
+  display:block;margin-top:1.6vh;
+  font-family:var(--latin);font-style:normal;font-weight:500;font-size:.7em;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--ink-mute);
+}
+
+/* ============================================================
+ * S15 · Warn box
+ * ============================================================ */
+.s15{padding-top:11vh}
+.warn-box{
+  max-width:960px;width:100%;margin-top:3vh;
+  padding:5.5vh 4vw;background:var(--paper-2);
+  border:1px solid var(--rule);border-left:4px solid var(--coral);
+  border-radius:0 24px 24px 0;
+  box-shadow:var(--shadow-card);text-align:center;
+}
+.warn-title{
+  font-family:var(--latin);font-weight:600;font-size:clamp(.78rem,1.18vw,.94rem);
+  letter-spacing:.22em;text-transform:uppercase;color:var(--coral);
+  display:inline-flex;align-items:center;gap:.7em;
+}
+.warn-title::before{content:"";width:12px;height:12px;border-radius:50%;background:var(--coral)}
+.warn-key{
+  margin-top:2.5vh;font-family:var(--sans);font-weight:900;
+  font-size:clamp(1.7rem,3.6vw,2.7rem);
+  line-height:1.25;letter-spacing:-0.018em;color:var(--ink);text-wrap:balance;
+}
+.warn-key em{font-style:normal;color:var(--coral)}
+.warn-key em.b{color:var(--blue)}
+.warn-tail{
+  margin-top:3vh;font-family:var(--serif);font-weight:400;
+  font-size:clamp(.95rem,1.55vw,1.15rem);
+  color:var(--ink-soft);line-height:1.7;letter-spacing:-0.005em;text-wrap:pretty;
+}
+.warn-tail strong{color:var(--coral);font-weight:700;font-family:var(--sans)}
+
+/* ============================================================
+ * S17 · Chart — data journalism
+ * ============================================================ */
+.s17{padding-top:11vh}
+.s17 .deck-h2{margin:2.5vh 0 0}
+.s17-sub{
+  margin-top:1.6vh;font-family:var(--serif);font-style:italic;
+  font-size:clamp(.95rem,1.4vw,1.1rem);color:var(--ink-mute);
+  text-align:center;letter-spacing:-0.005em;
+}
+.chart-card{
+  margin-top:5vh;width:100%;max-width:1100px;
+  background:var(--paper-2);border:1px solid var(--rule);
+  border-radius:24px;padding:5vh 4vw;box-shadow:var(--shadow-card);
+}
+.chart-rows{display:flex;flex-direction:column;gap:4vh}
+.chart-row{
+  display:grid;grid-template-columns: 170px 1fr 160px;
+  gap:2vw;align-items:center;
+}
+.chart-row .row-label{font-family:var(--sans);font-weight:700;font-size:clamp(1rem,1.7vw,1.25rem);color:var(--ink);letter-spacing:-0.005em}
+.chart-row .row-bar{position:relative;height:36px;background:var(--paper-3);border-radius:18px;overflow:hidden}
+.chart-row .row-fill{
+  position:absolute;left:0;top:0;bottom:0;width:var(--w,0%);border-radius:18px;
+  transition:width 1.2s var(--ease-soft);
+}
+.chart-row.r1 .row-fill{background:linear-gradient(90deg,var(--coral),#FF9E94)}
+.chart-row.r2 .row-fill{background:linear-gradient(90deg,var(--green),#5DCFA0)}
+.chart-row.r3 .row-fill{background:linear-gradient(90deg,var(--blue),#8AAEFF)}
+.chart-row .row-end{display:flex;flex-direction:column;align-items:flex-end;gap:.4em}
+.chart-row .row-score{font-family:var(--latin);font-weight:700;font-size:clamp(2rem,3.4vw,3rem);color:var(--ink);letter-spacing:-0.018em;line-height:1;font-variant-numeric:tabular-nums}
+.chart-row .row-score .denom{font-size:.4em;color:var(--ink-mute);font-weight:500;letter-spacing:.02em;margin-left:.2em}
+.chart-row .row-pos{font-family:var(--latin);font-weight:600;font-size:clamp(.78rem,1.1vw,.88rem);color:#fff;padding:.3em .7em;border-radius:999px;letter-spacing:.02em;font-variant-numeric:tabular-nums}
+.chart-row.r1 .row-pos{background:var(--coral)}
+.chart-row.r2 .row-pos{background:var(--green)}
+.chart-row.r3 .row-pos{background:var(--blue)}
+.chart-foot{
+  margin-top:4vh;padding-top:3vh;border-top:1px dashed var(--rule);
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1em;
+  font-family:var(--latin);font-weight:500;font-size:clamp(.82rem,1.18vw,.94rem);
+  color:var(--ink-mute);letter-spacing:.02em;
+}
+.chart-foot .foot-l::before{content:"※ ";color:var(--coral)}
+.chart-foot .foot-r{color:var(--ink-dim)}
+@media (prefers-reduced-motion: reduce){.chart-row .row-fill{transition:none}}
+@media (max-width:780px){.chart-row{grid-template-columns:1fr;gap:1vh}.chart-row .row-end{flex-direction:row;align-items:center;gap:1em}}
+
+/* ============================================================
+ * S18 · Dual chart — donut + horizontal bars
+ * ============================================================ */
+.s18{padding-top:11vh}
+.s18 .deck-h2{margin:2.5vh 0 0}
+.dual-chart{
+  margin-top:5vh;display:grid;grid-template-columns:1fr 1.1fr;
+  gap:2.4vw;width:100%;max-width:1200px;
+}
+.chart-pane{
+  background:var(--paper-2);border:1px solid var(--rule);
+  border-radius:22px;padding:3.6vh 2.6vw;box-shadow:var(--shadow-card);
+}
+.chart-pane .pane-title{
+  font-family:var(--latin);font-weight:600;font-size:clamp(.85rem,1.25vw,.98rem);
+  letter-spacing:.04em;color:var(--ink-mute);margin-bottom:2.5vh;
+}
+.chart-pane .pane-title::before{content:"// ";color:var(--coral);font-weight:700}
+/* Donut */
+.donut-wrap{display:flex;gap:2vw;align-items:center;flex-wrap:wrap}
+.donut{position:relative;width:200px;height:200px;flex-shrink:0}
+.donut svg{width:100%;height:100%;transform:rotate(-90deg)}
+.donut-center{
+  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;
+}
+.donut-center .dc-num{
+  font-family:var(--latin);font-weight:700;font-size:2.2rem;letter-spacing:-0.022em;
+  color:var(--green);line-height:1;
+}
+.donut-center .dc-cap{
+  margin-top:.4em;font-family:var(--sans);font-weight:500;font-size:.82rem;
+  color:var(--ink-mute);letter-spacing:-0.005em;
+}
+.donut-legend{display:flex;flex-direction:column;gap:1.2vh;flex:1;min-width:180px}
+.legend-row{display:flex;align-items:center;gap:.8em;font-family:var(--sans);font-size:clamp(.88rem,1.25vw,.98rem);color:var(--ink)}
+.legend-row .sw{width:14px;height:14px;border-radius:4px;flex-shrink:0}
+.legend-row.lg-a .sw{background:var(--coral)}
+.legend-row.lg-b .sw{background:var(--green)}
+.legend-row.lg-c .sw{background:var(--sand)}
+.legend-row.lg-d .sw{background:var(--ink-dim)}
+.legend-row .lg-pct{margin-left:auto;font-family:var(--latin);font-weight:700;font-variant-numeric:tabular-nums}
+.legend-row.lg-a .lg-pct{color:var(--coral)}
+.legend-row.lg-b .lg-pct{color:var(--green)}
+.legend-row.lg-c .lg-pct{color:var(--sand)}
+.zero-card{
+  margin-top:3vh;padding:1.6vh 1.4em;background:var(--coral-soft);border-radius:14px;
+  display:flex;align-items:center;gap:1em;
+  font-family:var(--sans);font-weight:600;color:var(--coral);font-size:clamp(.88rem,1.25vw,1rem);
+}
+.zero-card .z-num{font-family:var(--latin);font-weight:700;font-size:1.4rem;letter-spacing:-0.018em}
+.zero-card .z-lbl{flex:1}
+/* Horizontal helped bars */
+.hbars{display:flex;flex-direction:column;gap:2.2vh}
+.hbar{display:grid;grid-template-columns:1fr auto;gap:.5em;align-items:end}
+.hbar .hb-label{grid-column:1 / -1;font-family:var(--sans);font-weight:500;font-size:clamp(.92rem,1.35vw,1.05rem);color:var(--ink);letter-spacing:-0.005em}
+.hbar .hb-track{position:relative;height:24px;background:var(--paper-3);border-radius:12px;overflow:hidden}
+.hbar .hb-fill{position:absolute;left:0;top:0;bottom:0;width:var(--w,0%);border-radius:12px;transition:width 1.2s var(--ease-soft)}
+.hbar.h1 .hb-fill{background:linear-gradient(90deg,var(--coral),#FF9E94)}
+.hbar.h2 .hb-fill{background:linear-gradient(90deg,var(--green),#5DCFA0)}
+.hbar.h3 .hb-fill{background:linear-gradient(90deg,var(--green),#5DCFA0);opacity:.85}
+.hbar.h4 .hb-fill{background:linear-gradient(90deg,var(--blue),#8AAEFF)}
+.hbar.h5 .hb-fill{background:linear-gradient(90deg,var(--blue),#8AAEFF);opacity:.85}
+.hbar .hb-pct{font-family:var(--latin);font-weight:800;font-size:clamp(1rem,1.5vw,1.18rem);font-variant-numeric:tabular-nums;align-self:center;white-space:nowrap;padding-left:.4em}
+.hbar.h1 .hb-pct{color:var(--coral)}
+/* 가장 높은 응답 강조 */
+.hbar.hb-top{position:relative;padding:1.4vh 1.6vw;background:var(--coral-soft);border-radius:14px;margin:-.6vh -1.6vw}
+.hbar.hb-top::before{
+  content:"1위";position:absolute;top:-.85em;left:1.2em;
+  background:var(--coral);color:#fff;
+  font-family:var(--latin);font-weight:700;font-size:.72rem;
+  letter-spacing:.08em;padding:.3em .6em;border-radius:6px;
+  box-shadow:0 6px 14px rgba(255,122,107,.32);
+}
+.hbar.hb-top .hb-label{color:var(--coral);font-weight:700}
+.hbar.hb-top .hb-pct{font-size:clamp(1.05rem,1.55vw,1.22rem)}
+.hbar.h2 .hb-pct,.hbar.h3 .hb-pct{color:var(--green)}
+.hbar.h4 .hb-pct,.hbar.h5 .hb-pct{color:var(--blue)}
+.s18-tag{margin-top:4vh;text-align:center;max-width:1000px;font-family:var(--serif);font-weight:400;font-size:clamp(1rem,1.5vw,1.15rem);color:var(--ink-soft);line-height:1.7;letter-spacing:-0.005em}
+.s18-tag em{font-style:normal;font-weight:700;color:var(--coral)}
+@media (prefers-reduced-motion: reduce){.hbar .hb-fill{transition:none}}
+/* 차트 막대·도넛: 카드(fragment)가 등장하기 전엔 0, 등장(.frag-visible) 시 원래 값으로 자라남.
+   인라인 --w / stroke-dasharray 값을 절대 건드리지 않아 앞뒤 이동에도 색·수치가 보존됨. */
+.chart-card:not(.frag-visible) .row-fill{width:0}
+.chart-pane:not(.frag-visible) .hb-fill{width:0}
+#donut-a,#donut-b,#donut-c{transition:stroke-dasharray .9s var(--ease-soft)}
+.chart-pane:not(.frag-visible) #donut-a,
+.chart-pane:not(.frag-visible) #donut-b,
+.chart-pane:not(.frag-visible) #donut-c{stroke-dasharray:0 502.65 !important}
+@media (prefers-reduced-motion: reduce){#donut-a,#donut-b,#donut-c{transition:none}}
+/* zero-callout — 도넛 패널 하단의 강조 칩 */
+.zero-callout{
+  margin-top:3vh;display:flex;align-items:center;gap:1em;justify-content:center;
+  background:var(--coral);color:#fff;
+  padding:1.6vh 1.4vw;border-radius:14px;
+  font-family:var(--sans);font-weight:700;
+  box-shadow:0 12px 28px rgba(255,122,107,.22), 0 4px 10px rgba(23,32,51,.06);
+  white-space:nowrap;
+}
+.zero-callout .zc-num{
+  font-family:var(--latin);font-weight:900;
+  font-size:clamp(1.4rem,2.4vw,1.95rem);letter-spacing:-0.022em;line-height:1;
+  padding-right:.9em;border-right:1px solid rgba(255,255,255,.32);
+}
+.zero-callout .zc-lbl{font-size:clamp(.92rem,1.3vw,1.05rem);letter-spacing:-0.005em}
+@media (max-width:600px){
+  .zero-callout{padding:1.4vh 3vw}
+  .zero-callout .zc-num{font-size:1.25rem;padding-right:.6em}
+  .zero-callout .zc-lbl{font-size:.9rem;white-space:normal}
+}
+@media (max-width:900px){.dual-chart{grid-template-columns:1fr;gap:3vh}}
+
+/* ============================================================
+ * S19 · Speech-bubble quotes
+ * ============================================================ */
+.s19{padding-top:11vh;padding-bottom:14vh}
+.s19 .deck-h2{margin:2.5vh 0 5vh}
+.quotes{display:grid;grid-template-columns:1fr 1fr;gap:3vw;width:100%;max-width:1200px}
+.qcard{
+  position:relative;background:var(--paper-2);border:1px solid var(--rule);
+  border-radius:24px;padding:4.5vh 3vw;box-shadow:var(--shadow-card);
+  display:flex;flex-direction:column;gap:2.5vh;
+}
+.qcard.qc1{background:linear-gradient(180deg, var(--green-soft) 0%, var(--paper-2) 100%)}
+.qcard.qc2{background:linear-gradient(180deg, var(--sand-soft) 0%, var(--paper-2) 100%)}
+.qcard::before{content:"";position:absolute;bottom:-12px;left:48px;width:24px;height:24px;background:inherit;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);transform:rotate(45deg)}
+.qc-mark{font-family:var(--serif);font-weight:700;font-size:clamp(3rem,5vw,4.2rem);line-height:.5;color:var(--green)}
+.qc2 .qc-mark{color:var(--coral)}
+.qc-text{font-family:var(--serif);font-weight:600;font-size:clamp(1.05rem,1.85vw,1.32rem);line-height:1.7;color:var(--ink);letter-spacing:-0.005em;text-wrap:pretty}
+.qc-text em{font-style:normal;background:linear-gradient(180deg, transparent 60%, rgba(54,179,126,0.32) 60%);padding:0 .15em;font-weight:700}
+.qcard.qc2 .qc-text em{background:linear-gradient(180deg, transparent 60%, rgba(255,122,107,0.36) 60%)}
+.qc-meaning{
+  margin-top:.5vh;padding-top:2vh;border-top:1px dashed var(--rule);
+  display:flex;align-items:center;gap:.7em;
+  font-family:var(--sans);font-size:clamp(.82rem,1.18vw,.94rem);
+  color:var(--ink-mute);font-weight:500;letter-spacing:-0.005em;
+}
+.qc-pic{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--latin);font-weight:700;font-size:.78rem}
+.qc1 .qc-pic{background:var(--green);color:#fff}
+.qc2 .qc-pic{background:var(--coral);color:#fff}
+@media (max-width:780px){.quotes{grid-template-columns:1fr;gap:4vh}}
+
+/* ============================================================
+ * S20 · Closing
+ * ============================================================ */
+.s20{padding-top:11vh;padding-bottom:12vh}
+.closing-stack{text-align:center;max-width:1180px;width:100%}
+.closing-stack .deck-h2{margin-bottom:1vh}
+.closing-grid{
+  margin-top:5vh;display:grid;grid-template-columns:1fr 1fr;
+  gap:2.4vh 2.2vw;text-align:left;
+}
+.closing-card{
+  display:flex;gap:1.3em;align-items:flex-start;padding:3vh 2.2vw;
+  background:var(--paper-2);border:1px solid var(--rule);
+  border-radius:18px;box-shadow:var(--shadow-card);
+}
+.closing-card.highlight{
+  background:linear-gradient(180deg, var(--coral-soft) 0%, var(--paper-2) 100%);
+  border-color:var(--coral);
+  box-shadow:var(--shadow-lift);
+}
+.closing-num{
+  font-family:var(--latin);font-weight:700;font-size:clamp(1.4rem,2.4vw,1.9rem);
+  color:var(--ink-mute);line-height:1;flex-shrink:0;font-variant-numeric:tabular-nums;
+  letter-spacing:-0.01em;background:var(--paper-3);
+  padding:.45em .65em;border-radius:10px;
+}
+.closing-card.highlight .closing-num{color:var(--coral);background:var(--paper-2)}
+.closing-card p{font-family:var(--sans);font-size:clamp(.98rem,1.5vw,1.12rem);line-height:1.7;color:var(--ink);margin:0;text-wrap:pretty}
+.closing-card.highlight p{color:var(--ink);font-weight:500}
+.closing-card.highlight p strong{color:var(--coral);font-weight:700}
+.closing-links{margin-top:5vh;display:flex;flex-wrap:wrap;gap:.8em;justify-content:center}
+.closing-links a{
+  padding:.7em 1.35em;font-family:var(--sans);font-size:clamp(.92rem,1.35vw,1.05rem);
+  border-radius:999px;background:var(--ink);color:var(--paper);
+  text-decoration:none;font-weight:600;letter-spacing:-0.005em;
+  box-shadow:var(--shadow-soft);
+  transition:background .25s var(--ease-soft), transform .25s var(--ease-soft);
+}
+.closing-links a:hover,.closing-links a:focus{background:var(--coral);transform:translateY(-2px)}
+.closing-links a:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+@media (prefers-reduced-motion: reduce){.closing-links a{transition:none}}
+.closing-thanks{
+  margin-top:5vh;font-family:var(--sans);font-weight:900;
+  font-size:clamp(2.2rem,5vw,4rem);
+  color:var(--coral);letter-spacing:-0.025em;
+  background:linear-gradient(90deg, var(--coral) 0%, var(--blue) 100%);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+/* 마지막 재강조 트리거 — 도구·3번 카드를 한 마디 돋보이게 */
+.re-emphasize-trigger{position:absolute;left:0;top:0;width:1px;height:1px;overflow:hidden;pointer-events:none}
+.closing-stack:has(.re-emphasize-trigger.frag-visible) .closing-card.highlight{
+  animation:card-reshine 1.8s var(--ease-soft);
+}
+@keyframes card-reshine{
+  0%   {transform:none;box-shadow:var(--shadow-lift)}
+  35%  {transform:scale(1.05);box-shadow:0 36px 72px rgba(255,122,107,.40), 0 8px 22px rgba(255,122,107,.22)}
+  65%  {transform:scale(1.05);box-shadow:0 36px 72px rgba(255,122,107,.40), 0 8px 22px rgba(255,122,107,.22)}
+  100% {transform:none;box-shadow:var(--shadow-lift)}
+}
+@media (prefers-reduced-motion: reduce){
+  .closing-stack:has(.re-emphasize-trigger.frag-visible) .closing-card.highlight{animation:none}
+}
+@media (max-width:800px){.closing-grid{grid-template-columns:1fr}}
+
+/* ============================================================
+ *  FRAGMENT animations — base
+ * ============================================================ */
+.fragment{opacity:0;transform:translateY(14px);visibility:hidden}
+.fragment.frag-visible{
+  opacity:1;transform:none;visibility:visible;
+  animation:frag-in .6s var(--ease-soft);
+}
+@keyframes frag-in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.note.fragment,.sense.fragment,.closing-card.fragment,.qcard.fragment,.chart-pane.fragment,.chart-card.fragment,.era-card.fragment,.duo-tile.fragment{
+  transform:translateY(18px) scale(.985);
+}
+.note.frag-visible,.sense.frag-visible,.closing-card.frag-visible,.qcard.frag-visible,.chart-pane.frag-visible,.chart-card.frag-visible,.era-card.frag-visible,.duo-tile.frag-visible{
+  transform:none;animation:card-frag-in .65s var(--ease-soft);
+}
+@keyframes card-frag-in{from{opacity:0;transform:translateY(18px) scale(.985)}to{opacity:1;transform:none}}
+.case-chips.fragment .chip,.s16-chips.fragment .chip{opacity:0;transform:translateY(6px)}
+.case-chips.frag-visible .chip,.s16-chips.frag-visible .chip{opacity:1;transform:none;animation:chip-in .4s var(--ease-soft)}
+@keyframes chip-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.case-chips.frag-visible .chip:nth-child(1),.s16-chips.frag-visible .chip:nth-child(1){animation-delay:0s}
+.case-chips.frag-visible .chip:nth-child(2),.s16-chips.frag-visible .chip:nth-child(2){animation-delay:.05s}
+.case-chips.frag-visible .chip:nth-child(3),.s16-chips.frag-visible .chip:nth-child(3){animation-delay:.10s}
+.case-chips.frag-visible .chip:nth-child(4),.s16-chips.frag-visible .chip:nth-child(4){animation-delay:.15s}
+.case-chips.frag-visible .chip:nth-child(5),.s16-chips.frag-visible .chip:nth-child(5){animation-delay:.20s}
+.case-chips.frag-visible .chip:nth-child(6),.s16-chips.frag-visible .chip:nth-child(6){animation-delay:.25s}
+
+@media (prefers-reduced-motion: reduce){
+  .fragment,.fragment.frag-visible,
+  .note.fragment,.note.frag-visible,
+  .sense.fragment,.sense.frag-visible,
+  .closing-card.fragment,.closing-card.frag-visible,
+  .qcard.fragment,.qcard.frag-visible,
+  .chart-pane.fragment,.chart-pane.frag-visible,
+  .chart-card.fragment,.chart-card.frag-visible,
+  .era-card.fragment,.era-card.frag-visible,
+  .duo-tile.fragment,.duo-tile.frag-visible,
+  .case-chips.fragment .chip,.case-chips.frag-visible .chip,
+  .s16-chips.fragment .chip,.s16-chips.frag-visible .chip{
+    animation:none !important;transition:none !important;transform:none !important;
   }
-  .game-keys.frag-visible .key-chip { transition-delay: 0s !important; }
-  .closing-card.highlight.frag-visible { animation: none !important; }
 }
 
-.gold { color: #f5c842; }
-.cyan { color: #5de6c8; }
-.purple { color: #a78bfa; }
-.coral { color: #ff6b8a; }
-.dim { color: #8b949e; }
-
-.eyebrow {
-  display: inline-block;
-  font-size: clamp(0.78rem, 1.2vw, 0.92rem);
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #8b949e;
-  margin-bottom: 2.5vh;
-}
-
-.hero-text {
-  font-size: clamp(2.6rem, 7vw, 6rem);
-  font-weight: 900;
-  line-height: 1.1;
-  text-align: center;
-  letter-spacing: -0.01em;
-}
-
-.huge-question {
-  font-size: clamp(2.2rem, 6vw, 5rem);
-  font-weight: 900;
-  line-height: 1.2;
-  text-align: center;
-  letter-spacing: -0.01em;
-  color: #f5c842;
-}
-
-.deck-h1 {
-  font-size: clamp(1.7rem, 4vw, 3rem);
-  font-weight: 900;
-  line-height: 1.25;
-  text-align: center;
-}
-
-.deck-h2 {
-  font-size: clamp(1.3rem, 3vw, 2.1rem);
-  font-weight: 700;
-  line-height: 1.3;
-  text-align: center;
-  margin-bottom: 4vh;
-}
-
-.tagline {
-  font-size: clamp(1rem, 1.9vw, 1.3rem);
-  color: #8b949e;
-  text-align: center;
-  margin-top: 2.5vh;
-  font-weight: 400;
-  letter-spacing: 0.02em;
-}
-
-.byline {
-  margin-top: 4vh;
-  text-align: center;
-  font-size: clamp(0.95rem, 1.7vw, 1.15rem);
-  color: #c9d1d9;
-  line-height: 1.7;
-}
-.byline strong { color: #f5c842; font-weight: 700; }
-.byline .event-meta { color: #8b949e; font-size: 0.85em; margin-top: 1.5vh; display: block; letter-spacing: 0.05em; }
-
-.three-era {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr auto 1fr;
-  gap: 1.5vw;
-  align-items: center;
-  width: 100%;
-  max-width: 1100px;
-  margin-top: 2vh;
-}
-.three-era .era-card {
-  text-align: center;
-  padding: 3vh 1.5vw;
-}
-.three-era .era-tag {
-  font-size: clamp(0.8rem, 1.2vw, 0.95rem);
-  color: #8b949e;
-  letter-spacing: 0.1em;
-}
-.three-era .era-word {
-  font-size: clamp(1.4rem, 3vw, 2.2rem);
-  font-weight: 900;
-  line-height: 1.3;
-  margin-top: 1vh;
-}
-.three-era .era-arrow {
-  color: #30363d;
-  font-size: clamp(1.5rem, 2.5vw, 2rem);
-}
-@media (max-width: 800px) {
-  .three-era { grid-template-columns: 1fr; }
-  .three-era .era-arrow { display: none; }
-}
-
-.dual-split {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  gap: 2vw;
-  align-items: center;
-  width: 100%;
-  max-width: 1100px;
-}
-.dual-split .split-side {
-  text-align: center;
-  padding: 4vh 2vw;
-}
-.dual-split .split-side .side-tag {
-  font-size: clamp(0.85rem, 1.4vw, 1.05rem);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-bottom: 1.5vh;
-}
-.dual-split .split-side .side-word {
-  font-size: clamp(1.6rem, 4vw, 2.6rem);
-  font-weight: 900;
-  line-height: 1.25;
-}
-.dual-split .split-side .side-tail {
-  margin-top: 1.5vh;
-  font-size: clamp(0.9rem, 1.5vw, 1.05rem);
-  color: #8b949e;
-  line-height: 1.5;
-}
-.dual-split .split-divider {
-  width: 1px;
-  height: 14vh;
-  background: linear-gradient(180deg, transparent, #30363d, transparent);
-}
-@media (max-width: 800px) {
-  .dual-split { grid-template-columns: 1fr; }
-  .dual-split .split-divider { width: 60%; height: 1px; margin: 0 auto; background: linear-gradient(90deg, transparent, #30363d, transparent); }
-}
-
-.duo-words {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 5vw;
-  align-items: center;
-  width: 100%;
-  max-width: 1000px;
-  margin-top: 2vh;
-}
-.duo-words .duo-word {
-  font-size: clamp(2.5rem, 7vw, 5.5rem);
-  font-weight: 900;
-  text-align: center;
-  line-height: 1.1;
-  letter-spacing: -0.01em;
-}
-.duo-words .duo-caption {
-  font-size: clamp(0.85rem, 1.3vw, 1rem);
-  text-align: center;
-  color: #8b949e;
-  margin-top: 1.5vh;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-@media (max-width: 700px) { .duo-words { grid-template-columns: 1fr; gap: 5vh; } }
-
-.duo-coda {
-  margin-top: 4vh;
-  text-align: center;
-  font-size: clamp(0.95rem, 1.6vw, 1.15rem);
-  color: #c9d1d9;
-  line-height: 1.7;
-  max-width: 900px;
-}
-.duo-coda .strikethrough { text-decoration: line-through; color: #6e7681; }
-
-.pillar-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 2vw;
-  width: 100%;
-  max-width: 1100px;
-  margin-top: 1vh;
-}
-.pillar-row .pillar {
-  text-align: center;
-  padding: 4vh 1.5vw 3vh;
-  border-top: 4px solid currentColor;
-  background: rgba(22, 27, 34, 0.4);
-  border-radius: 0 0 14px 14px;
-}
-.pillar .pillar-num {
-  font-size: clamp(0.85rem, 1.2vw, 1rem);
-  letter-spacing: 0.15em;
-  color: currentColor;
-}
-.pillar .pillar-name {
-  font-size: clamp(1.3rem, 2.6vw, 1.9rem);
-  font-weight: 900;
-  margin-top: 1vh;
-  color: #e6edf3;
-}
-.pillar .pillar-en {
-  font-size: clamp(0.85rem, 1.3vw, 1rem);
-  color: #8b949e;
-  margin-top: 0.6vh;
-  font-style: italic;
-}
-.pillar .pillar-keys {
-  margin-top: 2vh;
-  font-size: clamp(0.85rem, 1.4vw, 1.05rem);
-  color: #c9d1d9;
-  line-height: 1.7;
-}
-@media (max-width: 800px) { .pillar-row { grid-template-columns: 1fr; } }
-
-.cast-caption {
-  margin-top: 3vh;
-  font-size: clamp(0.82rem, 1.2vw, 0.95rem);
-  color: #8b949e;
-  text-align: center;
-  letter-spacing: 0.05em;
-}
-
-.sense-row {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 1.5vw;
-  width: 100%;
-  max-width: 1100px;
-  margin-top: 2vh;
-}
-.sense-row .sense {
-  text-align: center;
-  padding: 2.5vh 0.5vw;
-}
-.sense .sense-icon {
-  font-size: clamp(2.5rem, 5vw, 4rem);
-  display: block;
-  margin-bottom: 1.5vh;
-}
-.sense .sense-label {
-  font-size: clamp(0.95rem, 1.6vw, 1.15rem);
-  font-weight: 700;
-  color: #e6edf3;
-}
-.sense .sense-sub {
-  font-size: clamp(0.78rem, 1.1vw, 0.88rem);
-  color: #8b949e;
-  margin-top: 0.5vh;
-}
-@media (max-width: 800px) { .sense-row { grid-template-columns: repeat(2, 1fr); } }
-
-.big-quote {
-  font-size: clamp(1.6rem, 3.8vw, 3rem);
-  font-weight: 700;
-  line-height: 1.4;
-  text-align: center;
-  max-width: 1100px;
-  color: #e6edf3;
-}
-.big-quote .quote-mark { color: #f5c842; font-weight: 900; font-size: 1.3em; line-height: 0; }
-.big-quote .quote-source {
-  display: block;
-  font-size: clamp(0.85rem, 1.3vw, 1rem);
-  color: #8b949e;
-  margin-top: 3vh;
-  font-weight: 400;
-  letter-spacing: 0.05em;
-}
-
-.game-layout {
-  display: grid;
-  grid-template-columns: minmax(220px, 0.8fr) 1.2fr;
-  gap: 4vw;
-  align-items: center;
-  width: 100%;
-  max-width: 1100px;
-}
-.game-illust {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.game-illust svg { width: 100%; max-width: 280px; height: auto; }
-.game-text { display: flex; flex-direction: column; gap: 2vh; }
-.game-headline {
-  font-size: clamp(1.5rem, 3.2vw, 2.4rem);
-  font-weight: 900;
-  line-height: 1.25;
-}
-.game-keys {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6em 0.8em;
-  margin-top: 0.5vh;
-}
-.game-keys .key-chip {
-  font-size: clamp(0.85rem, 1.3vw, 1rem);
-  padding: 0.45em 1em;
-  border-radius: 999px;
-  background: rgba(22, 27, 34, 0.7);
-  border: 1px solid rgba(167, 139, 250, 0.25);
-  color: #c9d1d9;
-  white-space: nowrap;
-}
-.game-keys .key-chip.accent { color: #f5c842; border-color: rgba(245, 200, 66, 0.45); }
-.game-keys .key-chip.accent-cyan { color: #5de6c8; border-color: rgba(93, 230, 200, 0.45); }
-.game-byline {
-  font-size: clamp(0.9rem, 1.5vw, 1.1rem);
-  color: #8b949e;
-  margin-top: 0.5vh;
-  line-height: 1.6;
-}
-.game-link {
-  margin-top: 1vh;
-  display: inline-block;
-  align-self: flex-start;
-  padding: 0.5em 1.2em;
-  border-radius: 8px;
-  font-size: clamp(0.85rem, 1.3vw, 1rem);
-  font-weight: 500;
-  text-decoration: none;
-  border: 1px solid rgba(93, 230, 200, 0.4);
-  background: rgba(93, 230, 200, 0.1);
-  color: #5de6c8;
-}
-.game-link:hover, .game-link:focus { background: rgba(93, 230, 200, 0.25); outline: 2px solid #5de6c8; }
-@media (max-width: 800px) {
-  .game-layout { grid-template-columns: 1fr; }
-  .game-illust svg { max-width: 200px; }
-}
-
-.laugh-stage {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3vh;
-  max-width: 900px;
-  width: 100%;
-}
-.laugh-buttons { display: flex; gap: 2vw; flex-wrap: wrap; justify-content: center; }
-.laugh-btn {
-  padding: 1.2em 2em;
-  border-radius: 14px;
-  font-size: clamp(1rem, 1.8vw, 1.3rem);
-  font-weight: 700;
-  font-family: 'Noto Sans KR', sans-serif;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5vh;
-  min-width: 200px;
-}
-.laugh-btn .laugh-icon { font-size: 1.8em; line-height: 1; }
-.laugh-btn .laugh-cap { font-size: 0.75em; font-weight: 400; opacity: 0.85; }
-.laugh-btn.wrong { background: rgba(255, 107, 138, 0.12); border: 2px solid rgba(255, 107, 138, 0.5); color: #ff6b8a; }
-.laugh-btn.right { background: rgba(93, 230, 200, 0.12); border: 2px solid rgba(93, 230, 200, 0.5); color: #5de6c8; }
-.laugh-btn:hover, .laugh-btn:focus { transform: translateY(-2px); outline: 3px solid currentColor; outline-offset: 2px; }
-.laugh-reaction {
-  font-size: clamp(1.1rem, 2.2vw, 1.5rem);
-  font-weight: 500;
-  color: #c9d1d9;
-  text-align: center;
-  margin-top: 1vh;
-  font-style: italic;
-}
-.laugh-reaction .quote-by { font-style: normal; color: #8b949e; font-size: 0.7em; display: block; margin-top: 1vh; letter-spacing: 0.05em; }
-
-.warn-box {
-  max-width: 900px;
-  width: 100%;
-  padding: 4vh 3vw;
-  background: rgba(255, 107, 138, 0.06);
-  border: 1px solid rgba(255, 107, 138, 0.35);
-  border-radius: 16px;
-  text-align: center;
-}
-.warn-box .warn-title {
-  font-size: clamp(0.85rem, 1.3vw, 1rem);
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: #ff6b8a;
-}
-.warn-box .warn-key {
-  font-size: clamp(1.6rem, 3.5vw, 2.6rem);
-  font-weight: 900;
-  margin-top: 1.5vh;
-  line-height: 1.3;
-  color: #e6edf3;
-}
-.warn-box .warn-tail {
-  margin-top: 2.5vh;
-  font-size: clamp(0.95rem, 1.6vw, 1.15rem);
-  color: #8b949e;
-  line-height: 1.6;
-}
-
-.audio-toggle {
-  position: fixed; top: 1.5vh; right: 2vw; z-index: 100;
-  background: rgba(22, 27, 34, 0.85); border: 1px solid rgba(167, 139, 250, 0.3);
-  color: #e6edf3; font-size: 0.92rem; font-weight: 500;
-  font-family: 'Noto Sans KR', sans-serif;
-  border-radius: 999px;
-  padding: 0.5em 1em; cursor: pointer;
-  display: inline-flex; align-items: center; gap: 0.5em;
-  min-height: 36px;
-}
-.audio-toggle .audio-icon { font-size: 1.05em; line-height: 1; }
-.audio-toggle:hover, .audio-toggle:focus { background: rgba(167, 139, 250, 0.2); outline: 2px solid #a78bfa; }
-
-.nav-bar {
-  position: fixed; bottom: 2vh; left: 50%; transform: translateX(-50%);
-  z-index: 100;
-  display: flex; align-items: center; gap: 1.5em;
-  background: rgba(13, 17, 23, 0.85);
-  backdrop-filter: blur(10px);
-  padding: 0.6em 1.5em; border-radius: 999px;
-  border: 1px solid rgba(167, 139, 250, 0.15);
-}
-.nav-btn {
-  background: none; border: none; color: #8b949e; font-size: 0.95rem;
-  cursor: pointer; padding: 0.4em 0.8em; border-radius: 6px;
-  font-family: 'Noto Sans KR', sans-serif;
-}
-.nav-btn:hover, .nav-btn:focus { color: #e6edf3; background: rgba(167, 139, 250, 0.15); outline: none; }
-#slideCounter { color: #8b949e; font-size: 0.9rem; font-variant-numeric: tabular-nums; min-width: 4em; text-align: center; }
-
-.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
-
-.infographic-grid { display: grid; grid-template-columns: 1fr; gap: 1.5vh; width: 100%; max-width: 1100px; }
-.infographic-row {
-  display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: 2vw;
-  align-items: stretch;
-}
-@media (max-width: 800px) { .infographic-row { grid-template-columns: 1fr; } }
-.info-card {
-  background: rgba(22, 27, 34, 0.55);
-  border: 1px solid rgba(167, 139, 250, 0.15);
-  border-radius: 12px;
-  padding: 2vh 1.6vw;
-}
-.info-card .info-title {
-  font-size: clamp(0.85rem, 1.4vw, 1.05rem);
-  color: #8b949e;
-  margin-bottom: 1vh;
-  letter-spacing: 0.02em;
-}
-.info-svg { width: 100%; height: auto; display: block; }
-
-.quote-stack { display: flex; flex-direction: column; gap: 2.5vh; max-width: 1000px; width: 100%; }
-.student-card {
-  background: rgba(22, 27, 34, 0.55);
-  border-left: 4px solid #5de6c8;
-  border-radius: 0 12px 12px 0;
-  padding: 2.5vh 2.5vw;
-}
-.student-card .student-quote {
-  font-size: clamp(1rem, 1.9vw, 1.3rem);
-  line-height: 1.6;
-  color: #e6edf3;
-}
-.student-card .student-meaning {
-  margin-top: 1.5vh;
-  font-size: clamp(0.82rem, 1.2vw, 0.95rem);
-  color: #8b949e;
-  letter-spacing: 0.03em;
-}
-
-.closing-stack { text-align: center; max-width: 1100px; width: 100%; }
-.closing-stack .closing-sub {
-  margin-top: 4vh;
-  font-size: clamp(0.95rem, 1.7vw, 1.2rem);
-  color: #c9d1d9;
-  line-height: 1.7;
-}
-.closing-grid {
-  margin-top: 4vh;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2vh 2vw;
-  text-align: left;
-}
-.closing-card {
-  display: flex;
-  gap: 1.2em;
-  align-items: flex-start;
-  padding: 2.2vh 1.6vw;
-  background: rgba(22, 27, 34, 0.55);
-  border: 1px solid rgba(167, 139, 250, 0.18);
-  border-radius: 12px;
-}
-.closing-card.highlight {
-  border-color: rgba(245, 200, 66, 0.55);
-  background: rgba(245, 200, 66, 0.06);
-}
-.closing-num {
-  font-size: clamp(1.4rem, 2.8vw, 2rem);
-  font-weight: 900;
-  color: #8b949e;
-  line-height: 1;
-  flex-shrink: 0;
-}
-.closing-card.highlight .closing-num { color: #f5c842; }
-.closing-card p {
-  font-size: clamp(0.95rem, 1.5vw, 1.1rem);
-  line-height: 1.6;
-  color: #e6edf3;
-  margin: 0;
-}
-.closing-card.highlight p { color: #f5c842; font-weight: 700; }
-@media (max-width: 800px) { .closing-grid { grid-template-columns: 1fr; } }
-.closing-stack .closing-links {
-  margin-top: 4vh;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.8em;
-  justify-content: center;
-}
-.closing-stack .closing-links a {
-  padding: 0.5em 1.1em;
-  font-size: clamp(0.85rem, 1.3vw, 1rem);
-  border-radius: 999px;
-  border: 1px solid rgba(93, 230, 200, 0.4);
-  background: rgba(93, 230, 200, 0.08);
-  color: #5de6c8;
-  text-decoration: none;
-}
-.closing-stack .closing-links a:hover, .closing-stack .closing-links a:focus { background: rgba(93, 230, 200, 0.2); outline: 2px solid #5de6c8; }
-.closing-stack .closing-thanks {
-  margin-top: 4vh;
-  font-size: clamp(1.4rem, 3vw, 2.2rem);
-  font-weight: 900;
-  color: #f5c842;
-  letter-spacing: 0.05em;
-}
-
-@media (max-width: 700px) {
-  .nav-bar { width: calc(100% - 24px); justify-content: space-between; gap: 0.4em; padding: 0.5em 0.8em; }
-  .nav-btn { font-size: 0.85rem; padding: 0.35em 0.45em; min-height: 44px; min-width: 44px; }
-  #slideCounter { min-width: 3.2em; }
-  .audio-toggle { width: 2.8em; height: 2.8em; top: 1vh; right: 3vw; }
-}
-
-@media (max-width: 480px) {
-  .slide { padding: 8vh 5vw 12vh; justify-content: flex-start; padding-top: 10vh; }
-  .eyebrow { font-size: 0.72rem; margin-bottom: 1.8vh; letter-spacing: 0.14em; }
-  .tagline { font-size: 0.92rem; line-height: 1.65; }
-  .byline { font-size: 0.88rem; }
-  .hero-text { font-size: 2.2rem; line-height: 1.15; }
-  .huge-question { font-size: 1.9rem; line-height: 1.25; }
-  .deck-h1 { font-size: 1.5rem; }
-  .deck-h2 { font-size: 1.15rem; margin-bottom: 2.5vh; }
-  .three-era .era-word { font-size: 1.5rem; }
-  .dual-split .split-side .side-word { font-size: 1.6rem; }
-  .duo-words { gap: 3.5vh; }
-  .duo-words .duo-word { font-size: 2.4rem; }
-  .duo-coda { font-size: 0.92rem; margin-top: 3vh; }
-  .pillar .pillar-name { font-size: 1.2rem; }
-  .pillar .pillar-keys { font-size: 0.9rem; }
-  .sense .sense-icon { font-size: 2.2rem; }
-  .sense .sense-label { font-size: 0.92rem; }
-  .big-quote { font-size: 1.4rem; line-height: 1.45; }
-  .game-headline { font-size: 1.4rem; }
-  .game-keys .key-chip { font-size: 0.82rem; padding: 0.4em 0.85em; }
-  .game-link { min-height: 44px; padding: 0.7em 1.1em; }
-  .laugh-btn { min-width: 160px; min-height: 44px; padding: 1em 1.4em; }
-  .warn-box { padding: 3vh 6vw; }
-  .warn-box .warn-key { font-size: 1.4rem; }
-  .warn-box .warn-tail { font-size: 0.88rem; }
-  .info-card { padding: 2vh 4vw; }
-  .student-card { padding: 2vh 5vw; }
-  .student-card .student-quote { font-size: 0.95rem; }
-  .closing-stack .closing-links a { min-height: 44px; padding: 0.7em 1.1em; display: inline-flex; align-items: center; }
-  .closing-stack .closing-thanks { font-size: 1.6rem; }
+/* ============================================================
+ *  RESPONSIVE
+ * ============================================================ */
+@media (max-width:700px){
+  .audio-toggle{width:2.8em;height:2.8em;top:1.5vh;right:3vw;padding:0;justify-content:center}
+  .audio-toggle .audio-label{display:none}
+  .nav-bar{width:calc(100% - 24px);justify-content:space-between;gap:.4em;padding:.5em .8em}
+  .nav-btn{font-size:.85rem;padding:.4em .55em;min-height:44px;min-width:44px}
+  #slideCounter{min-width:3.5em}
+  .slide{padding:13vh 6vw 14vh;justify-content:flex-start}
+}
+@media (max-width:480px){
+  .s1-hero{font-size:2.2rem}.hero-xl{font-size:2.2rem}.hero-lg{font-size:1.9rem}.hero-md{font-size:1.6rem}
+  .deck-h2{font-size:1.4rem}.huge-q{font-size:2rem}
+  .era-word{font-size:1.5rem}
+  .split-side .side-word{font-size:1.65rem}
+  .duo-tile .tile-word{font-size:2rem}
+  .note-name{font-size:1.2rem}.note-keys{font-size:.92rem}
+  .sense .s-label{font-size:.95rem}
+  .big-quote{font-size:1.45rem;line-height:1.5}
+  .case-title{font-size:1.5rem}
+  .case-link,.closing-links a,.cta-link{min-height:44px}
+  .laugh-btn{min-width:170px;min-height:44px}
+  .warn-key{font-size:1.5rem}
+  .chart-pane{padding:2.8vh 5vw}
+  .closing-thanks{font-size:2rem}
 }
 </style>
 </head>
 <body>
 
-<div class="particles" id="particles" aria-hidden="true"></div>
-
-<div class="progress-bar" id="progressBar" aria-hidden="true"></div>
+<div class="progress" id="progress" aria-hidden="true"></div>
 
 <button class="audio-toggle" id="audioToggle" aria-pressed="true">
-  <span class="audio-icon" aria-hidden="true">&#x1F50A;</span>
+  <span class="audio-icon" aria-hidden="true">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+  </span>
   <span class="audio-label">소리 켬</span>
 </button>
 
-<div class="slide-container">
+<main class="slide-container">
 
-<!-- Slide 1: Title -->
-<section class="slide" id="slide-1" data-sfx="page-turn"
+<!-- ===== S1 · TITLE ===== -->
+<section class="slide s1" id="slide-1" data-sfx="page-turn"
   data-keywords="포용적인 학습자료, 설계 단계부터, 김헌용">
-  <span class="eyebrow">2026 「AX시대, 누구나 개발자」 해커톤 · 기조강연</span>
-  <h1 class="hero-text">
-    우리가 만드는 <span class="gold">학습자료</span>는<br>
-    <span class="cyan">포용적</span>인가
+  <span class="s1-tape">2026 「AX시대, 누구나 개발자」 해커톤 · 기조강연</span>
+
+  <h1 class="s1-hero">
+    우리가 만드는 <span class="hl-coral">학습자료</span>는<br>
+    <span class="hl-green">포용</span>적인가
   </h1>
-  <p class="tagline">설계 단계부터 접근성을 내장한 영어 학습용 멀티모달 게임 사례</p>
-  <p class="byline">
-    <strong>김헌용</strong> · 신명중학교 영어 교사 · 함께하는장애인교원노동조합 위원장<br>
-    <strong>이미화</strong> · 신명중학교 수업 보조
-    <span class="event-meta">2026. 5. 23. (토) · 서울특별시교육청</span>
-  </p>
+
+  <p class="s1-sub">설계 단계부터 접근성을 내장한 영어 학습용 멀티모달 게임 사례</p>
+
+  <div class="s1-byline-row">
+    <div class="s1-byline solo">
+      <div class="person kim">
+        <span class="dot" aria-hidden="true"></span>
+        <div>
+          <span class="b-name">김헌용</span>
+          <span class="b-role">신명중학교 영어교사<br>함께하는장애인교원노동조합 위원장</span>
+        </div>
+      </div>
+      <div class="person lee">
+        <span class="dot" aria-hidden="true"></span>
+        <div>
+          <span class="b-name">이미화</span>
+          <span class="b-role">신명중학교 업무지원</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="s1-date">2026. 5. 23. (토) · 서울특별시교육청</p>
 </section>
 
-<!-- Slide 2: 19c · 20c · 21c -->
-<section class="slide" id="slide-2" data-sfx="page-turn"
+<!-- ===== S2 · 19c · 20c · 21c ===== -->
+<section class="slide s2" id="slide-2" data-sfx="page-turn"
   data-keywords="19세기 교실, 20세기 교사, 21세기 학생">
   <h2 class="sr-only">19세기 교실, 20세기 교사, 21세기 학생</h2>
-  <span class="eyebrow">교육계에 오래된 격언 하나</span>
+  <p class="eyebrow">교육계에 오래된 격언 하나</p>
+
   <div class="three-era">
-    <div class="era-card">
-      <div class="era-tag">19세기</div>
-      <div class="era-word coral">교실</div>
-    </div>
-    <div class="era-arrow">·</div>
-    <div class="era-card">
-      <div class="era-tag">20세기</div>
-      <div class="era-word gold">교사</div>
-    </div>
-    <div class="era-arrow">·</div>
-    <div class="era-card">
-      <div class="era-tag">21세기</div>
-      <div class="era-word cyan">학생</div>
-    </div>
+    <article class="era-card e1 fragment">
+      <span class="era-num" aria-hidden="true">19</span>
+      <span class="era-tag">19세기</span>
+      <p class="era-word">교실</p>
+    </article>
+    <article class="era-card e2 fragment">
+      <span class="era-num" aria-hidden="true">20</span>
+      <span class="era-tag">20세기</span>
+      <p class="era-word">교사</p>
+    </article>
+    <article class="era-card e3 fragment">
+      <span class="era-num" aria-hidden="true">21</span>
+      <span class="era-tag">21세기</span>
+      <p class="era-word">학생</p>
+    </article>
   </div>
-  <p class="tagline" style="margin-top:5vh;">세 시대가 한 교실에서 만난다</p>
+
+  <p class="s2-coda fragment">세 시대가 한 교실에서 만난다</p>
 </section>
 
-<!-- Slide 3: 21c 학습자 양면성 -->
-<section class="slide" id="slide-3" data-sfx="page-turn"
+<!-- ===== S3 · 21c 학습자 양면성 ===== -->
+<section class="slide s3" id="slide-3" data-sfx="page-turn"
   data-keywords="자기주도, 산만함, 양면성">
   <h2 class="sr-only">21세기 학생의 양면성</h2>
-  <span class="eyebrow">21세기 학생들의 두 얼굴</span>
+  <p class="eyebrow">21세기 학생들의 두 얼굴</p>
+
   <div class="dual-split">
-    <div class="split-side">
-      <div class="side-tag cyan">한쪽 얼굴</div>
-      <div class="side-word cyan">자기 주도</div>
+    <article class="split-side cool fragment">
+      <span class="side-no">Side 01</span>
+      <span class="side-glyph" aria-hidden="true">
+        <svg width="56" height="56" viewBox="0 0 60 60" fill="none" stroke="#36B37E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="14" cy="30" r="3" fill="#36B37E"/>
+          <path d="M14 30 L48 30 M40 22 L48 30 L40 38"/>
+        </svg>
+      </span>
+      <p class="side-tag">한쪽 얼굴</p>
+      <p class="side-word"><span class="accent">자기 주도</span></p>
       <p class="side-tail">손가락 하나로 전 세계를 탐색하는 세대</p>
-    </div>
-    <div class="split-divider"></div>
-    <div class="split-side">
-      <div class="side-tag coral">다른 얼굴</div>
-      <div class="side-word coral">15초 자극</div>
+    </article>
+    <span class="vs-divider" aria-hidden="true">vs</span>
+    <article class="split-side hot fragment">
+      <span class="side-no">Side 02</span>
+      <span class="side-glyph" aria-hidden="true">
+        <svg width="56" height="56" viewBox="0 0 60 60" fill="none">
+          <circle cx="12" cy="18" r="2.6" fill="#FF7A6B"/>
+          <circle cx="46" cy="20" r="2"   fill="#FF7A6B" opacity=".6"/>
+          <circle cx="22" cy="36" r="3.2" fill="#FF7A6B" opacity=".85"/>
+          <circle cx="42" cy="42" r="2.4" fill="#FF7A6B" opacity=".5"/>
+          <circle cx="32" cy="14" r="1.8" fill="#FF7A6B" opacity=".4"/>
+          <circle cx="50" cy="48" r="2"   fill="#FF7A6B" opacity=".7"/>
+          <circle cx="10" cy="46" r="1.6" fill="#FF7A6B" opacity=".55"/>
+          <circle cx="32" cy="50" r="1.4" fill="#FF7A6B" opacity=".4"/>
+        </svg>
+      </span>
+      <p class="side-tag">다른 얼굴</p>
+      <p class="side-word"><span class="accent">15초 자극</span></p>
       <p class="side-tail">주의력이 가장 쉽게 분산되는 세대</p>
-    </div>
+    </article>
   </div>
 </section>
 
-<!-- Slide 4: 포용성과 몰입감 -->
-<section class="slide" id="slide-4" data-sfx="page-turn"
+<!-- ===== S4 · 포용성과 몰입감 ===== -->
+<section class="slide s4" id="slide-4" data-sfx="page-turn"
   data-keywords="포용성, 몰입감, 학습자료의 두 축">
   <h2 class="sr-only">포용성과 몰입감</h2>
-  <span class="eyebrow">학습자료가 갖춰야 할 두 축</span>
-  <div class="duo-words">
-    <div>
-      <div class="duo-word cyan">포용성</div>
-      <div class="duo-caption">진입로를 열어 두기</div>
-    </div>
-    <div>
-      <div class="duo-word gold">몰입감</div>
-      <div class="duo-caption">끝까지 머물게 하기</div>
-    </div>
+  <p class="eyebrow is-green">학습자료가 갖춰야 할 두 축</p>
+
+  <div class="duo-tiles">
+    <article class="duo-tile green fragment">
+      <span class="tile-pic" aria-hidden="true">
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18 L14 26 L30 10"/></svg>
+      </span>
+      <p class="tile-word">포용성</p>
+      <p class="tile-cap">진입로를 열어 두기</p>
+    </article>
+    <span class="duo-fuse" aria-hidden="true">
+      <svg viewBox="0 0 80 80" width="80" height="80" fill="none">
+        <defs>
+          <linearGradient id="fuse-grad" x1="0%" y1="50%" x2="100%" y2="50%">
+            <stop offset="0%" stop-color="#36B37E"/>
+            <stop offset="100%" stop-color="#FF7A6B"/>
+          </linearGradient>
+        </defs>
+        <circle cx="30" cy="40" r="22" fill="none" stroke="#36B37E" stroke-width="2.5" opacity=".7"/>
+        <circle cx="50" cy="40" r="22" fill="none" stroke="#FF7A6B" stroke-width="2.5" opacity=".7"/>
+        <ellipse cx="40" cy="40" rx="7" ry="15" fill="url(#fuse-grad)" opacity=".9"/>
+        <line x1="32" y1="40" x2="48" y2="40" stroke="#F7F4ED" stroke-width="2" stroke-linecap="round"/>
+        <line x1="40" y1="32" x2="40" y2="48" stroke="#F7F4ED" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </span>
+    <article class="duo-tile coral fragment">
+      <span class="tile-pic" aria-hidden="true">
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="12"/><circle cx="18" cy="18" r="4" fill="currentColor"/></svg>
+      </span>
+      <p class="tile-word">몰입감</p>
+      <p class="tile-cap">끝까지 머물게 하기</p>
+    </article>
   </div>
-  <p class="duo-coda">
-    <span class="strikethrough">재미만 있어도 부족함</span> · <span class="strikethrough">참여만 시켜도 부족함</span><br>
-    <strong style="color:#f5c842;">둘이 함께 일어날 때</strong> 비로소 수업이 됩니다
+
+  <p class="duo-coda fragment">
+    <span class="strike">재미만 있어도 부족함</span> · <span class="strike">참여만 시켜도 부족함</span>
+  </p>
+  <p class="duo-coda duo-coda-final fragment">
+    <strong>둘이 함께 일어날 때</strong> <em>비로소 수업이 됩니다</em>
   </p>
 </section>
 
-<!-- Slide 5: 교사의 두 역할 -->
-<section class="slide" id="slide-5" data-sfx="page-turn"
+<!-- ===== S5 · 교사의 두 역할 ===== -->
+<section class="slide s5" id="slide-5" data-sfx="page-turn"
   data-keywords="콘텐츠 기획자, 환경 설계자, 교사의 두 역할">
   <h2 class="sr-only">교사의 두 역할 · 콘텐츠 기획자와 환경 설계자</h2>
-  <span class="eyebrow">포용성과 몰입감을 위해 · 교사는 두 역할을 맡습니다</span>
-  <div class="duo-words">
-    <div>
-      <div class="duo-word" style="font-size:clamp(1.8rem,4.5vw,3.5rem); color:#5de6c8;">콘텐츠<br>기획자</div>
-      <div class="duo-caption">구체적인 얼굴들을 떠올리며</div>
-    </div>
-    <div>
-      <div class="duo-word" style="font-size:clamp(1.8rem,4.5vw,3.5rem); color:#f5c842;">환경<br>설계자</div>
-      <div class="duo-caption">각자의 방식으로 참여·실패·재도전</div>
-    </div>
+  <p class="eyebrow is-blue">포용성과 몰입감을 위해 · 교사는 두 역할을 맡습니다</p>
+
+  <div class="duo-tiles">
+    <article class="duo-tile green s5 fragment">
+      <span class="tile-pic" aria-hidden="true">
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="13" r="4"/><circle cx="25" cy="13" r="4"/><path d="M5 28 c0 -4 4 -7 6 -7 s6 3 6 7"/><path d="M19 28 c0 -4 4 -7 6 -7 s6 3 6 7"/></svg>
+      </span>
+      <p class="tile-word">콘텐츠<br>기획자</p>
+      <p class="tile-cap">구체적인 얼굴들을 떠올리며</p>
+    </article>
+    <article class="duo-tile coral s5 fragment">
+      <span class="tile-pic" aria-hidden="true">
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="10" height="10" rx="2"/><rect x="20" y="6" width="10" height="10" rx="2"/><rect x="6" y="20" width="10" height="10" rx="2"/><rect x="20" y="20" width="10" height="10" rx="2"/></svg>
+      </span>
+      <p class="tile-word">환경<br>설계자</p>
+      <p class="tile-cap">각자의 방식으로 참여·실패·재도전</p>
+    </article>
   </div>
-  <p class="duo-coda" style="margin-top:3vh;">
-    정해진 지식을 읊는 전달자에 머물지 않습니다
-  </p>
+
+  <p class="duo-coda duo-coda-final fragment">정해진 지식을 읊는 전달자에 머물지 않습니다</p>
 </section>
 
-<!-- Slide 6: AI = 자연어 한 문장 -->
-<section class="slide" id="slide-6" data-sfx="page-turn"
+<!-- ===== S6 · AI = 자연어 한 문장 ===== -->
+<section class="slide s6" id="slide-6" data-sfx="page-turn"
   data-keywords="자연어 한 문장, 학습자료가 된다, 결정적 변화">
-  <span class="eyebrow">불과 지난 1~2년 사이 · 결정적 변화</span>
-  <h2 class="hero-text" style="font-size:clamp(2rem,5vw,4rem);">
-    키보드 대신 <span class="gold">말로</span><br>
-    자연어 <span class="cyan">한 문장</span>으로
+  <p class="eyebrow is-sand">불과 지난 1~2년 사이 · 결정적 변화</p>
+
+  <h2 class="hero hero-lg">
+    키보드 대신 <span class="coral">말로</span><br>
+    자연어 <span class="blue">한 문장</span>으로
   </h2>
-  <p class="tagline" style="max-width:900px; margin-top:4vh; line-height:1.7;">
-    학습 게임을 만들고 · 원어민 음성을 입히고 · 시각 단서를 더한 멀티모달 자료를 짧은 시간에 완성<br>
-    <span style="color:#f5c842;">교사의 상상력이 그날 수업의 현실이 되는 시대</span>
+
+  <span class="s6-divider" aria-hidden="true"></span>
+
+  <p class="s6-tagline fragment">
+    학습 게임을 만들고 · 원어민 음성을 입히고 · 시각 단서를 더한 멀티모달 자료를 짧은 시간에 완성
+  </p>
+  <p class="s6-tagline s6-tagline-2 fragment">
+    <strong>교사의 상상력이 그날 수업의 현실이 되는 시대</strong>
   </p>
 </section>
 
-<!-- Slide 7: 오늘의 질문 -->
-<section class="slide" id="slide-7" data-sfx="page-turn"
+<!-- ===== S7 · 오늘의 질문 ===== -->
+<section class="slide s7" id="slide-7" data-sfx="page-turn"
   data-keywords="우리가 만드는 학습자료는 포용적인가, 오늘의 질문">
-  <span class="eyebrow">오늘의 질문</span>
-  <h2 class="huge-question">
+  <p class="eyebrow">오늘의 질문</p>
+
+  <h2 class="huge-q">
     우리가 만드는<br>
     학습자료는<br>
-    포용적인가?
+    <span class="coral">포용</span>적인가?
   </h2>
+
+  <span class="s7-ornament" aria-hidden="true">today’s question</span>
 </section>
 
-<!-- Slide 8: UDL 3원칙 -->
-<section class="slide" id="slide-8" data-sfx="page-turn"
+<!-- ===== S8 · UDL 3원칙 ===== -->
+<section class="slide s8" id="slide-8" data-sfx="page-turn"
   data-keywords="UDL 세 원칙, 표상 행동과 표현 참여, 차이를 끌어안다">
-  <span class="eyebrow">보편적 학습 설계 · Universal Design for Learning</span>
-  <h2 class="deck-h2" style="margin-bottom:2vh;">차이를 끌어안는 <span class="gold">세 가지 원칙</span></h2>
-  <div class="pillar-row">
-    <div class="pillar cyan fragment">
-      <div class="pillar-num">원칙 ①</div>
-      <div class="pillar-name">표상</div>
-      <div class="pillar-en">Representation</div>
-      <div class="pillar-keys">텍스트 · 음성 · 이미지 · 다이어그램</div>
-    </div>
-    <div class="pillar gold fragment">
-      <div class="pillar-num">원칙 ②</div>
-      <div class="pillar-name">행동과 표현</div>
-      <div class="pillar-en">Action &amp; Expression</div>
-      <div class="pillar-keys">키보드 · 터치 · 음성 · 그림</div>
-    </div>
-    <div class="pillar purple fragment">
-      <div class="pillar-num">원칙 ③</div>
-      <div class="pillar-name">참여</div>
-      <div class="pillar-en">Engagement</div>
-      <div class="pillar-keys">도전 수준 · 보상 · 협력</div>
-    </div>
+  <p class="eyebrow is-blue">보편적 학습 설계 · Universal Design for Learning</p>
+  <h2 class="deck-h2">차이를 끌어안는 <em>세 가지 원칙</em></h2>
+
+  <div class="notes">
+    <article class="note n1 fragment">
+      <header class="note-head">
+        <span class="note-num"><span class="n-dot" aria-hidden="true"></span>원칙 ①</span>
+        <span class="note-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <rect x="3" y="4" width="16" height="3" rx="1.5" fill="#FF7A6B"/>
+            <rect x="3" y="9.5" width="11" height="3" rx="1.5" fill="#FF7A6B" opacity=".55"/>
+            <rect x="3" y="15" width="14" height="3" rx="1.5" fill="#FF7A6B" opacity=".8"/>
+          </svg>
+        </span>
+      </header>
+      <div>
+        <h3 class="note-name">표상</h3>
+        <p class="note-en">Representation</p>
+      </div>
+      <p class="note-keys">텍스트 · 음성 · 이미지 · 다이어그램</p>
+    </article>
+
+    <article class="note n2 fragment">
+      <header class="note-head">
+        <span class="note-num"><span class="n-dot" aria-hidden="true"></span>원칙 ②</span>
+        <span class="note-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <circle cx="6" cy="6" r="2.4" fill="#36B37E"/>
+            <circle cx="16" cy="6" r="2.4" fill="#36B37E" opacity=".55"/>
+            <circle cx="6" cy="16" r="2.4" fill="#36B37E" opacity=".8"/>
+            <circle cx="16" cy="16" r="2.4" fill="#36B37E" opacity=".35"/>
+          </svg>
+        </span>
+      </header>
+      <div>
+        <h3 class="note-name">행동과 표현</h3>
+        <p class="note-en">Action &amp; Expression</p>
+      </div>
+      <p class="note-keys">키보드 · 터치 · 음성 · 그림</p>
+    </article>
+
+    <article class="note n3 fragment">
+      <header class="note-head">
+        <span class="note-num"><span class="n-dot" aria-hidden="true"></span>원칙 ③</span>
+        <span class="note-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <path d="M11 3.5 L12.6 8.2 L17.5 8.2 L13.5 11.1 L15.1 15.8 L11 12.9 L6.9 15.8 L8.5 11.1 L4.5 8.2 L9.4 8.2 Z" fill="#5E8CFF"/>
+          </svg>
+        </span>
+      </header>
+      <div>
+        <h3 class="note-name">참여</h3>
+        <p class="note-en">Engagement</p>
+      </div>
+      <p class="note-keys">도전 수준 · 보상 · 협력</p>
+    </article>
   </div>
-  <p class="cast-caption fragment">미국 CAST 연구센터 · 보편적 설계 운동을 교육에 접목한 개념</p>
+
+  <p class="s8-source fragment">미국 CAST 연구센터 · 보편적 설계 운동을 교육에 접목한 개념</p>
 </section>
 
-<!-- Slide 9: 멀티모달 -->
-<section class="slide" id="slide-9" data-sfx="page-turn"
+<!-- ===== S9 · 멀티모달 ===== -->
+<section class="slide s9" id="slide-9" data-sfx="page-turn"
   data-keywords="여러 감각, 여러 진입로, 멀티모달 설계">
-  <span class="eyebrow">UDL의 실천 ①</span>
-  <h2 class="deck-h2">여러 <span class="gold">감각</span>, 여러 <span class="cyan">진입로</span></h2>
+  <p class="eyebrow is-green">UDL의 실천 ①</p>
+  <h2 class="deck-h2 is-green">여러 <em>감각</em>, 여러 진입로</h2>
+
   <div class="sense-row">
-    <div class="sense fragment">
-      <span class="sense-icon" aria-hidden="true">&#x1F50A;</span>
-      <div class="sense-label">소리</div>
-      <div class="sense-sub">TTS · 효과음</div>
-    </div>
-    <div class="sense fragment">
-      <span class="sense-icon" aria-hidden="true">&#x1F441;</span>
-      <div class="sense-label">시각</div>
-      <div class="sense-sub">색상 · 이미지</div>
-    </div>
-    <div class="sense fragment">
-      <span class="sense-icon" aria-hidden="true">&#x2328;</span>
-      <div class="sense-label">키보드</div>
-      <div class="sense-sub">탭 · 화살표</div>
-    </div>
-    <div class="sense fragment">
-      <span class="sense-icon" aria-hidden="true">&#x1F446;</span>
-      <div class="sense-label">터치</div>
-      <div class="sense-sub">드래그 · 클릭</div>
-    </div>
-    <div class="sense fragment">
-      <span class="sense-icon" aria-hidden="true">&#x26A1;</span>
-      <div class="sense-label">피드백</div>
-      <div class="sense-sub">즉각 · 단계별</div>
-    </div>
+    <article class="sense c-coral fragment">
+      <span class="s-pic" aria-hidden="true">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 6 6 10 3 10 3 18 6 18 11 22 11 6" fill="currentColor"/><path d="M17 9 a6 6 0 0 1 0 10"/><path d="M21 6 a10 10 0 0 1 0 16"/></svg>
+      </span>
+      <span class="s-label">소리</span>
+      <span class="s-sub">TTS · 효과음</span>
+    </article>
+    <article class="sense c-green fragment">
+      <span class="s-pic" aria-hidden="true">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 14 C5 8 10 5 14 5 S23 8 26 14 C23 20 18 23 14 23 S5 20 2 14 Z"/><circle cx="14" cy="14" r="4" fill="currentColor"/></svg>
+      </span>
+      <span class="s-label">시각</span>
+      <span class="s-sub">색상 · 이미지</span>
+    </article>
+    <article class="sense c-blue fragment">
+      <span class="s-pic" aria-hidden="true">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="22" height="14" rx="2"/><line x1="7" y1="11" x2="7" y2="11"/><line x1="11" y1="11" x2="11" y2="11"/><line x1="15" y1="11" x2="15" y2="11"/><line x1="19" y1="11" x2="19" y2="11"/><line x1="7" y1="15" x2="7" y2="15"/><line x1="11" y1="15" x2="11" y2="15"/><line x1="15" y1="15" x2="15" y2="15"/><line x1="19" y1="15" x2="19" y2="15"/><line x1="9" y1="18" x2="19" y2="18"/></svg>
+      </span>
+      <span class="s-label">키보드</span>
+      <span class="s-sub">탭 · 화살표</span>
+    </article>
+    <article class="sense c-sand fragment">
+      <span class="s-pic" aria-hidden="true">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14 V6 a2 2 0 0 1 4 0 V14 M14 13 V4 a2 2 0 0 1 4 0 V13 M18 13 V6 a2 2 0 0 1 4 0 V18 a6 6 0 0 1 -6 6 H12 a4 4 0 0 1 -4 -4 V14 a2 2 0 0 1 4 0"/></svg>
+      </span>
+      <span class="s-label">터치</span>
+      <span class="s-sub">드래그 · 클릭</span>
+    </article>
+    <article class="sense c-coral2 fragment">
+      <span class="s-pic" aria-hidden="true">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="15 3 7 16 13 16 11 25 21 12 15 12 15 3" fill="currentColor"/></svg>
+      </span>
+      <span class="s-label">피드백</span>
+      <span class="s-sub">즉각 · 단계별</span>
+    </article>
   </div>
-  <p class="tagline fragment" style="margin-top:4vh; max-width:900px;">
-    자막은 청각장애인뿐 아니라 <span class="gold">도서관의 모두에게 유용</span><br>
-    키보드 내비는 시각장애인뿐 아니라 <span class="gold">마우스를 못 쓰는 모두에게 유용</span>
+
+  <p class="s9-tag fragment">
+    자막은 청각장애인뿐 아니라 <em>소리를 못 켜는 모두에게 유용</em><br>
+    키보드 내비는 시각장애인뿐 아니라 <em class="g">마우스를 못 쓰는 모두에게 유용</em>
   </p>
 </section>
 
-<!-- Slide 10: 설계 단계부터 큰 인용 -->
-<section class="slide" id="slide-10" data-sfx="page-turn"
+<!-- ===== S10 · 설계 단계부터 ===== -->
+<section class="slide s10" id="slide-10" data-sfx="page-turn"
   data-keywords="첫 프롬프트에 한 줄, 설계 단계부터, 접근성 내장">
   <h2 class="sr-only">설계 단계부터 접근성을 내장하라</h2>
-  <span class="eyebrow">UDL의 실천 ②</span>
+  <p class="eyebrow is-green">UDL의 실천 ②</p>
+
   <p class="big-quote">
-    <span class="quote-mark">&ldquo;</span>모든 기능에 <span class="gold">접근성</span>을 고려해 줘<span class="quote-mark">&rdquo;</span>
-    <span class="quote-source">바이브 코딩 시대 · 첫 프롬프트에 단 한 줄이면 시작됩니다</span>
+    <span class="qm">“</span>모든 기능에 <em class="g">접근성</em>을 고려해 줘<span class="qm">”</span>
   </p>
-  <p class="tagline" style="margin-top:4vh; max-width:900px;">
-    다 만든 뒤에 덧붙이는 것과는 <strong style="color:#f5c842;">하늘과 땅 차이</strong><br>
+  <p class="quote-source fragment">바이브 코딩 시대 · 첫 프롬프트에 단 한 줄이면 시작됩니다</p>
+
+  <p class="s10-tail fragment">
+    다 만든 뒤에 덧붙이는 것과는 <strong>하늘과 땅 차이</strong><br>
     완성도 · 시간 · 비용 모두 다릅니다
   </p>
 </section>
 
-<!-- Slide 11: Word Bomb -->
-<section class="slide" id="slide-11" data-sfx="page-turn"
+<!-- ===== S11 · WORD BOMB ===== -->
+<section class="slide s11" id="slide-11" data-sfx="page-turn"
   data-keywords="Word Bomb, 영영풀이를 박진감으로, 30분 만에 게임">
-  <span class="eyebrow">사례 ① · 공강 30분에 태어난 게임</span>
-  <div class="game-layout">
-    <div class="game-illust" aria-hidden="true">
-      <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+  <p class="eyebrow">사례 ① · 공강 30분에 태어난 게임</p>
+
+  <div class="case-grid">
+    <figure class="case-figure" aria-hidden="true">
+      <svg class="case-illust" viewBox="0 0 180 180" fill="none">
         <defs>
-          <radialGradient id="bombGrad" cx="40%" cy="40%" r="60%">
-            <stop offset="0%" stop-color="#3a3a4a"/>
-            <stop offset="100%" stop-color="#161b22"/>
-          </radialGradient>
+          <linearGradient id="g-wb" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FF7A6B"/>
+            <stop offset="100%" stop-color="#FFA89D"/>
+          </linearGradient>
         </defs>
-        <g>
-          <line x1="125" y1="60" x2="155" y2="30" stroke="#8b949e" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="4 4"/>
-          <circle cx="155" cy="30" r="6" fill="#ff6b8a"/>
-          <circle cx="160" cy="25" r="3" fill="#f5c842" opacity="0.9"/>
-          <circle cx="165" cy="32" r="2" fill="#f5c842" opacity="0.7"/>
-          <circle cx="120" cy="135" r="65" fill="url(#bombGrad)" stroke="#30363d" stroke-width="2"/>
-          <circle cx="100" cy="115" r="10" fill="#21262d"/>
-          <text x="120" y="148" text-anchor="middle" font-size="34" font-weight="900" fill="#f5c842" font-family="Noto Sans KR,sans-serif">3</text>
+        <g stroke="#FF7A6B" stroke-width="3" stroke-linecap="round" opacity=".7">
+          <line x1="90" y1="14" x2="90" y2="32"/>
+          <line x1="146" y1="34" x2="134" y2="46"/>
+          <line x1="166" y1="90" x2="150" y2="90"/>
+          <line x1="146" y1="146" x2="134" y2="134"/>
+          <line x1="34" y1="146" x2="46" y2="134"/>
+          <line x1="14" y1="90" x2="32" y2="90"/>
+          <line x1="34" y1="34" x2="46" y2="46"/>
+          <line x1="90" y1="166" x2="90" y2="148"/>
         </g>
+        <circle cx="90" cy="90" r="52" fill="url(#g-wb)"/>
+        <circle cx="90" cy="90" r="38" fill="none" stroke="#fff" stroke-width="2" opacity=".55"/>
+        <text x="90" y="106" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="58" font-weight="700" fill="#fff">3</text>
       </svg>
-    </div>
-    <div class="game-text">
-      <h2 class="game-headline"><span class="gold">Word Bomb</span><br>영영풀이를 <span class="cyan">박진감</span>으로</h2>
-      <div class="game-keys fragment">
-        <span class="key-chip accent">30분 만에 완성</span>
-        <span class="key-chip">시각 카드</span>
-        <span class="key-chip">Gemini TTS</span>
-        <span class="key-chip accent-cyan">카운트다운</span>
-        <span class="key-chip">콤보 배수</span>
-        <span class="key-chip">무한 재도전</span>
+      <span class="case-tag">Case 01</span>
+      <h4 class="case-name">Word Bomb</h4>
+      <p class="case-meta">L1 · LIVE<br>중학교 1학년 영어</p>
+    </figure>
+
+    <div class="case-text">
+      <h2 class="case-title"><em>Word Bomb</em><br>영영풀이를 <span class="h-g">박진감</span>으로</h2>
+      <div class="case-chips fragment">
+        <span class="chip lead">30분 만에 완성</span>
+        <span class="chip">시각 카드</span>
+        <span class="chip">Gemini TTS</span>
+        <span class="chip cool">카운트다운</span>
+        <span class="chip">콤보 배수</span>
+        <span class="chip alt">무한 재도전</span>
       </div>
-      <p class="game-byline fragment">학습지 위 밋밋한 활자 하나가 시각 · 청각 · 반응 시간을 아우르는 게임으로 변신</p>
-      <a class="game-link fragment" href="https://engccer.github.io/word-bomb-L1/" target="_blank" rel="noopener">Word Bomb 라이브 &rarr;</a>
+      <p class="case-byline fragment">학습지 위 밋밋한 활자 하나가<br>시각 · 청각 · 반응 시간을 아우르는 게임으로 변신</p>
+      <a class="cta-link case-link fragment" href="https://engccer.github.io/word-bomb-L1/" target="_blank" rel="noopener">Word Bomb 라이브 열기 <span aria-hidden="true">→</span></a>
     </div>
   </div>
 </section>
 
-<!-- Slide 12: laugh 해프닝 -->
-<section class="slide" id="slide-12" data-sfx="page-turn"
+<!-- ===== S12 · LAUGH 해프닝 ===== -->
+<section class="slide s12" id="slide-12" data-sfx="page-turn"
   data-keywords="AI의 실수, 즐거운 교실, laugh 해프닝">
-  <span class="eyebrow">개발 과정의 해프닝</span>
+  <p class="eyebrow">개발 과정의 해프닝</p>
+
   <div class="laugh-stage">
-    <h2 class="game-headline" style="text-align:center;">
-      <span class="gold">laugh</span> 한 단어 ·<br>그날 교실은 웃음바다였습니다
-    </h2>
+    <h2 class="laugh-headline"><em>laugh</em> 한 단어 ·<br>그날 교실은 웃음바다였습니다</h2>
+
     <div class="laugh-buttons">
       <button type="button" class="laugh-btn wrong" id="btn-laugh-wrong">
-        <span class="laugh-icon" aria-hidden="true">&#x1F923;</span>
+        <span class="laugh-pic" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="14" cy="14" r="11"/><path d="M9 17 q5 4 10 0"/><line x1="9" y1="11" x2="11" y2="11"/><line x1="17" y1="11" x2="19" y2="11"/></svg>
+        </span>
         <span>AI의 실수</span>
         <span class="laugh-cap">잘못 생성된 웃음소리</span>
       </button>
       <button type="button" class="laugh-btn right" id="btn-laugh-correct">
-        <span class="laugh-icon" aria-hidden="true">&#x2705;</span>
+        <span class="laugh-pic" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="14" cy="14" r="11"/><path d="M8 14 L12 18 L20 9"/></svg>
+        </span>
         <span>수정된 발음</span>
         <span class="laugh-cap">정상 단어 음성</span>
       </button>
     </div>
+
     <p class="laugh-reaction fragment">
-      &ldquo;선생님, AI도 실수를 하네요!&rdquo;<br>
-      &ldquo;다음엔 꼭 실수 하나씩 넣어 주세요!&rdquo;
+      “선생님, AI도 실수를 하네요!”<br>
+      “다음엔 꼭 실수 하나씩 넣어 주세요!”
       <span class="quote-by">· 학생들의 반응</span>
     </p>
   </div>
 </section>
 
-<!-- Slide 13: Story Detective -->
-<section class="slide" id="slide-13" data-sfx="page-turn"
+<!-- ===== S13 · STORY DETECTIVE ===== -->
+<section class="slide s13" id="slide-13" data-sfx="page-turn"
   data-keywords="Story Detective, 교과서 본문을 추리 서사로, 능동적 탐색">
-  <span class="eyebrow">사례 ② · 같은 본문 · 다른 진입로</span>
-  <div class="game-layout">
-    <div class="game-illust" aria-hidden="true">
-      <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
-        <g>
-          <rect x="55" y="65" width="120" height="150" rx="6" fill="#1c2128" stroke="#8b949e" stroke-width="2"/>
-          <line x1="70" y1="90" x2="160" y2="90" stroke="#5de6c8" stroke-width="2"/>
-          <line x1="70" y1="105" x2="150" y2="105" stroke="#30363d" stroke-width="1.5"/>
-          <line x1="70" y1="120" x2="155" y2="120" stroke="#30363d" stroke-width="1.5"/>
-          <line x1="70" y1="135" x2="145" y2="135" stroke="#30363d" stroke-width="1.5"/>
-          <line x1="70" y1="150" x2="158" y2="150" stroke="#30363d" stroke-width="1.5"/>
-          <line x1="70" y1="165" x2="140" y2="165" stroke="#30363d" stroke-width="1.5"/>
-          <line x1="70" y1="180" x2="160" y2="180" stroke="#30363d" stroke-width="1.5"/>
-          <circle cx="155" cy="135" r="32" fill="none" stroke="#f5c842" stroke-width="4"/>
-          <line x1="178" y1="158" x2="200" y2="180" stroke="#f5c842" stroke-width="6" stroke-linecap="round"/>
-          <text x="155" y="142" text-anchor="middle" font-size="22" font-weight="900" fill="#f5c842" font-family="serif">?</text>
-        </g>
-      </svg>
-    </div>
-    <div class="game-text">
-      <h2 class="game-headline"><span class="gold">Story Detective</span><br>교과서 본문을 <span class="cyan">추리 서사</span>로</h2>
-      <div class="game-keys fragment">
-        <span class="key-chip accent">본문 토씨 그대로</span>
-        <span class="key-chip">단서 카드</span>
-        <span class="key-chip accent-cyan">탐정 서사</span>
-        <span class="key-chip">ElevenLabs 효과음</span>
-        <span class="key-chip">Gemini 브리핑 이미지</span>
-      </div>
-      <p class="game-byline fragment">수동적 읽기에서 능동적 탐색으로 · 학생이 텍스트 안에 훨씬 더 오래 머무름</p>
-      <a class="game-link fragment" href="https://engccer.github.io/story-detective-L1/" target="_blank" rel="noopener">Story Detective 라이브 &rarr;</a>
-    </div>
-  </div>
-</section>
+  <p class="eyebrow is-green">사례 ② · 같은 본문 · 다른 진입로</p>
 
-<!-- Slide 14: Grammar Potion -->
-<section class="slide" id="slide-14" data-sfx="page-turn"
-  data-keywords="Grammar Potion, 문법을 마법의 물약으로, 실패 허용">
-  <span class="eyebrow">사례 ③ · 규칙에서 조립으로</span>
-  <div class="game-layout">
-    <div class="game-illust" aria-hidden="true">
-      <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+  <div class="case-grid">
+    <figure class="case-figure fg-green" aria-hidden="true">
+      <svg class="case-illust" viewBox="0 0 180 180" fill="none">
         <defs>
-          <radialGradient id="potionGrad" cx="50%" cy="50%" r="60%">
-            <stop offset="0%" stop-color="#a78bfa"/>
-            <stop offset="80%" stop-color="#5d3a99"/>
-          </radialGradient>
+          <linearGradient id="g-sd" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#36B37E"/>
+            <stop offset="100%" stop-color="#5DCFA0"/>
+          </linearGradient>
         </defs>
-        <g>
-          <ellipse cx="80" cy="60" rx="6" ry="9" fill="#5de6c8" opacity="0.8"/>
-          <ellipse cx="110" cy="48" rx="4" ry="6" fill="#5de6c8" opacity="0.65"/>
-          <ellipse cx="140" cy="58" rx="7" ry="10" fill="#5de6c8" opacity="0.75"/>
-          <ellipse cx="160" cy="42" rx="3" ry="5" fill="#5de6c8" opacity="0.55"/>
-          <ellipse cx="60" cy="44" rx="4" ry="6" fill="#5de6c8" opacity="0.5"/>
-          <ellipse cx="120" cy="155" rx="80" ry="22" fill="#21262d"/>
-          <path d="M 50 145 Q 50 200 80 215 L 160 215 Q 190 200 190 145 Z" fill="url(#potionGrad)" stroke="#30363d" stroke-width="2"/>
-          <ellipse cx="120" cy="145" rx="70" ry="14" fill="#c4a8f5" opacity="0.85"/>
-          <rect x="60" y="135" width="120" height="10" rx="3" fill="#1c2128" stroke="#30363d"/>
-          <rect x="92" y="170" width="14" height="14" rx="3" fill="#f5c842" opacity="0.8"/>
-          <rect x="118" y="180" width="12" height="12" rx="3" fill="#5de6c8" opacity="0.8"/>
-          <rect x="140" y="172" width="13" height="13" rx="3" fill="#ff6b8a" opacity="0.8"/>
-        </g>
+        <!-- book pages -->
+        <rect x="36" y="40" width="80" height="110" rx="6" fill="#FFFEFA" stroke="#36B37E" stroke-width="2"/>
+        <line x1="48" y1="60" x2="104" y2="60" stroke="#7E879A" stroke-width="2" stroke-linecap="round"/>
+        <line x1="48" y1="72" x2="98" y2="72" stroke="#A3ABBC" stroke-width="2" stroke-linecap="round"/>
+        <line x1="48" y1="84" x2="104" y2="84" stroke="#A3ABBC" stroke-width="2" stroke-linecap="round"/>
+        <line x1="48" y1="96" x2="92" y2="96" stroke="#A3ABBC" stroke-width="2" stroke-linecap="round"/>
+        <line x1="48" y1="108" x2="100" y2="108" stroke="#A3ABBC" stroke-width="2" stroke-linecap="round"/>
+        <line x1="48" y1="120" x2="86" y2="120" stroke="#A3ABBC" stroke-width="2" stroke-linecap="round"/>
+        <!-- magnifier -->
+        <circle cx="120" cy="112" r="30" fill="url(#g-sd)" opacity=".18"/>
+        <circle cx="120" cy="112" r="30" fill="none" stroke="#36B37E" stroke-width="4"/>
+        <line x1="142" y1="134" x2="160" y2="152" stroke="#36B37E" stroke-width="6" stroke-linecap="round"/>
+        <text x="120" y="120" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="28" font-weight="700" fill="#36B37E">?</text>
       </svg>
-    </div>
-    <div class="game-text">
-      <h2 class="game-headline"><span class="gold">Grammar Potion Lab</span><br>문법을 <span class="cyan">마법의 물약</span>으로</h2>
-      <div class="game-keys fragment">
-        <span class="key-chip accent">마법사 견습생</span>
-        <span class="key-chip">재료 조합</span>
-        <span class="key-chip accent-cyan">실패 허용</span>
-        <span class="key-chip">무한 재도전</span>
-        <span class="key-chip">반복 학습</span>
+      <span class="case-tag">Case 02</span>
+      <h4 class="case-name">Story Detective</h4>
+      <p class="case-meta">L1 · LIVE<br>본문 토씨 그대로</p>
+    </figure>
+
+    <div class="case-text">
+      <h2 class="case-title"><em>Story Detective</em><br>교과서 본문을 <span class="h-b">추리 서사</span>로</h2>
+      <div class="case-chips fragment">
+        <span class="chip cool">본문 토씨 그대로</span>
+        <span class="chip">단서 카드</span>
+        <span class="chip alt">탐정 서사</span>
+        <span class="chip">ElevenLabs 효과음</span>
+        <span class="chip">Gemini 브리핑 이미지</span>
       </div>
-      <p class="game-byline fragment">수동적 암기에서 능동적 조작으로 · 문법이 끼워 맞추는 조립 블록으로 바뀜</p>
-      <a class="game-link fragment" href="https://engccer.github.io/grammar-potion-L1/" target="_blank" rel="noopener">Grammar Potion Lab 라이브 &rarr;</a>
+      <p class="case-byline fragment">수동적 읽기에서 능동적 탐색으로<br>학생이 텍스트 안에 훨씬 더 오래 머무름</p>
+      <a class="cta-link case-link fragment" href="https://engccer.github.io/story-detective-L1/" target="_blank" rel="noopener">Story Detective 라이브 열기 <span aria-hidden="true">→</span></a>
     </div>
   </div>
 </section>
 
-<!-- Slide 15: AI의 한계 -->
-<section class="slide" id="slide-15" data-sfx="page-turn"
+<!-- ===== S14 · GRAMMAR POTION ===== -->
+<section class="slide s14" id="slide-14" data-sfx="page-turn"
+  data-keywords="Grammar Potion, 문법을 마법의 물약으로, 실패 허용">
+  <p class="eyebrow is-blue">사례 ③ · 규칙에서 조립으로</p>
+
+  <div class="case-grid">
+    <figure class="case-figure fg-blue" aria-hidden="true">
+      <svg class="case-illust" viewBox="0 0 180 180" fill="none">
+        <defs>
+          <linearGradient id="g-gp" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#8AAEFF"/>
+            <stop offset="100%" stop-color="#5E8CFF"/>
+          </linearGradient>
+        </defs>
+        <!-- bubbles -->
+        <circle cx="74" cy="32" r="5" fill="#5E8CFF" opacity=".55"/>
+        <circle cx="92" cy="22" r="3.5" fill="#5E8CFF" opacity=".4"/>
+        <circle cx="106" cy="34" r="4.5" fill="#5E8CFF" opacity=".6"/>
+        <!-- flask neck -->
+        <rect x="78" y="44" width="24" height="22" rx="3" fill="#FFFEFA" stroke="#5E8CFF" stroke-width="2.5"/>
+        <!-- flask body -->
+        <path d="M78 66 L60 116 a32 32 0 0 0 60 0 L102 66 Z" fill="url(#g-gp)" stroke="#5E8CFF" stroke-width="2.5"/>
+        <!-- highlight -->
+        <path d="M68 96 a18 18 0 0 1 14 -22" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".5"/>
+        <!-- shine bubbles -->
+        <circle cx="88" cy="100" r="4" fill="#fff" opacity=".55"/>
+        <circle cx="100" cy="115" r="3" fill="#fff" opacity=".45"/>
+        <!-- ingredient blocks below -->
+        <rect x="56" y="146" width="16" height="16" rx="3" fill="#FF7A6B" opacity=".88"/>
+        <rect x="82" y="146" width="16" height="16" rx="3" fill="#36B37E" opacity=".88"/>
+        <rect x="108" y="146" width="16" height="16" rx="3" fill="#D9C7A3" opacity=".88"/>
+      </svg>
+      <span class="case-tag">Case 03</span>
+      <h4 class="case-name">Grammar Potion Lab</h4>
+      <p class="case-meta">L1 · LIVE<br>마법사 견습생</p>
+    </figure>
+
+    <div class="case-text">
+      <h2 class="case-title"><em>Grammar Potion Lab</em><br>문법을 <span class="h-b">마법의 물약</span>으로</h2>
+      <div class="case-chips fragment">
+        <span class="chip alt">마법사 견습생</span>
+        <span class="chip">재료 조합</span>
+        <span class="chip cool">실패 허용</span>
+        <span class="chip">무한 재도전</span>
+        <span class="chip">반복 학습</span>
+      </div>
+      <p class="case-byline fragment">수동적 암기에서 능동적 조작으로
+문법이 끼워 맞추는 조립 블록으로 바뀜</p>
+      <a class="cta-link case-link fragment" href="https://engccer.github.io/grammar-potion-L1/" target="_blank" rel="noopener">Grammar Potion Lab 라이브 열기 <span aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== S15 · AI의 한계 ===== -->
+<section class="slide s15" id="slide-15" data-sfx="page-turn"
   data-keywords="엄밀함은 아직 사람의 몫, AI 데이터 검증 한계">
   <h2 class="sr-only">AI의 한계 · 데이터 엄밀성은 아직 사람의 몫</h2>
-  <span class="eyebrow">Grammar Potion 개발에서 겪은 시행착오</span>
+  <p class="eyebrow">Grammar Potion 개발에서 겪은 시행착오</p>
+
   <div class="warn-box">
-    <div class="warn-title">교훈</div>
-    <div class="warn-key">
-      교육 데이터의 <span class="coral">엄밀한 정확성</span>은<br>
-      아직 <span class="gold">사람의 몫</span>입니다
-    </div>
+    <span class="warn-title">교훈</span>
+    <p class="warn-key">
+      교육 데이터의 <em>엄밀한 정확성</em>은<br>
+      아직 <em class="b">사람의 몫</em>입니다
+    </p>
     <p class="warn-tail">
       포션 레시피와 학습지가 <strong>글자·띄어쓰기·순서</strong>까지 일치해야 하는 상황<br>
       AI에 세 번 검증을 시켰지만 교묘하게 어긋난 오류는 끝내 잡지 못함<br>
-      <span style="color:#f5c842;">결국 학습지와 화면 사이를 수십 번 오가며 사람이 직접 대조</span>
+      <strong>결국 학습지와 화면 사이를 수십 번 오가며 사람이 직접 대조</strong>
     </p>
   </div>
 </section>
 
-<!-- Slide 16: Pick Me -->
-<section class="slide" id="slide-16" data-sfx="page-turn"
+<!-- ===== S16 · PICK ME ===== -->
+<section class="slide s16" id="slide-16" data-sfx="page-turn"
   data-keywords="Pick Me, 한 줄 프롬프트의 힘, 화려함과 접근성을 동시에">
   <h2 class="sr-only">Pick Me · 한 줄 프롬프트의 힘</h2>
-  <span class="eyebrow">사례 ④ · 한 줄 프롬프트의 힘</span>
-  <p class="big-quote" style="font-size:clamp(1.4rem,3.2vw,2.5rem);">
-    <span class="quote-mark">&ldquo;</span>시각적으로 <span class="gold">화려</span>하면서도<br>
-    <span class="cyan">접근성</span>을 완벽하게 갖춰 줘<span class="quote-mark">&rdquo;</span>
+  <p class="eyebrow is-sand">사례 ④ · 한 줄 프롬프트의 힘</p>
+
+  <p class="big-quote">
+    <span class="qm">“</span>시각적으로 <em>화려</em>하면서도<br>
+    <em class="b">접근성</em>을 완벽하게 갖춰 줘<span class="qm">”</span>
     <span class="quote-source">Pick Me · 학생 추첨 도구 · 3일 만에 초기 버전</span>
   </p>
-  <div class="game-keys fragment" style="justify-content:center; margin-top:3vh;">
-    <span class="key-chip accent">Three.js 3D</span>
-    <span class="key-chip">룰렛 · 로또 · 낚시</span>
-    <span class="key-chip accent-cyan">ARIA 레이블</span>
-    <span class="key-chip accent-cyan">키보드 내비게이션</span>
-    <span class="key-chip accent-cyan">고대비 색상</span>
-    <span class="key-chip">Web Audio API 합성</span>
+
+  <div class="s16-chips fragment">
+    <span class="chip lead">Three.js 3D</span>
+    <span class="chip">룰렛 · 로또 · 낚시</span>
+    <span class="chip cool">ARIA 레이블</span>
+    <span class="chip cool">키보드 내비게이션</span>
+    <span class="chip cool">고대비 색상</span>
+    <span class="chip alt">Web Audio API 합성</span>
   </div>
-  <p class="tagline fragment" style="margin-top:3vh; max-width:900px;">
-    접근성은 어려운 일이 아니라 · <span style="color:#f5c842;">늘 우선순위에서 뒤로 밀려 있었을 뿐</span>
-  </p>
-  <a class="game-link fragment" href="https://aro-deeply.github.io/pickme/" target="_blank" rel="noopener" style="margin-top:2.5vh;">Pick Me 라이브 &rarr;</a>
+
+  <p class="s16-tail fragment">접근성은 어려운 일이 아니라 · <strong>늘 우선순위에서 뒤로 밀려 있었을 뿐</strong></p>
+
+  <a class="cta-link s16-link fragment" href="https://aro-deeply.github.io/pickme/" target="_blank" rel="noopener">Pick Me 라이브 열기 <span aria-hidden="true">→</span></a>
 </section>
 
-<!-- Slide 17: 학생 평가 ① 평균 점수 -->
-<section class="slide" id="slide-17" data-sfx="page-turn"
+<!-- ===== S17 · CHART (평균 점수) ===== -->
+<section class="slide s17" id="slide-17" data-sfx="page-turn"
   data-keywords="평균 점수, 긍정 85 81 72 퍼센트, 신명중 1학년 130명">
-  <span class="eyebrow">학생들의 평가 ① · 신명중 1학년 130명 익명 설문</span>
-  <h2 class="sr-only">학생들의 평가 평균 점수</h2>
-  <div class="info-card fragment" style="max-width:1100px; width:100%;">
-    <div class="info-title">5점 만점 평균 (괄호 = 긍정 응답 4~5점 비율)</div>
-    <svg class="info-svg" id="chart-scores" viewBox="0 0 800 220" role="img" aria-label="">
-      <title>5점 만점 평균 점수</title>
-      <desc id="chart-scores-desc"></desc>
-      <line x1="180" y1="22" x2="780" y2="22" stroke="#30363d" stroke-width="1"/>
-      <text x="180" y="15" fill="#8b949e" font-size="11" font-family="Noto Sans KR,sans-serif">0</text>
-      <text x="300" y="15" fill="#8b949e" font-size="11" font-family="Noto Sans KR,sans-serif">1</text>
-      <text x="420" y="15" fill="#8b949e" font-size="11" font-family="Noto Sans KR,sans-serif">2</text>
-      <text x="540" y="15" fill="#8b949e" font-size="11" font-family="Noto Sans KR,sans-serif">3</text>
-      <text x="660" y="15" fill="#8b949e" font-size="11" font-family="Noto Sans KR,sans-serif">4</text>
-      <text x="773" y="15" fill="#8b949e" font-size="11" font-family="Noto Sans KR,sans-serif">5</text>
-      <g id="chart-scores-bars"></g>
-      <text x="400" y="210" text-anchor="middle" fill="#8b949e" font-size="12" font-family="Noto Sans KR,sans-serif" id="chart-scores-foot"></text>
-    </svg>
+  <p class="eyebrow">학생들의 평가 ① · 신명중 1학년 130명 익명 설문</p>
+  <h2 class="deck-h2">학생들의 평가 <em>평균 점수</em></h2>
+  <p class="s17-sub">5점 만점 평균 (괄호 = 긍정 응답 4–5점 비율)</p>
+
+  <div class="chart-card fragment" role="img" aria-labelledby="s17-chart-desc">
+    <span class="sr-only" id="s17-chart-desc">전체 만족도 4.35점 긍정 85.4퍼센트, 집중도 4.17점 긍정 80.8퍼센트, 학습 도움 3.94점 긍정 72.3퍼센트</span>
+    <div class="chart-rows">
+      <div class="chart-row r1">
+        <div class="row-label">전체 만족도</div>
+        <div class="row-bar" aria-hidden="true"><div class="row-fill" style="--w:87%"></div></div>
+        <div class="row-end">
+          <div class="row-score">4.35<span class="denom">/5</span></div>
+          <div class="row-pos">긍정 85.4%</div>
+        </div>
+      </div>
+      <div class="chart-row r2">
+        <div class="row-label">집중도</div>
+        <div class="row-bar" aria-hidden="true"><div class="row-fill" style="--w:83.4%"></div></div>
+        <div class="row-end">
+          <div class="row-score">4.17<span class="denom">/5</span></div>
+          <div class="row-pos">긍정 80.8%</div>
+        </div>
+      </div>
+      <div class="chart-row r3">
+        <div class="row-label">학습 도움</div>
+        <div class="row-bar" aria-hidden="true"><div class="row-fill" style="--w:78.8%"></div></div>
+        <div class="row-end">
+          <div class="row-score">3.94<span class="denom">/5</span></div>
+          <div class="row-pos">긍정 72.3%</div>
+        </div>
+      </div>
+    </div>
+    <div class="chart-foot">
+      <span class="foot-l">신명중학교 1학년 130명 익명 설문</span>
+      <span class="foot-r">2026년 5월</span>
+    </div>
   </div>
 </section>
 
-<!-- Slide 18: 학생 평가 ② 활용 희망 + 도움 영역 -->
-<section class="slide" id="slide-18" data-sfx="page-turn"
+<!-- ===== S18 · 활용 희망 + 도움 영역 ===== -->
+<section class="slide s18" id="slide-18" data-sfx="page-turn"
   data-keywords="줄였으면 0명, 재미 1위, 활용 희망 94.6 퍼센트">
   <h2 class="sr-only">학생들의 평가 · 활용 희망과 도움 받은 영역</h2>
-  <span class="eyebrow">학생들의 평가 ② · 활용 희망 + 도움 받은 영역</span>
-  <div class="infographic-row" style="max-width:1100px; width:100%;">
-    <div class="info-card fragment">
-      <div class="info-title">앞으로도 미니게임을 활용했으면? (130명)</div>
-      <svg class="info-svg" id="chart-usage" viewBox="0 0 420 230" role="img" aria-label="">
-        <title>활용 희망 분포</title>
-        <desc id="chart-usage-desc"></desc>
-        <circle cx="110" cy="115" r="90" fill="none" stroke="#21262d" stroke-width="32"/>
-        <g id="chart-usage-arcs" transform="rotate(-90 110 115)"></g>
-        <text id="chart-usage-center" x="110" y="108" text-anchor="middle" fill="#5de6c8" font-size="28" font-weight="900" font-family="Noto Sans KR,sans-serif"></text>
-        <text x="110" y="130" text-anchor="middle" fill="#8b949e" font-size="11" font-family="Noto Sans KR,sans-serif">유지 또는 확대</text>
-        <g id="chart-usage-legend" font-family="Noto Sans KR,sans-serif" font-size="12"></g>
-        <g id="chart-usage-zero"></g>
-      </svg>
+  <p class="eyebrow">학생들의 평가 ② · 활용 희망 + 도움 받은 영역</p>
+
+  <div class="dual-chart">
+
+    <div class="chart-pane fragment" role="img" aria-labelledby="s18-usage-desc">
+      <p class="pane-title">앞으로도 미니게임을 활용했으면? (130명)</p>
+      <span class="sr-only" id="s18-usage-desc">더 자주 57.7퍼센트, 지금 정도 36.9퍼센트, 잘 모르겠음 5.4퍼센트, 줄였으면 0퍼센트</span>
+
+      <div class="donut-wrap">
+        <div class="donut" aria-hidden="true">
+          <svg viewBox="0 0 200 200">
+            <circle cx="100" cy="100" r="80" fill="none" stroke="#EFEADC" stroke-width="28"/>
+            <!-- 더 자주 57.7% · circumference ~502.65, dash = 290 -->
+            <circle id="donut-a" cx="100" cy="100" r="80" fill="none" stroke="#FF7A6B" stroke-width="28"
+              stroke-dasharray="290 502.65" stroke-dashoffset="0" stroke-linecap="round"/>
+            <!-- 지금 정도 36.9% · dash = 185.5, offset = -290 -->
+            <circle id="donut-b" cx="100" cy="100" r="80" fill="none" stroke="#36B37E" stroke-width="28"
+              stroke-dasharray="185.5 502.65" stroke-dashoffset="-290" stroke-linecap="round"/>
+            <!-- 잘 모르겠음 5.4% · dash = 27.1, offset = -475.5 -->
+            <circle id="donut-c" cx="100" cy="100" r="80" fill="none" stroke="#D9C7A3" stroke-width="28"
+              stroke-dasharray="27.1 502.65" stroke-dashoffset="-475.5" stroke-linecap="round"/>
+          </svg>
+          <div class="donut-center">
+            <span class="dc-num">94.6%</span>
+            <span class="dc-cap">유지 또는 확대</span>
+          </div>
+        </div>
+
+        <div class="donut-legend">
+          <div class="legend-row lg-a"><span class="sw" aria-hidden="true"></span><span>더 자주</span><span class="lg-pct">57.7%</span></div>
+          <div class="legend-row lg-b"><span class="sw" aria-hidden="true"></span><span>지금 정도</span><span class="lg-pct">36.9%</span></div>
+          <div class="legend-row lg-c"><span class="sw" aria-hidden="true"></span><span>잘 모르겠음</span><span class="lg-pct">5.4%</span></div>
+        </div>
+      </div>
+
+      <div class="zero-callout fragment" role="note" aria-label="줄였으면 좋겠어요 는 0명">
+        <span class="zc-num" aria-hidden="true">0명</span>
+        <span class="zc-lbl">‘줄였으면 좋겠어요’</span>
+      </div>
     </div>
 
-    <div class="info-card fragment">
-      <div class="info-title">가장 도움 받은 영역 (복수 응답)</div>
-      <svg class="info-svg" id="chart-helped" viewBox="0 0 420 230" role="img" aria-label="">
-        <title>가장 도움 받은 영역</title>
-        <desc id="chart-helped-desc"></desc>
-        <g id="chart-helped-bars"></g>
-      </svg>
+    <div class="chart-pane fragment" role="img" aria-labelledby="s18-helped-desc">
+      <p class="pane-title">가장 도움 받은 영역 (복수 응답)</p>
+      <span class="sr-only" id="s18-helped-desc">수업이 재미있어지는 데 53.8퍼센트, 단어 외우기 50.8퍼센트, 본문 독해 47.7퍼센트, 문법 이해 37.7퍼센트, 발음 듣기 익히기 31.5퍼센트</span>
+
+      <div class="hbars">
+        <div class="hbar h1 hb-top">
+          <span class="hb-label">수업이 재밌어졌음</span>
+          <div class="hb-track" aria-hidden="true"><div class="hb-fill" style="--w:53.8%"></div></div>
+          <span class="hb-pct">53.8%</span>
+        </div>
+        <div class="hbar h2">
+          <span class="hb-label">단어 외우기</span>
+          <div class="hb-track" aria-hidden="true"><div class="hb-fill" style="--w:50.8%"></div></div>
+          <span class="hb-pct">50.8%</span>
+        </div>
+        <div class="hbar h3">
+          <span class="hb-label">본문 독해</span>
+          <div class="hb-track" aria-hidden="true"><div class="hb-fill" style="--w:47.7%"></div></div>
+          <span class="hb-pct">47.7%</span>
+        </div>
+        <div class="hbar h4">
+          <span class="hb-label">문법 이해</span>
+          <div class="hb-track" aria-hidden="true"><div class="hb-fill" style="--w:37.7%"></div></div>
+          <span class="hb-pct">37.7%</span>
+        </div>
+        <div class="hbar h5">
+          <span class="hb-label">발음 듣기·익히기</span>
+          <div class="hb-track" aria-hidden="true"><div class="hb-fill" style="--w:31.5%"></div></div>
+          <span class="hb-pct">31.5%</span>
+        </div>
+      </div>
     </div>
   </div>
-  <p class="tagline fragment" style="margin-top:2vh; max-width:900px;">
-    흥미와 학습 효과가 따로 가지 않고 <span style="color:#f5c842;">함께 올라감</span>
-  </p>
+
+  <p class="s18-tag fragment">흥미와 학습 효과가 따로 가지 않고 <em>함께 올라감</em></p>
 </section>
 
-<!-- Slide 19: 학생 자유 의견 -->
-<section class="slide" id="slide-19" data-sfx="page-turn"
+<!-- ===== S19 · QUOTES ===== -->
+<section class="slide s19" id="slide-19" data-sfx="page-turn"
   data-keywords="학생 자유 의견, 마물 맑은물, 오기가 생긴다">
-  <span class="eyebrow">자유 의견 83건 중에서</span>
-  <h2 class="deck-h2">포용성과 몰입감이 학생의 언어로 살아 숨 쉬었습니다</h2>
-  <div class="quote-stack">
-    <div class="student-card fragment">
-      <p class="student-quote">
-        틀리면 <span class="gold">오기</span>가 생겨서 여러 번 하게 되는데, 그러면서 영영풀이나 단어 스펠링, 발음 같은 걸 더 빨리 재밌게 외우게 된다.
-      </p>
-      <p class="student-meaning">몰입감이 학습 효과로 이어진다는 증언</p>
-    </div>
-    <div class="student-card fragment" style="border-left-color:#f5c842;">
-      <p class="student-quote">
-        영어 시간에 영어만 막 하는 게 아니라 게임을 하니 뜨거워진 머리를 <span class="gold">마물(맑은물)</span>로 착 싰기는 늑김이 들어요.
-      </p>
-      <p class="student-meaning">정서적 효과까지 학생의 언어로 표현됨</p>
-    </div>
+  <p class="eyebrow is-green">자유 의견 83건 중에서</p>
+  <h2 class="deck-h2">포용성과 몰입감이 학생의 말로 생생히 드러났습니다.</h2>
+
+  <div class="quotes">
+    <figure class="qcard qc1 fragment">
+      <span class="qc-mark" aria-hidden="true">“</span>
+      <blockquote class="qc-text">
+        틀리면 <em>오기</em>가 생겨서 여러 번 하게 되는데, 그러면서 영영풀이나 단어 스펠링, 발음 같은 걸 더 빨리 재밌게 외우게 된다.
+      </blockquote>
+      <figcaption class="qc-meaning">
+        <span class="qc-pic" aria-hidden="true">S1</span>
+        <span>몰입감이 학습 효과로 이어진다는 증언</span>
+      </figcaption>
+    </figure>
+
+    <figure class="qcard qc2 fragment">
+      <span class="qc-mark" aria-hidden="true">“</span>
+      <blockquote class="qc-text">
+        영어 시간에 영어만 막 하는 게 아니라 게임을 하니 뜨거워진 머리를 <em>마물(맑은물)</em>로 착 싰기는 늑김이 들어요.
+      </blockquote>
+      <figcaption class="qc-meaning">
+        <span class="qc-pic" aria-hidden="true">S2</span>
+        <span>정서적 효과까지 학생의 언어로 표현됨</span>
+      </figcaption>
+    </figure>
   </div>
 </section>
 
-<!-- Slide 20: 학습용 앱 개발의 핵심 가치 -->
-<section class="slide" id="slide-20" data-sfx="page-turn"
+<!-- ===== S20 · CLOSING ===== -->
+<section class="slide s20" id="slide-20" data-sfx="page-turn"
   data-keywords="학습용 앱 개발의 핵심 가치, 설계 방식, 접근성과 포용성은 필수">
   <div class="closing-stack">
-    <h2 class="deck-h2" style="margin-bottom:1vh;">학습용 앱 개발의 <span class="gold">핵심 가치</span></h2>
+    <h2 class="deck-h2">학습용 앱 개발의 <em>핵심 가치</em></h2>
+
     <div class="closing-grid">
       <div class="closing-card fragment">
-        <span class="closing-num" aria-hidden="true">①</span>
-        <p>같은 교과서 내용도 <strong>학생에게 다가가는 방식은 하나가 아님</strong></p>
+        <span class="closing-num" aria-hidden="true">01</span>
+        <p>같은 교과서 내용도 <strong>학생에게 다가가는 방식은<br>하나가 아님</strong></p>
       </div>
       <div class="closing-card fragment">
-        <span class="closing-num" aria-hidden="true">②</span>
+        <span class="closing-num" aria-hidden="true">02</span>
         <p>게임의 재미보다 먼저 볼 것은 <strong>설계 방식</strong></p>
       </div>
       <div class="closing-card highlight fragment">
-        <span class="closing-num" aria-hidden="true">③</span>
-        <p>접근성과 포용성을 <strong>앱 개발 설계 단계부터 최우선 과제로</strong></p>
+        <span class="closing-num" aria-hidden="true">03</span>
+        <p>접근성과 포용성을 <strong>앱 개발 설계 단계부터<br>최우선 과제로</strong></p>
       </div>
       <div class="closing-card fragment">
-        <span class="closing-num" aria-hidden="true">④</span>
-        <p>교과서와 학습지를 몰입할 수 있는 활동형 자료로 바꾸는 과정에서 <strong>접근성과 포용성은 선택이 아닌 필수 조건</strong></p>
+        <span class="closing-num" aria-hidden="true">04</span>
+        <p>교과서와 학습지를 몰입할 수 있는 활동형 자료로<br>바꾸는 과정에서 <strong>접근성과 포용성은<br>선택이 아닌 필수 조건</strong></p>
       </div>
     </div>
+
+    <span class="re-emphasize-trigger fragment" aria-hidden="true"></span>
+
     <div class="closing-links fragment">
       <a href="https://engccer.github.io/word-bomb-L1/" target="_blank" rel="noopener">Word Bomb</a>
       <a href="https://engccer.github.io/story-detective-L1/" target="_blank" rel="noopener">Story Detective</a>
       <a href="https://engccer.github.io/grammar-potion-L1/" target="_blank" rel="noopener">Grammar Potion Lab</a>
       <a href="https://aro-deeply.github.io/pickme/" target="_blank" rel="noopener">Pick Me</a>
     </div>
+
     <p class="closing-thanks fragment">감사합니다</p>
   </div>
 </section>
 
-</div>
+</main>
 
-<div class="nav-bar">
-  <button class="nav-btn" id="prevBtn">&larr; 이전</button>
-  <span id="slideCounter" aria-hidden="true">1 / 20</span>
-  <button class="nav-btn" id="nextBtn">다음 &rarr;</button>
-</div>
+<nav class="nav-bar" aria-label="슬라이드 내비게이션">
+  <button class="nav-btn" id="prevBtn" type="button">← 이전</button>
+  <span id="slideCounter" aria-hidden="true"><span class="cur">1</span> <span class="total">/ 20</span></span>
+  <button class="nav-btn" id="nextBtn" type="button">다음 →</button>
+</nav>
 
 <script>
 'use strict';
+(function(){
+  var allSlides = document.querySelectorAll('.slide');
+  var TOTAL = allSlides.length;
+  var currentSlide = -1;
+  var fragIndex = 0;
+  var audioEnabled = true;
+  var currentAudio = null;
+  var currentNarration = null;
+  var narrationDelayTimer = null;
 
-(function() {
-  var container = document.getElementById('particles');
-  var colors = ['#a78bfa', '#5de6c8', '#f5c842'];
-  for (var i = 0; i < 30; i++) {
-    var p = document.createElement('div');
-    p.className = 'particle';
-    var size = 2 + Math.random() * 3;
-    p.style.width = size + 'px';
-    p.style.height = size + 'px';
-    p.style.left = Math.random() * 100 + '%';
-    p.style.background = colors[Math.floor(Math.random() * colors.length)];
-    p.style.setProperty('--dur', (15 + Math.random() * 15) + 's');
-    p.style.setProperty('--delay', (Math.random() * 20) + 's');
-    container.appendChild(p);
+  var counter = document.getElementById('slideCounter').querySelector('.cur');
+  var progressBarEl = document.getElementById('progress');
+  var prevBtn = document.getElementById('prevBtn');
+  var nextBtn = document.getElementById('nextBtn');
+  var audioToggle = document.getElementById('audioToggle');
+  var audioLabel = audioToggle.querySelector('.audio-label');
+
+  var SFX = { 'page-turn': 'sfx/page-turn.mp3' };
+  var NARRATION_DELAY_MS = 450;
+
+  function pad2(n){ return (n<10?'0':'') + n; }
+  function prefersReducedMotion(){ return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+
+  function stopCurrentAudio(){
+    if (currentAudio){ try{currentAudio.pause();currentAudio.currentTime=0;}catch(e){} currentAudio=null; }
   }
-})();
-
-var allSlides = document.querySelectorAll('.slide');
-var TOTAL_SLIDES = allSlides.length;
-var currentSlide = -1;
-var fragIndex = 0; // 현재 슬라이드에서 드러난 fragment 개수
-var audioEnabled = true;
-var currentAudio = null;
-var currentNarration = null;
-var narrationDelayTimer = null;
-
-var counter = document.getElementById('slideCounter');
-var progressBarEl = document.getElementById('progressBar');
-var prevBtn = document.getElementById('prevBtn');
-var nextBtn = document.getElementById('nextBtn');
-
-counter.textContent = '1 / ' + TOTAL_SLIDES;
-
-var SFX = {
-  'page-turn': 'sfx/page-turn.mp3'
-};
-
-var SURVEY = {
-  scores: [
-    { label: '전체 만족도', avg: 4.35, positive: 85.4 },
-    { label: '집중도',     avg: 4.17, positive: 80.8 },
-    { label: '학습 도움',   avg: 3.94, positive: 72.3 }
-  ],
-  usage: [
-    { label: '더 자주',    pct: 57.7, color: '#f5c842' },
-    { label: '지금 정도',   pct: 36.9, color: '#5de6c8' },
-    { label: '잘 모르겠음', pct: 5.4,  color: '#8b949e' },
-    { label: '줄였으면',    pct: 0,    color: '#ff6b8a' }
-  ],
-  helped: [
-    { label: '수업이 재미있어지는 데', pct: 53.8, color: '#f5c842' },
-    { label: '단어 외우기',           pct: 50.8, color: '#5de6c8' },
-    { label: '본문 독해',             pct: 47.7, color: '#5de6c8' },
-    { label: '문법 이해',             pct: 37.7, color: '#a78bfa' },
-    { label: '발음 듣기·익히기',       pct: 31.5, color: '#a78bfa' }
-  ],
-  meta: { n: 130, school: '신명중학교 1학년', when: '2026년 5월' }
-};
-
-var SVGNS = 'http://www.w3.org/2000/svg';
-function scoreBarWidth(avg) { return avg / 5 * 600; }
-function helpedBarWidth(pct) { return pct / 100 * 290; }
-var DONUT_R = 90;
-var DONUT_C = 2 * Math.PI * DONUT_R;
-function donutSegments(segments) {
-  var out = [], cum = 0;
-  for (var i = 0; i < segments.length; i++) {
-    var dash = segments[i].pct / 100 * DONUT_C;
-    out.push({ color: segments[i].color, dash: dash, offset: -cum });
-    cum += dash;
+  function stopNarration(){
+    if (narrationDelayTimer){ clearTimeout(narrationDelayTimer); narrationDelayTimer=null; }
+    if (currentNarration){ try{currentNarration.pause();currentNarration.currentTime=0;}catch(e){} currentNarration=null; }
   }
-  return out;
-}
-
-function svgEl(tag, attrs, text) {
-  var el = document.createElementNS(SVGNS, tag);
-  for (var k in attrs) if (attrs.hasOwnProperty(k)) el.setAttribute(k, attrs[k]);
-  if (text != null) el.textContent = text;
-  return el;
-}
-var FONT = 'Noto Sans KR,sans-serif';
-
-function renderScores(animate) {
-  var g = document.getElementById('chart-scores-bars');
-  g.innerHTML = '';
-  var rows = [62, 118, 174];
-  var barY = [42, 98, 154];
-  SURVEY.scores.forEach(function(d, i) {
-    var w = scoreBarWidth(d.avg);
-    g.appendChild(svgEl('text', { x:0, y:rows[i], fill:'#e6edf3', 'font-size':18, 'font-family':FONT, 'font-weight':500 }, d.label));
-    g.appendChild(svgEl('rect', { x:180, y:barY[i], width:600, height:28, fill:'#21262d', rx:5 }));
-    var bar = svgEl('rect', { x:180, y:barY[i], width: animate ? 0 : w, height:28, fill:'#f5c842', rx:5 });
-    bar.setAttribute('data-w', w);
-    bar.setAttribute('class', 'chart-bar');
-    g.appendChild(bar);
-    var vx = 180 + w + 8;
-    var valText = svgEl('text', { x:vx, y:rows[i], fill:'#f5c842', 'font-size':18, 'font-family':FONT, 'font-weight':900 }, animate ? '0.00' : d.avg.toFixed(2));
-    valText.setAttribute('data-count', d.avg); valText.setAttribute('data-decimals', 2);
-    g.appendChild(valText);
-    g.appendChild(svgEl('text', { x:vx+45, y:rows[i], fill:'#5de6c8', 'font-size':13, 'font-family':FONT }, '('+d.positive.toFixed(1)+'%)'));
-  });
-  document.getElementById('chart-scores-foot').textContent = SURVEY.meta.school + ' ' + SURVEY.meta.n + '명 · ' + SURVEY.meta.when;
-  var desc = SURVEY.scores.map(function(d){ return d.label+' '+d.avg.toFixed(2)+'점 긍정 '+d.positive.toFixed(1)+'퍼센트'; }).join(', ');
-  document.getElementById('chart-scores-desc').textContent = desc;
-  document.getElementById('chart-scores').setAttribute('aria-label', desc);
-}
-
-function renderUsage(animate) {
-  var arcs = document.getElementById('chart-usage-arcs');
-  var legend = document.getElementById('chart-usage-legend');
-  var zero = document.getElementById('chart-usage-zero');
-  arcs.innerHTML = ''; legend.innerHTML = ''; zero.innerHTML = '';
-  var segs = donutSegments(SURVEY.usage);
-  SURVEY.usage.forEach(function(d, i) {
-    if (d.pct <= 0) return;
-    var c = svgEl('circle', { cx:110, cy:115, r:DONUT_R, fill:'none', stroke:d.color, 'stroke-width':32,
-      'stroke-dasharray': (animate ? 0 : segs[i].dash) + ' ' + DONUT_C, 'stroke-dashoffset': segs[i].offset });
-    c.setAttribute('data-dash', segs[i].dash);
-    arcs.appendChild(c);
-  });
-  var keep = SURVEY.usage[0].pct + SURVEY.usage[1].pct;
-  document.getElementById('chart-usage-center').textContent = keep.toFixed(1) + '%';
-  var ly = 52;
-  SURVEY.usage.forEach(function(d) {
-    if (d.pct <= 0) return;
-    legend.appendChild(svgEl('rect', { x:225, y:ly-12, width:14, height:14, fill:d.color, rx:2 }));
-    var t = svgEl('text', { x:245, y:ly, fill:'#e6edf3' }, d.label + ' ');
-    var ts = svgEl('tspan', { fill:d.color, 'font-weight':700 }, d.pct.toFixed(1) + '%');
-    t.appendChild(ts); legend.appendChild(t);
-    ly += 24;
-  });
-  var last = SURVEY.usage[SURVEY.usage.length - 1];
-  zero.appendChild(svgEl('rect', { x:225, y:125, width:180, height:60, rx:8, fill:'rgba(255,107,138,0.12)', stroke:'#ff6b8a', 'stroke-width':1.5 }));
-  zero.appendChild(svgEl('text', { x:315, y:148, 'text-anchor':'middle', fill:'#ff6b8a', 'font-size':13, 'font-weight':700, 'font-family':FONT }, last.label + ' 좋겠어요'));
-  zero.appendChild(svgEl('text', { x:315, y:170, 'text-anchor':'middle', fill:'#ff6b8a', 'font-size':22, 'font-weight':900, 'font-family':FONT }, '0명'));
-  var desc = SURVEY.usage.map(function(d){ return d.label+' '+d.pct.toFixed(1)+'%'; }).join(', ');
-  document.getElementById('chart-usage-desc').textContent = desc;
-  document.getElementById('chart-usage').setAttribute('aria-label', '활용 희망 분포 · ' + last.label + ' 0퍼센트');
-}
-
-function renderHelped(animate) {
-  var g = document.getElementById('chart-helped-bars');
-  g.innerHTML = '';
-  var startY = 24, rowH = 45;
-  SURVEY.helped.forEach(function(d, i) {
-    var y = startY + i * rowH;
-    var w = helpedBarWidth(d.pct);
-    g.appendChild(svgEl('text', { x:0, y:y, fill:'#e6edf3', 'font-size':13, 'font-family':FONT }, d.label));
-    g.appendChild(svgEl('rect', { x:0, y:y+8, width:290, height:16, fill:'#21262d', rx:3 }));
-    var bar = svgEl('rect', { x:0, y:y+8, width: animate ? 0 : w, height:16, fill:d.color, rx:3 });
-    bar.setAttribute('data-w', w); bar.setAttribute('class', 'chart-bar');
-    g.appendChild(bar);
-    g.appendChild(svgEl('text', { x:296, y:y+20, fill:d.color, 'font-size':13, 'font-weight':700, 'font-family':FONT }, d.pct.toFixed(1) + '%'));
-  });
-  var desc = SURVEY.helped.map(function(d){ return d.label+' '+d.pct.toFixed(1)+'%'; }).join(', ');
-  document.getElementById('chart-helped-desc').textContent = desc;
-  document.getElementById('chart-helped').setAttribute('aria-label', '도움 받은 영역 가로 막대 그래프');
-}
-
-function prefersReducedMotion() {
-  return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-}
-
-function animateCountUp(textEl) {
-  var target = parseFloat(textEl.getAttribute('data-count'));
-  var decimals = parseInt(textEl.getAttribute('data-decimals') || '0', 10);
-  if (prefersReducedMotion()) { textEl.textContent = target.toFixed(decimals); return; }
-  var dur = 800, start = null;
-  function frame(ts) {
-    if (start === null) start = ts;
-    var p = Math.min((ts - start) / dur, 1);
-    textEl.textContent = (target * p).toFixed(decimals);
-    if (p < 1) requestAnimationFrame(frame);
-    else textEl.textContent = target.toFixed(decimals);
-  }
-  requestAnimationFrame(frame);
-}
-
-function animateBars(containerId) {
-  var bars = document.querySelectorAll('#' + containerId + ' .chart-bar');
-  for (var i = 0; i < bars.length; i++) {
-    (function(bar) {
-      var w = parseFloat(bar.getAttribute('data-w'));
-      if (prefersReducedMotion()) { bar.setAttribute('width', w); return; }
-      bar.style.transition = 'none';
-      bar.setAttribute('width', 0);
-      requestAnimationFrame(function() {
-        bar.style.transition = 'width 0.6s ease-out';
-        bar.setAttribute('width', w);
-      });
-    })(bars[i]);
-  }
-}
-
-function animateDonut(arcsId) {
-  var arcs = document.querySelectorAll('#' + arcsId + ' circle');
-  for (var i = 0; i < arcs.length; i++) {
-    (function(c) {
-      var dash = parseFloat(c.getAttribute('data-dash'));
-      if (prefersReducedMotion()) { c.setAttribute('stroke-dasharray', dash + ' ' + DONUT_C); return; }
-      c.style.transition = 'none';
-      c.setAttribute('stroke-dasharray', '0 ' + DONUT_C);
-      requestAnimationFrame(function() {
-        c.style.transition = 'stroke-dasharray 0.7s ease-out';
-        c.setAttribute('stroke-dasharray', dash + ' ' + DONUT_C);
-      });
-    })(arcs[i]);
-  }
-}
-
-function animateChartsIn(root) {
-  if (root.querySelector('#chart-scores-bars')) {
-    animateBars('chart-scores-bars');
-    var sv = root.querySelectorAll('#chart-scores-bars text[data-count]');
-    for (var i = 0; i < sv.length; i++) animateCountUp(sv[i]);
-  }
-  if (root.querySelector('#chart-usage-arcs')) animateDonut('chart-usage-arcs');
-  if (root.querySelector('#chart-helped-bars')) animateBars('chart-helped-bars');
-}
-
-var NARRATION_DELAY_MS = 450;
-
-function pad2(n) { return (n < 10 ? '0' : '') + n; }
-
-function stopCurrentAudio() {
-  if (currentAudio) {
-    currentAudio.pause();
-    currentAudio.currentTime = 0;
-    currentAudio = null;
-  }
-}
-
-function stopNarration() {
-  if (narrationDelayTimer) {
-    clearTimeout(narrationDelayTimer);
-    narrationDelayTimer = null;
-  }
-  if (currentNarration) {
-    currentNarration.pause();
-    currentNarration.currentTime = 0;
-    currentNarration = null;
-  }
-}
-
-function playNarration(slideIndex) {
-  if (!audioEnabled) return;
-  stopNarration();
-  var targetSlide = slideIndex;
-  narrationDelayTimer = setTimeout(function() {
-    narrationDelayTimer = null;
-    if (!audioEnabled || currentSlide !== targetSlide) return;
+  function playSfx(name){
+    if (!audioEnabled) return;
+    var src = SFX[name];
+    // page-turn: 파일 우선, 없거나 재생 실패 시 Web Audio fallback
+    if (!src){ if (name === 'page-turn') playPageTurnFallback(); return; }
     try {
-      var audio = new Audio('narration/slide-' + pad2(targetSlide + 1) + '.mp3');
-      audio.volume = 0.95;
-      audio.play().catch(function() {});
-      currentNarration = audio;
-    } catch(e) {}
-  }, NARRATION_DELAY_MS);
-}
-
-function playSfx(name) {
-  if (!audioEnabled || !SFX[name]) return;
-  try {
-    var audio = new Audio(SFX[name]);
-    audio.volume = 0.35;
-    audio.play().catch(function() {});
-  } catch(e) {}
-}
-
-function slideFragments(slide) {
-  return slide.querySelectorAll('.fragment');
-}
-
-function setFragmentsVisible(slide, count) {
-  var frags = slideFragments(slide);
-  for (var i = 0; i < frags.length; i++) {
-    if (i < count) frags[i].classList.add('frag-visible');
-    else frags[i].classList.remove('frag-visible');
-  }
-}
-
-function goToSlide(n, opts) {
-  if (n < 0 || n >= TOTAL_SLIDES || n === currentSlide) return;
-  opts = opts || {};
-
-  if (currentSlide >= 0) {
-    var oldSlide = allSlides[currentSlide];
-    oldSlide.classList.remove('active');
-    oldSlide.setAttribute('aria-hidden', 'true');
+      var a = new Audio(src);
+      a.volume = .35;
+      a.play().catch(function(){ if (name === 'page-turn') playPageTurnFallback(); });
+    } catch(e){ if (name === 'page-turn') playPageTurnFallback(); }
   }
 
-  stopCurrentAudio();
-  stopNarration();
-
-  currentSlide = n;
-  var newSlide = allSlides[n];
-  newSlide.classList.add('active');
-  newSlide.setAttribute('aria-hidden', 'false');
-
-  var fragCount = slideFragments(newSlide).length;
-  if (opts.revealAll) {
-    setFragmentsVisible(newSlide, fragCount);
-    fragIndex = fragCount;
-  } else {
-    setFragmentsVisible(newSlide, 0);
-    fragIndex = 0;
+  // ── Web Audio: fragment tick + page-turn fallback (외부 mp3 없이도 동작) ──
+  var _audioCtx = null;
+  function getAudioCtx(){
+    if (_audioCtx) return _audioCtx;
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return null;
+    try { _audioCtx = new AC(); } catch(e){ _audioCtx = null; }
+    return _audioCtx;
+  }
+  function resumeAudioCtx(){
+    var ctx = getAudioCtx();
+    if (ctx && ctx.state === 'suspended'){ ctx.resume().catch(function(){}); }
+  }
+  // fragment 등장: 짧고 가벼운 고음 tick (slide 전환과 청각적으로 구별)
+  function playTick(){
+    if (!audioEnabled) return;
+    var ctx = getAudioCtx();
+    if (!ctx) return;
+    if (ctx.state === 'suspended'){ ctx.resume().catch(function(){}); }
+    try {
+      var osc = ctx.createOscillator(), gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(880, ctx.currentTime);
+      gain.gain.setValueAtTime(0.0001, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.10, ctx.currentTime + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.12);
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.start(); osc.stop(ctx.currentTime + 0.13);
+    } catch(e){}
+  }
+  // 슬라이드 전환 fallback: tick보다 길고 부드러운 하강 톤 (page-turn.mp3 실패 시)
+  function playPageTurnFallback(){
+    if (!audioEnabled) return;
+    var ctx = getAudioCtx();
+    if (!ctx) return;
+    if (ctx.state === 'suspended'){ ctx.resume().catch(function(){}); }
+    try {
+      var osc = ctx.createOscillator(), gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(440, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(240, ctx.currentTime + 0.28);
+      gain.gain.setValueAtTime(0.0001, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.13, ctx.currentTime + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.32);
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.start(); osc.stop(ctx.currentTime + 0.34);
+    } catch(e){}
+  }
+  function playNarration(idx){
+    if (!audioEnabled) return;
+    stopNarration();
+    var target = idx;
+    narrationDelayTimer = setTimeout(function(){
+      narrationDelayTimer = null;
+      if (!audioEnabled || currentSlide !== target) return;
+      try {
+        var a = new Audio('narration/slide-' + pad2(target+1) + '.mp3');
+        a.volume = .95; a.play().catch(function(){}); currentNarration = a;
+      } catch(e){}
+    }, NARRATION_DELAY_MS);
   }
 
-  // S17: 막대 차트가 fragment로 등장 — 앞으로 진입 시 0폭 리셋(클릭 때 grow), 뒤로/reduced-motion 진입 시 최종 상태 보장
-  if (newSlide.id === 'slide-17') {
-    if (opts.revealAll || prefersReducedMotion()) {
-      renderScores(false);
-    } else {
-      var sb = newSlide.querySelectorAll('.chart-bar');
-      for (var si = 0; si < sb.length; si++) sb[si].setAttribute('width', 0);
-      var sc = newSlide.querySelectorAll('#chart-scores-bars text[data-count]');
-      for (var ci = 0; ci < sc.length; ci++) sc[ci].textContent = '0.00';
-    }
-  }
-  // S18: 앞으로 진입 시 0폭으로 리셋(카드 등장 때 grow), 뒤로/reduced-motion 진입 시 최종 상태 보장
-  if (newSlide.id === 'slide-18') {
-    if (opts.revealAll || prefersReducedMotion()) {
-      renderUsage(false);
-      renderHelped(false);
-    } else {
-      var ub = newSlide.querySelectorAll('.chart-bar');
-      for (var bi = 0; bi < ub.length; bi++) ub[bi].setAttribute('width', 0);
-      var ua = newSlide.querySelectorAll('#chart-usage-arcs circle');
-      for (var ai = 0; ai < ua.length; ai++) ua[ai].setAttribute('stroke-dasharray', '0 ' + DONUT_C);
+  function slideFragments(s){ return s.querySelectorAll('.fragment'); }
+  function setFragmentsVisible(s, count){
+    var f = slideFragments(s);
+    for (var i = 0; i < f.length; i++){
+      if (i < count) f[i].classList.add('frag-visible');
+      else f[i].classList.remove('frag-visible');
     }
   }
 
-  counter.textContent = (n + 1) + ' / ' + TOTAL_SLIDES;
-
-  var pct = ((n + 1) / TOTAL_SLIDES) * 100;
-  progressBarEl.style.width = pct + '%';
-
-  var sfxName = newSlide.getAttribute('data-sfx');
-  if (sfxName) playSfx(sfxName);
-  playNarration(n);
-
-  updateNavDisabled();
-
-  newSlide.scrollTop = 0;
-
-  var focusTarget = newSlide.querySelector('h1, h2, h3, .hero-text, .huge-question, .big-quote, .game-headline, .warn-key, .deck-h2, .deck-h1');
-  if (!focusTarget) focusTarget = newSlide;
-  focusTarget.setAttribute('tabindex', '-1');
-  try { focusTarget.focus({ preventScroll: true }); } catch(e) {}
-}
-
-function updateNavDisabled() {
-  var fragCount = slideFragments(allSlides[currentSlide]).length;
-  prevBtn.disabled = (currentSlide === 0 && fragIndex === 0);
-  nextBtn.disabled = (currentSlide === TOTAL_SLIDES - 1 && fragIndex >= fragCount);
-}
-
-var _audioCtx = null;
-function getAudioCtx() {
-  if (_audioCtx) return _audioCtx;
-  var AC = window.AudioContext || window.webkitAudioContext;
-  if (!AC) return null;
-  try { _audioCtx = new AC(); } catch (e) { _audioCtx = null; }
-  return _audioCtx;
-}
-function playTick() {
-  if (!audioEnabled) return; // 오디오 토글과 연동
-  var ctx = getAudioCtx();
-  if (!ctx) return;
-  if (ctx.state === 'suspended') { ctx.resume().catch(function(){}); }
-  try {
-    var osc = ctx.createOscillator();
-    var gain = ctx.createGain();
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(880, ctx.currentTime); // page-turn·내레이션과 구별되는 짧고 높은 톤
-    gain.gain.setValueAtTime(0.0001, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.12, ctx.currentTime + 0.01);
-    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.12);
-    osc.connect(gain); gain.connect(ctx.destination);
-    osc.start();
-    osc.stop(ctx.currentTime + 0.13);
-  } catch (e) {}
-}
-function isFocusableElement(el) {
-  var tag = el.tagName;
-  if (tag === 'A' && el.hasAttribute('href')) return true;
-  if (tag === 'BUTTON' || tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return true;
-  var ti = el.getAttribute('tabindex');
-  if (ti !== null && ti !== '-1') return true;
-  return false;
-}
-function onFragmentRevealed(el) {
-  if (!el) return;
-  if (el.querySelector && (el.querySelector('#chart-scores-bars') || el.querySelector('#chart-usage-arcs') || el.querySelector('#chart-helped-bars'))) {
-    animateChartsIn(el);
+  function updateNavDisabled(){
+    var fragCount = slideFragments(allSlides[currentSlide]).length;
+    prevBtn.disabled = (currentSlide === 0 && fragIndex === 0);
+    nextBtn.disabled = (currentSlide === TOTAL-1 && fragIndex >= fragCount);
   }
-  if (!isFocusableElement(el)) {
-    el.setAttribute('tabindex', '-1');
-  }
-  try { el.focus({ preventScroll: true }); } catch (e) {}
-}
 
-function advance() {
-  var slide = allSlides[currentSlide];
-  var fragCount = slideFragments(slide).length;
-  if (fragIndex < fragCount) {
-    var frag = slideFragments(slide)[fragIndex];
-    frag.classList.add('frag-visible');
-    fragIndex++;
-    playTick();
-    onFragmentRevealed(frag);
+  function goToSlide(n, opts){
+    if (n < 0 || n >= TOTAL || n === currentSlide) return;
+    opts = opts || {};
+
+    if (currentSlide >= 0){
+      var old = allSlides[currentSlide];
+      old.classList.remove('active');
+      old.setAttribute('aria-hidden','true');
+    }
+    stopCurrentAudio(); stopNarration();
+
+    currentSlide = n;
+    var nu = allSlides[n];
+    nu.classList.add('active');
+    nu.setAttribute('aria-hidden','false');
+
+    var fragCount = slideFragments(nu).length;
+    if (opts.revealAll){ setFragmentsVisible(nu, fragCount); fragIndex = fragCount; }
+    else { setFragmentsVisible(nu, 0); fragIndex = 0; }
+
+    // 차트 막대·도넛의 grow 애니메이션은 CSS(.frag-visible)가 처리 — 인라인 값 오염 없음
+
+    counter.textContent = (n+1);
+    progressBarEl.style.width = ((n+1)/TOTAL * 100) + '%';
+
+    var sfxName = nu.getAttribute('data-sfx');
+    if (sfxName) playSfx(sfxName);
+    playNarration(n);
+
     updateNavDisabled();
-  } else {
-    goToSlide(currentSlide + 1);
+    nu.scrollTop = 0;
+
+    var focusTarget = nu.querySelector('h1, h2, h3, .s1-hero, .huge-q, .case-title, .laugh-headline, .warn-key, .big-quote, .deck-h2');
+    if (!focusTarget) focusTarget = nu;
+    focusTarget.setAttribute('tabindex','-1');
+    try { focusTarget.focus({preventScroll:true}); } catch(e){}
   }
-}
 
-function retreat() {
-  if (fragIndex > 0) {
-    fragIndex--;
-    slideFragments(allSlides[currentSlide])[fragIndex].classList.remove('frag-visible');
-    updateNavDisabled();
-  } else {
-    goToSlide(currentSlide - 1, { revealAll: true });
+  function onFragmentRevealed(el){
+    if (!el) return;
+    var tag = el.tagName;
+    var focusable = (tag==='A'&&el.hasAttribute('href')) || tag==='BUTTON' || el.getAttribute('tabindex')!==null;
+    if (!focusable) el.setAttribute('tabindex','-1');
+    try { el.focus({preventScroll:true}); } catch(e){}
   }
-}
 
-prevBtn.addEventListener('click', function() { retreat(); });
-nextBtn.addEventListener('click', function() { advance(); });
-
-document.addEventListener('keydown', function(e) {
-  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-  if (e.target.tagName === 'BUTTON' && e.key === 'Enter') return;
-  switch(e.key) {
-    case 'ArrowRight':
-    case 'PageDown':
-      e.preventDefault(); advance(); break;
-    case 'ArrowLeft':
-    case 'Backspace':
-    case 'PageUp':
-      e.preventDefault(); retreat(); break;
-    case 'Home':
-      e.preventDefault(); goToSlide(0); break;
-    case 'End':
-      e.preventDefault(); goToSlide(TOTAL_SLIDES - 1, { revealAll: true }); break;
+  function advance(){
+    var s = allSlides[currentSlide];
+    var fragCount = slideFragments(s).length;
+    if (fragIndex < fragCount){
+      var frag = slideFragments(s)[fragIndex];
+      frag.classList.add('frag-visible');
+      fragIndex++;
+      playTick();              // 같은 슬라이드 안에서 다음 요소 등장 — 짧은 tick
+      onFragmentRevealed(frag);
+      updateNavDisabled();
+    } else {
+      goToSlide(currentSlide + 1);   // 슬라이드 전환 — goToSlide 내부에서 page-turn 재생
+    }
   }
-});
+  function retreat(){
+    if (fragIndex > 0){
+      fragIndex--;
+      slideFragments(allSlides[currentSlide])[fragIndex].classList.remove('frag-visible');
+      updateNavDisabled();
+    } else {
+      goToSlide(currentSlide - 1, { revealAll: true });
+    }
+  }
 
-(function() {
-  var slideContainer = document.querySelector('.slide-container');
-  var touchStartX = 0;
-  var touchStartY = 0;
-  var touchStartTime = 0;
-  var SWIPE_THRESHOLD = 60;
-  var SWIPE_MAX_TIME = 800;
-  var SWIPE_MAX_OFF_AXIS = 80;
+  prevBtn.addEventListener('click', retreat);
+  nextBtn.addEventListener('click', advance);
 
-  slideContainer.addEventListener('touchstart', function(e) {
-    if (e.touches.length !== 1) return;
-    touchStartX = e.touches[0].clientX;
-    touchStartY = e.touches[0].clientY;
-    touchStartTime = Date.now();
-  }, { passive: true });
+  document.addEventListener('keydown', function(e){
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.target.tagName === 'BUTTON' && e.key === 'Enter') return;
+    switch(e.key){
+      case 'ArrowRight': case 'PageDown': e.preventDefault(); advance(); break;
+      case 'ArrowLeft': case 'Backspace': case 'PageUp': e.preventDefault(); retreat(); break;
+      case 'Home': e.preventDefault(); goToSlide(0); break;
+      case 'End':  e.preventDefault(); goToSlide(TOTAL-1, {revealAll:true}); break;
+    }
+  });
 
-  slideContainer.addEventListener('touchend', function(e) {
-    if (e.changedTouches.length !== 1) return;
-    var t = e.changedTouches[0];
-    var dx = t.clientX - touchStartX;
-    var dy = t.clientY - touchStartY;
-    var dt = Date.now() - touchStartTime;
-    if (dt > SWIPE_MAX_TIME) return;
-    if (Math.abs(dx) < SWIPE_THRESHOLD) return;
-    if (Math.abs(dy) > SWIPE_MAX_OFF_AXIS) return;
-    var tag = (e.target && e.target.tagName) || '';
-    if (tag === 'A' || tag === 'BUTTON') return;
-    if (dx < 0) advance();
-    else retreat();
-  }, { passive: true });
+  // Touch swipe
+  var sx=0, sy=0, st=0;
+  var stage = document.querySelector('.slide-container');
+  stage.addEventListener('touchstart', function(e){
+    if (e.touches.length!==1) return;
+    sx=e.touches[0].clientX; sy=e.touches[0].clientY; st=Date.now();
+  }, {passive:true});
+  stage.addEventListener('touchend', function(e){
+    if (e.changedTouches.length!==1) return;
+    var dx=e.changedTouches[0].clientX-sx, dy=e.changedTouches[0].clientY-sy, dt=Date.now()-st;
+    if (dt>800||Math.abs(dx)<60||Math.abs(dy)>80) return;
+    var tag=(e.target&&e.target.tagName)||'';
+    if (tag==='A'||tag==='BUTTON') return;
+    if (dx<0) advance(); else retreat();
+  }, {passive:true});
+
+  // Audio toggle
+  audioToggle.addEventListener('click', function(){
+    audioEnabled = !audioEnabled;
+    var icon = this.querySelector('.audio-icon svg');
+    if (audioEnabled){
+      if (icon) icon.innerHTML = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>';
+      if (audioLabel) audioLabel.textContent = '소리 켬';
+    } else {
+      if (icon) icon.innerHTML = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>';
+      if (audioLabel) audioLabel.textContent = '소리 끔';
+    }
+    this.setAttribute('aria-pressed', String(audioEnabled));
+    if (!audioEnabled){ stopCurrentAudio(); stopNarration(); }
+    else if (currentSlide >= 0) playNarration(currentSlide);
+  });
+  audioToggle.addEventListener('keydown', function(e){
+    if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); this.click(); }
+  });
+
+  // Laugh buttons — preserve original SFX paths
+  var bw = document.getElementById('btn-laugh-wrong');
+  var br = document.getElementById('btn-laugh-correct');
+  if (bw) {
+    bw.addEventListener('click', function(e){ e.stopPropagation(); stopCurrentAudio(); try { currentAudio = new Audio('sfx/laugh-wrong.wav'); currentAudio.play().catch(function(err){ console.warn('laugh-wrong.wav 재생 실패:', err); }); } catch(err){ console.warn('laugh-wrong.wav 로드 실패:', err); } });
+    bw.addEventListener('keydown', function(e){ if (e.key==='Enter'||e.key===' '){ e.preventDefault(); e.stopPropagation(); this.click(); } });
+  }
+  if (br) {
+    br.addEventListener('click', function(e){ e.stopPropagation(); stopCurrentAudio(); try { currentAudio = new Audio('sfx/laugh-correct.wav'); currentAudio.play().catch(function(err){ console.warn('laugh-correct.wav 재생 실패:', err); }); } catch(err){ console.warn('laugh-correct.wav 로드 실패:', err); } });
+    br.addEventListener('keydown', function(e){ if (e.key==='Enter'||e.key===' '){ e.preventDefault(); e.stopPropagation(); this.click(); } });
+  }
+
+  // 첫 사용자 조작에서 AudioContext unlock (자동재생 정책 대응 · 초기 로드 시 강제 재생하지 않음)
+  function unlockAudioOnce(){
+    resumeAudioCtx();
+    document.removeEventListener('keydown', unlockAudioOnce, true);
+    document.removeEventListener('pointerdown', unlockAudioOnce, true);
+  }
+  document.addEventListener('keydown', unlockAudioOnce, true);
+  document.addEventListener('pointerdown', unlockAudioOnce, true);
+
+  // Init
+  for (var i = 0; i < allSlides.length; i++){ allSlides[i].setAttribute('aria-hidden','true'); }
+  goToSlide(0);
 })();
-
-document.getElementById('audioToggle').addEventListener('click', function() {
-  audioEnabled = !audioEnabled;
-  var icon = this.querySelector('.audio-icon');
-  var label = this.querySelector('.audio-label');
-  if (icon) icon.innerHTML = audioEnabled ? '&#x1F50A;' : '&#x1F507;';
-  if (label) label.textContent = audioEnabled ? '소리 켬' : '소리 끔';
-  this.setAttribute('aria-pressed', String(audioEnabled));
-  if (!audioEnabled) { stopCurrentAudio(); stopNarration(); }
-  else if (currentSlide >= 0) playNarration(currentSlide);
-});
-
-document.getElementById('audioToggle').addEventListener('keydown', function(e) {
-  if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.click(); }
-});
-
-document.getElementById('btn-laugh-wrong').addEventListener('click', function(e) {
-  e.stopPropagation();
-  stopCurrentAudio();
-  currentAudio = new Audio('sfx/laugh-wrong.wav');
-  currentAudio.play().catch(function() {});
-});
-document.getElementById('btn-laugh-wrong').addEventListener('keydown', function(e) {
-  if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.stopPropagation(); this.click(); }
-});
-document.getElementById('btn-laugh-correct').addEventListener('click', function(e) {
-  e.stopPropagation();
-  stopCurrentAudio();
-  currentAudio = new Audio('sfx/laugh-correct.wav');
-  currentAudio.play().catch(function() {});
-});
-document.getElementById('btn-laugh-correct').addEventListener('keydown', function(e) {
-  if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.stopPropagation(); this.click(); }
-});
-
-for (var i = 0; i < allSlides.length; i++) {
-  allSlides[i].setAttribute('aria-hidden', 'true');
-}
-renderScores(false);
-renderUsage(false);
-renderHelped(false);
-goToSlide(0);
 </script>
 
 </body>
