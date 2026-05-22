@@ -45,11 +45,14 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto San
 .fragment {
   opacity: 0;
   transform: translateY(12px);
-  transition: opacity 0.45s ease, transform 0.45s ease;
+  visibility: hidden;
+  transition: opacity 0.45s ease, transform 0.45s ease, visibility 0s linear 0.45s;
 }
 .fragment.frag-visible {
   opacity: 1;
   transform: none;
+  visibility: visible;
+  transition: opacity 0.45s ease, transform 0.45s ease, visibility 0s linear 0s;
 }
 /* 카드류는 살짝 scale 추가 */
 .pillar.fragment, .closing-card.fragment, .student-card.fragment, .info-card.fragment {
@@ -1594,12 +1597,22 @@ function playTick() {
     osc.stop(ctx.currentTime + 0.13);
   } catch (e) {}
 }
+function isFocusableElement(el) {
+  var tag = el.tagName;
+  if (tag === 'A' && el.hasAttribute('href')) return true;
+  if (tag === 'BUTTON' || tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return true;
+  var ti = el.getAttribute('tabindex');
+  if (ti !== null && ti !== '-1') return true;
+  return false;
+}
 function onFragmentRevealed(el) {
   if (!el) return;
   if (el.querySelector && (el.querySelector('#chart-usage-arcs') || el.querySelector('#chart-helped-bars'))) {
     animateChartsIn(el);
   }
-  el.setAttribute('tabindex', '-1');
+  if (!isFocusableElement(el)) {
+    el.setAttribute('tabindex', '-1');
+  }
   try { el.focus({ preventScroll: true }); } catch (e) {}
 }
 
